@@ -49,8 +49,13 @@ class Database
   {
     $sth = $this->conn->prepare($sql);
     $sth->execute($data);
-    $result = $sth->fetchAll(PDO::FETCH_CLASS, $class);
-    return $result;
+    if ($sth->rowCount() > 0) {
+      $items = $sth->fetchAll();
+  } else {
+      $items = 0;
+  }
+
+  return $items;
   }
 
   public function execute($sql, $data):bool

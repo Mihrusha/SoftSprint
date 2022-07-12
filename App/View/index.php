@@ -2,7 +2,7 @@
 
 use App\Model\User;
 
-session_start();
+// session_start();
 
 
 $var1 = $_POST['name'];
@@ -13,20 +13,25 @@ $var3 = $_POST['select'];
 
 
 
-$_SESSION['name'] = $var1;
-$_SESSION['surname'] = $var2;
+// $_SESSION['name'] = $var1;
+// $_SESSION['surname'] = $var2;
 
 $user = new User;
-$user->name = $_SESSION['name'];
-$user->surname = $_SESSION['surname'];
+$user->name = $var1;
+$user->surname = $var2;
 if (isset($_POST['name'])) {
     $user->Insert();
 }
-
+$data = $user->GetAll();
+//var_dump($data);
 // $user->surname=$_SESSION['surname'];
 // if($_POST['name'])
 // $user->Insert();
 
+
+foreach ($data as $row) {
+    echo $row['name'] . "<br>";
+}
 
 ?>
 
@@ -58,9 +63,9 @@ if (isset($_POST['name'])) {
             <div class='col-6'>
                 <select class="form-select" aria-label="Default select example">
                     <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="1">Set Active</option>
+                    <option value="2">Set Not Active</option>
+                    <option value="3">Delite</option>
                 </select>
             </div>
             <div class='col'>
@@ -71,40 +76,29 @@ if (isset($_POST['name'])) {
     </div>
 
     <!-- Central rable -->
-    <table class="table table-bordered">
-        <thead>
+
+    <table class="table table-bordered table">
+        
             <tr>
-                <th scope="col">CheckBox
-                    <input type="checkbox" name="main" id="">
-                </th>
-                <th scope="col">Name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
+            
+                <th><input type="checkbox" name="main_checkbox" id="main_checkbox"onclick='selects()'>Main CheckBox</th>
+                <th>name</th>
+                <th>surname</th>
+                <th>status</th>
+                <th>role</th>
             </tr>
-        </thead>
-        <tbody>
+            <?php foreach ($data as $row) { ?>
             <tr>
-                <th scope="row"><input type="checkbox" name="not_main" id="not_main"></th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td><input type="checkbox" name="<?= $row['id']?>" id="check"></td>
+                <td><?= $row['name']?></td>
+                <td><?= $row['surname']?></td>
+                <td></td>
+                <td></td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
+
+
+        <?php  } ?>
     </table>
-
-
 
     <!-- Button trigger modal -->
 
@@ -146,9 +140,8 @@ if (isset($_POST['name'])) {
     </div>
 
     <script type="text/javascript" src="App\View\form.js">
-       
     </script>
-
+    
 
 </body>
 

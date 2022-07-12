@@ -22,7 +22,7 @@ abstract class Model
 
     public function Insert()
     {
-        var_dump(get_object_vars($this));
+        //var_dump(get_object_vars($this));
         //die;
         $col = [];
         $val = [];

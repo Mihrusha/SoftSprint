@@ -22,6 +22,8 @@
             return false;
         }
 
+       
+
         // ajax
         $.ajax({
             type: "POST",
@@ -34,4 +36,13 @@
         });
     });
     return false;
+});
+
+$(document).ready(function() {
+    $('#main_checkbox').click(function() {
+        var checked = this.checked;
+        $('input[type="checkbox"]').each(function() {
+        this.checked = checked;
+    });
+    })
 });
