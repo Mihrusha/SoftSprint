@@ -38,13 +38,17 @@ $user->role = $_POST['select'];
     <td><?= $row['name'] ?></td>
     <td><?= $row['surname'] ?></td>
     <?php if ($row["status"]==1) {?>
-        <td><i class="fa fa-circle active-circle"></td>
+        <td><i class="fa fa-solid fa-toggle-on" style="color:green" ></i></td>
         <?php }
         elseif ($row["status"]==2) {?>
-        <td><i class="fa fa-circle not-active-circle"></td>
+        <td><i class="fa fa-solid fa-toggle-off" style="color:red"></i></td>
         <?php }else  echo'<td></td>';?>
     <td><?= $row['role'] ?></td>
-    <td></td>
+    <td>
+    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
+            <button type="submit"class="btn btn-sm btn-secondary badge" type="button" name="delete"><i
+                                  class="fa fa-trash"></i></button>
+    </td>
 </tr>
 
 <?php  } ?>

@@ -28,6 +28,7 @@ class User extends Model
         $sql = "DELETE FROM users WHERE users.id = '$checkbox' ";
         $stmt = $db->conn->prepare($sql);
         $stmt->execute();
+        header("Location:index.php");
 
         
     }
@@ -45,7 +46,25 @@ class User extends Model
         $sql = "UPDATE  users SET status = '$status' WHERE id=$checkbox";
         $stmt = $db->conn->prepare($sql);
         $stmt->execute();
+        header("Location:index.php");
+        
+    }
 
+    public  function Edit()
+    {
+        $db = new Database;
+
+        $checkbox = $_POST['check'];
+        //var_dump($checkbox);
+       $role = $_POST['select'];
+       $name = $_POST['name'];
+       $surname = $_POST['surname'];
+        //$extract = implode(',', $checkbox);
+
+        $sql = "UPDATE  users SET status = '$role',name='$name',surname='$surname' WHERE id=$checkbox";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->execute();
+        header("Location:index.php");
         
     }
 

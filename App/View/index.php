@@ -15,6 +15,16 @@ if (isset($_POST['OK'])) {
     //$user->Delete($_POST['check']);
     $user->EditStatus($_POST['check']);
 }
+
+if (isset($_POST['edit'])) {
+    //$user->Delete($_POST['check']);
+    $user->Edit();
+}
+
+if (isset($_POST['delete'])) {
+    //$user->Delete($_POST['check']);
+    $user->delete($_POST['check']);
+}
 ?>
 
 <html lang="en">
@@ -98,9 +108,8 @@ if (isset($_POST['OK'])) {
                             <?php }else  echo'<td></td>';?>
                         <td><?= $row['role'] ?></td>
                         <td>
-                        <button class="btn btn-sm btn-secondary badge" type="button" data-toggle="modal"
-                                data-target="#user-form-modal">Edit</button>
-                              <button class="btn btn-sm btn-secondary badge" type="button"><i
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
+                              <button type="submit"class="btn btn-sm btn-secondary badge" type="button" name="delete"><i
                                   class="fa fa-trash"></i></button>
                         </td>
                     </tr>
@@ -143,8 +152,8 @@ if (isset($_POST['OK'])) {
 
                                     </select>
                                 </div>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="submit" value="submit">ADD</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" name="submit" value="submit">Add</button>
                             </form>
                         </div>
                     </div>
@@ -155,7 +164,49 @@ if (isset($_POST['OK'])) {
         </div>
     </div>
     </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
 
+                            <p>Please fill all fields in the form</p>
+                            <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
+                            <span id="error" style="display: none"></span>
+                            <form action="javascript:void(0)" method="post" id="ajax-form">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" id="name" class="form-control" value="" maxlength="50">
+                                </div>
+                                <div class="form-group ">
+                                    <label>Surname</label>
+                                    <input type="text" name="surname" id="surname" class="form-control" value="" maxlength="30">
+                                </div>
+                                <div class='col-6'>
+                                    <select class="form-select" aria-label="Default select example" id="select" name='select'>
+                                        <option selected>Open this select menu</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" name="edit" value="edit">EDIT</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
 
     <script>
         $(function() {
