@@ -3,10 +3,11 @@ body{
   background:#f8f8f8;
   
 }
-.active-circle {
+.fa-toggle-on {
   color: green;
+ 
 }
-.not-active-circle {
+.fa-toggle-off {
   color: red;
 }
 

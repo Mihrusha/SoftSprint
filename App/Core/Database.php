@@ -17,7 +17,7 @@ class Database
   # database name
   private $db_name = "soft_sprint";
 
-  private $conn;
+  public $conn;
 
   protected static $instanse = null;
 

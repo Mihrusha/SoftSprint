@@ -2,37 +2,19 @@
 
 use App\Model\User;
 
-// session_start();
+include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
-$var1 = $_POST['name'];
-$var2 = $_POST['surname'];
-$var3 = $_POST['select'];
 //echo $_SESSION['name'],$_SESSION['surname'],$var3;
-
-
-
-
+$user = new User;
 // $_SESSION['name'] = $var1;
 // $_SESSION['surname'] = $var2;
-
-$user = new User;
-$user->name = $var1;
-$user->surname = $var2;
-if (isset($_POST['name'])) {
-    $user->Insert();
-}
 $data = $user->GetAll();
-//var_dump($data);
-// $user->surname=$_SESSION['surname'];
-// if($_POST['name'])
-// $user->Insert();
 
-
-foreach ($data as $row) {
-    echo $row['name'] . "<br>";
+if (isset($_POST['OK'])) {
+    //$user->Delete($_POST['check']);
+    $user->EditStatus($_POST['check']);
 }
-
 ?>
 
 <html lang="en">
@@ -41,65 +23,92 @@ foreach ($data as $row) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 
 <body>
+    <form action="" method="post">
 
-    <div class=' container d-flex justify-content-center'>
+        <div class=' container d-flex justify-content-center mt-2 mb-2'>
 
-        <div class='row '>
-            <div class='col-3'>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    ADD
-                </button>
+            <div class='row '>
+                <div class='col-2'>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        ADD
+                    </button>
+
+                </div>
+
+                <div class='col-5'>
+                    <select class="form-select" aria-label="Default select example" name='choose'>
+                        <option selected>Open this select menu</option>
+                        <option value="1">Set Active</option>
+                        <option value="2">Set Not Active</option>
+                        <option value="3">Delite</option>
+                    </select>
+                </div>
+                <div class='col'>
+                    <!-- <input type="hidden" name='check' value = '<?= $row['id'] ?>'> -->
+                    <input type="submit" class="btn btn-danger" name="OK">
+                </div>
+
 
             </div>
-            <div class='col-6'>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">Set Active</option>
-                    <option value="2">Set Not Active</option>
-                    <option value="3">Delite</option>
-                </select>
-            </div>
-            <div class='col'>
-                <button type="button" class="btn btn-danger">OK</button>
-            </div>
+
         </div>
 
-    </div>
+        <!-- Central rable -->
 
-    <!-- Central rable -->
+        <div id='result'>
+            <table class="table table-bordered table">
 
-    <table class="table table-bordered table">
-        
-            <tr>
-            
-                <th><input type="checkbox" name="main_checkbox" id="main_checkbox"onclick='selects()'>Main CheckBox</th>
-                <th>name</th>
-                <th>surname</th>
-                <th>status</th>
-                <th>role</th>
-            </tr>
-            <?php foreach ($data as $row) { ?>
-            <tr>
-                <td><input type="checkbox" name="<?= $row['id']?>" id="check"></td>
-                <td><?= $row['name']?></td>
-                <td><?= $row['surname']?></td>
-                <td></td>
-                <td></td>
-            </tr>
+                <tr>
 
+                    <th><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'>Main CheckBox</th>
+                    <th>name</th>
+                    <th>surname</th>
+                    <th>status</th>
+                    <th>role</th>
+                    <th>action</th>
+                </tr>
 
-        <?php  } ?>
-    </table>
+                <?php foreach ($data as $row) { ?>
 
+                    <tr>
+                        <td><input type="checkbox" name="check" id="check" value="<?= $row['id'] ?>">
+                            <?= $row['id'] ?></td>
+                        <td><?= $row['name'] ?></td>
+                        <td><?= $row['surname'] ?></td>
+                        <?php if ($row["status"]==1) {?>
+                            <td><i class="fa fa-solid fa-toggle-on" style="color:green" ></i></td>
+                            <?php }
+                            elseif ($row["status"]==2) {?>
+                            <td><i class="fa fa-solid fa-toggle-off" style="color:red"></i></td>
+                            <?php }else  echo'<td></td>';?>
+                        <td><?= $row['role'] ?></td>
+                        <td>
+                        <button class="btn btn-sm btn-secondary badge" type="button" data-toggle="modal"
+                                data-target="#user-form-modal">Edit</button>
+                              <button class="btn btn-sm btn-secondary badge" type="button"><i
+                                  class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+
+                <?php  } ?>
+            </table>
+        </div>
+    </form>
     <!-- Button trigger modal -->
 
     <!-- Modal -->
@@ -126,8 +135,16 @@ foreach ($data as $row) {
                                     <label>Surname</label>
                                     <input type="text" name="surname" id="surname" class="form-control" value="" maxlength="30">
                                 </div>
+                                <div class='col-6'>
+                                    <select class="form-select" aria-label="Default select example" id="select" name='select'>
+                                        <option selected>Open this select menu</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+
+                                    </select>
+                                </div>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary" name="submit" value="submit">
+                                <button type="submit" class="btn btn-primary" name="submit" value="submit">ADD</button>
                             </form>
                         </div>
                     </div>
@@ -139,9 +156,45 @@ foreach ($data as $row) {
     </div>
     </div>
 
-    <script type="text/javascript" src="App\View\form.js">
+
+    <script>
+        $(function() {
+            $('#ajax-form').submit(function(e) {
+                e.preventDefault();
+                var name = $("input#name").val();
+                var surname = $("input#surname").val();
+                var role = $("input#select").val();
+
+                $.ajax({
+                    type: 'post',
+                    url: 'load_users.php',
+                    data: $(this).serialize(),
+                    success: function(result) {
+                        //     $("#result").html(result);
+
+
+                        $("#result").load("load_users.php"), {
+
+                        }
+
+                    }
+                });
+                $("input#surname").val('');
+                $("input#name").val('');
+
+            });
+            return false;
+        });
+
+        $(document).ready(function() {
+            $('#main_checkbox').click(function() {
+                var checked = this.checked;
+                $('input[type="checkbox"]').each(function() {
+                    this.checked = checked;
+                });
+            })
+        });
     </script>
-    
 
 </body>
 

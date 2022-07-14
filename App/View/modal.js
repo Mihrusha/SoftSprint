@@ -1,10 +1,13 @@
- 
-            function selects(){  
-                var ele=document.getElementsById('checkbox');  
-                for(var i=0; i<ele.length; i++){  
-                    if(ele[i].type=='checkbox')  
-                        ele[i].checked=true;  
-                }  
-            }  
+ const newPost = (post, addedAt = Date()) => Object={
+    ...post,addedAt,
+ }
 
-            alert('Hello');
+ const firstPost = {
+    id:1,
+    autor:'Misha',
+ }
+
+ 
+
+ console.log(newPost(firstPost));
+        

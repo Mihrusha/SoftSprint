@@ -8,22 +8,25 @@ abstract class Model
 {
     public const TABLE = '';
     public $id;
- 
+
 
 
     public static function GetAll()
     {
         $db = Database::Instanse();
         // $class=get_called_class();
+       
         $sql = "SELECT* FROM" . " " . static::TABLE;
         $data = $db->Query($sql, [], static::class);
         return $data;
+       
     }
+
 
     public function Insert()
     {
         //var_dump(get_object_vars($this));
-        //die;
+
         $col = [];
         $val = [];
         $data = [];
@@ -40,6 +43,6 @@ abstract class Model
         $sql = 'INSERT INTO' . ' ' . static::TABLE . '(' . $str . ') VALUES (' . $val_str . ')';
         $db = Database::Instanse();
         $db->execute($sql, $data);
-        $this->id=$db->lastId();
+        $this->id = $db->lastId();
     }
 }
