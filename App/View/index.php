@@ -16,10 +16,10 @@ if (isset($_POST['OK'])) {
     $user->EditStatus($_POST['check']);
 }
 
-if (isset($_POST['edit'])) {
-    //$user->Delete($_POST['check']);
-    $user->Edit();
-}
+// if (isset($_POST['edit'])) {
+//     //$user->Delete($_POST['check']);
+//     $user->Edit();
+// }
 
 if (isset($_POST['delete'])) {
     //$user->Delete($_POST['check']);
@@ -70,7 +70,7 @@ if (isset($_POST['delete'])) {
                 </div>
                 <div class='col'>
                     <!-- <input type="hidden" name='check' value = '<?= $row['id'] ?>'> -->
-                    <input type="submit" class="btn btn-danger" name="OK">
+                    <input type="submit" class="btn btn-danger" name="OK" value="OK">
                 </div>
 
 
@@ -86,7 +86,7 @@ if (isset($_POST['delete'])) {
                 <tr>
 
                     <th><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'>Main CheckBox</th>
-                    <th>name</th>
+                    <th >name</th>
                     <th>surname</th>
                     <th>status</th>
                     <th>role</th>
@@ -101,10 +101,10 @@ if (isset($_POST['delete'])) {
                         <td><?= $row['name'] ?></td>
                         <td><?= $row['surname'] ?></td>
                         <?php if ($row["status"]==1) {?>
-                            <td><i class="fa fa-solid fa-toggle-on" style="color:green" ></i></td>
+                            <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
                             <?php }
                             elseif ($row["status"]==2) {?>
-                            <td><i class="fa fa-solid fa-toggle-off" style="color:red"></i></td>
+                            <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
                             <?php }else  echo'<td></td>';?>
                         <td><?= $row['role'] ?></td>
                         <td>
@@ -215,7 +215,8 @@ if (isset($_POST['delete'])) {
                 var name = $("input#name").val();
                 var surname = $("input#surname").val();
                 var role = $("input#select").val();
-
+                var check = $("input#check").val();
+                var OkBtn = $("input#OK").val();
                 $.ajax({
                     type: 'post',
                     url: 'load_users.php',
@@ -245,6 +246,8 @@ if (isset($_POST['delete'])) {
                 });
             })
         });
+
+        
     </script>
 
 </body>

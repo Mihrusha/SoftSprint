@@ -37,7 +37,7 @@ class User extends Model
     public  function EditStatus($method)
     {
         $db = new Database;
-
+        
         $checkbox = $method;
         //var_dump($checkbox);
        $status = $_POST['choose'];

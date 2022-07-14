@@ -58,7 +58,7 @@ class Database
   return $items;
   }
 
-  public function execute($sql, $data):bool
+  public function execute($sql, $data=null):bool
   {
     $sth = $this->conn->prepare($sql);
     $result = $sth->execute($data);

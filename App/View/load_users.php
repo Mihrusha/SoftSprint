@@ -2,7 +2,7 @@
 
 use App\Model\User;
 
-error_log(E_USER_NOTICE);
+
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 $user=new User;
@@ -18,6 +18,19 @@ $user->role = $_POST['select'];
 }
    $data = $user->GetAllLim();
 
+   if (isset($_POST['OK'])) {
+  
+    $user->status = $_POST['choose'];
+    //$user->Delete($_POST['check']);
+    $user->EditStatus($_POST['check']);
+}
+
+//    if (isset($_POST['name'])) {
+//     $user->name = $_POST['name'];
+// $user->surname = $_POST['surname'];
+// $user->role = $_POST['select'];
+//     $user->Edit();
+// }   
 ?>
 <table class="table table-bordered table">
 
@@ -38,10 +51,10 @@ $user->role = $_POST['select'];
     <td><?= $row['name'] ?></td>
     <td><?= $row['surname'] ?></td>
     <?php if ($row["status"]==1) {?>
-        <td><i class="fa fa-solid fa-toggle-on" style="color:green" ></i></td>
+        <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
         <?php }
         elseif ($row["status"]==2) {?>
-        <td><i class="fa fa-solid fa-toggle-off" style="color:red"></i></td>
+        <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
         <?php }else  echo'<td></td>';?>
     <td><?= $row['role'] ?></td>
     <td>
