@@ -34,13 +34,13 @@ class User extends Model
     }
 
 
-    public  function EditStatus($method)
+    public  function EditStatus($method,$status)
     {
         //$db = new Database;
         
         $checkbox = $method;
         //var_dump($checkbox);
-       $status = $_POST['choose'];
+       $status =$status;
         //$extract = implode(',', $checkbox);
 
         $sql = "UPDATE  users SET status = '$status' WHERE id=$checkbox";

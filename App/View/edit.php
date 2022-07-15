@@ -2,32 +2,25 @@
 
 use App\Model\User;
 
-
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 $user=new User;
-//$arr[]=($_POST);
-//var_dump($arr);
 
+// var_dump($_POST['deleteId']);
+// var_dump($_POST['select']);
 
-if (isset($_POST['name'])) {
-    $user->name = $_POST['name'];
-$user->surname = $_POST['surname'];
-$user->role = $_POST['select'];
-    $user->Insert();
-}
-   $data = $user->GetAllLim();
+   if (isset($_POST['deleteId'])) {
+    var_dump($_POST['deleteId']);
+     var_dump($_POST['select']);
+     $deleteId = $_POST['deleteId'];
+     $deleteId = implode(',', $deleteId);
+   
+    // //$user->Delete($_POST['check']);
+    $user->EditStatus($deleteId,$_POST['select']);
 
-
-
-if (isset($_POST['deleteId'])) {
-    $deleteId = $_POST['deleteId'];
-    
-    $deleteId = implode(',', $deleteId);
-    $user->delete($deleteId);
-}
+ }
 ?>
-<table class="table table-bordered table">
+ <table class="table table-bordered table">
 
 <tr>
 

@@ -11,10 +11,10 @@ $user = new User;
 
 $data = $user->GetAll();
 
-if (isset($_POST['OK'])) {
-    //$user->Delete($_POST['check']);
-    $user->EditStatus($_POST['check']);
-}
+// if (isset($_POST['OK'])) {
+//     //$user->Delete($_POST['check']);
+//     $user->EditStatus($_POST['check']);
+// }
 
 // if (isset($_POST['edit'])) {
 //     //$user->Delete($_POST['check']);
@@ -33,16 +33,16 @@ if (isset($_POST['OK'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
@@ -61,7 +61,7 @@ if (isset($_POST['OK'])) {
                 </div>
 
                 <div class='col-5'>
-                    <select class="form-select" aria-label="Default select example" name='choose'>
+                    <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
                         <option selected>Open this select menu</option>
                         <option value="1">Set Active</option>
                         <option value="2">Set Not Active</option>
@@ -69,8 +69,8 @@ if (isset($_POST['OK'])) {
                     </select>
                 </div>
                 <div class='col'>
-                    <!-- <input type="hidden" name='check' value = '<?= $row['id'] ?>'> -->
-                    <input type="submit" class="btn btn-danger" name="OK" value="OK">
+
+                    <button type="submit" class="btn btn-danger" type="button" name="OK" value="OK" id="Ok">OK</button>
                 </div>
 
 
@@ -86,7 +86,7 @@ if (isset($_POST['OK'])) {
                 <tr>
 
                     <th><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'>Main CheckBox</th>
-                    <th >name</th>
+                    <th>name</th>
                     <th>surname</th>
                     <th>status</th>
                     <th>role</th>
@@ -96,21 +96,19 @@ if (isset($_POST['OK'])) {
                 <?php foreach ($data as $row) { ?>
 
                     <tr>
-                        <td><input type="checkbox" name="check" id="check"  class="delete-id"value="<?= $row['id'];?>">
+                        <td><input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
                             <?= $row['id'] ?></td>
                         <td><?= $row['name'] ?></td>
                         <td><?= $row['surname'] ?></td>
-                        <?php if ($row["status"]==1) {?>
+                        <?php if ($row["status"] == 1) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
-                            <?php }
-                            elseif ($row["status"]==2) {?>
+                        <?php } elseif ($row["status"] == 2) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
-                            <?php }else  echo'<td></td>';?>
+                        <?php } else  echo '<td></td>'; ?>
                         <td><?= $row['role'] ?></td>
                         <td>
-                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
-                              <button type="submit"class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i
-                                  class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
+                            <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
 
@@ -208,9 +206,10 @@ if (isset($_POST['OK'])) {
     </div>
     </div>
 
-    <div id='comm'></div>
+    <div id='response'></div>
 
     <script>
+        //send and get function
         $(function() {
             $('#ajax-form').submit(function(e) {
                 e.preventDefault();
@@ -239,6 +238,7 @@ if (isset($_POST['OK'])) {
             return false;
         });
 
+        //Choose all checkboxes
         $(document).ready(function() {
             $('#main_checkbox').click(function() {
                 var checked = this.checked;
@@ -248,36 +248,77 @@ if (isset($_POST['OK'])) {
             })
         });
 
-        $("button#delete").click(function(){
-          
-          var id = [];
-          $(".delete-id:checked").each(function(){
-              id.push($(this).val());
-              element = this;
-          });
-          
-          if (id.length > 0) {
-              if (confirm("Are you sure want to delete this records")) {
+
+        // Edit Status function - work not right, must to find why
+        $("button#Ok").click(function() {
+            // alert('Hello');
+
+            var id = [];
+            var status;
+            $(".delete-id:checked").each(function() {
+                id.push($(this).val());
+                element = this;
+            });
+
+
+            status = ($('#choose').val());
+
+
+            if (id.length > 0) {
+
                 $.ajax({
-                    url : "load_users.php",
+                    url: "edit.php",
                     type: "POST",
-                    cache:false,
-                    data:{deleteId:id},
-                    success:function(response){
-                      if (response==1) {
-                          alert("Record delete successfully");
-                          loadData();
-                      }else{
-                          alert("Some thing went wrong try again");
-                      }
+                    cache: false,
+                    data: {
+                        deleteId: id,
+                        select: status
+                    },
+                    success: function(result) {
+                        //     $("#result").html(result);
+
+                        $("#result").load("load_users.php"), {
+
+                        }
+
                     }
                 });
-              }
-          }else{
-            alert("Please select atleast one checkbox");
-          }
+
+            }
+            return false;
         });
-   
+        // Delete function
+        $("button#delete").click(function() {
+
+            var id = [];
+            $(".delete-id:checked").each(function() {
+                id.push($(this).val());
+                element = this;
+            });
+
+            if (id.length > 0) {
+                $.ajax({
+                    type: 'post',
+                    url: 'load_users.php',
+                    data: {
+                        deleteId: id,
+
+                    },
+                    success: function(result) {
+                        //     $("#result").html(result);
+
+                        $("#result").load("load_users.php"), {
+
+                        }
+
+                    }
+                });
+
+                return false;
+            };
+            
+
+        });
     </script>
 
 </body>
