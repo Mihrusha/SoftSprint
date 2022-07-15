@@ -4,11 +4,11 @@ use App\Model\User;
 
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
+// echo $_POST['check'];
 
-//echo $_SESSION['name'],$_SESSION['surname'],$var3;
+
 $user = new User;
-// $_SESSION['name'] = $var1;
-// $_SESSION['surname'] = $var2;
+
 $data = $user->GetAll();
 
 if (isset($_POST['OK'])) {
@@ -21,10 +21,10 @@ if (isset($_POST['OK'])) {
 //     $user->Edit();
 // }
 
-if (isset($_POST['delete'])) {
-    //$user->Delete($_POST['check']);
-    $user->delete($_POST['check']);
-}
+// if (isset($_POST['delete'])) {
+//     //$user->Delete($_POST['check']);
+//     $user->delete($_POST['check']);
+// }
 ?>
 
 <html lang="en">
@@ -48,7 +48,7 @@ if (isset($_POST['delete'])) {
 </head>
 
 <body>
-    <form action="" method="post">
+    <form action="" method="post" id="form">
 
         <div class=' container d-flex justify-content-center mt-2 mb-2'>
 
@@ -96,7 +96,7 @@ if (isset($_POST['delete'])) {
                 <?php foreach ($data as $row) { ?>
 
                     <tr>
-                        <td><input type="checkbox" name="check" id="check" value="<?= $row['id'] ?>">
+                        <td><input type="checkbox" name="check" id="check"  class="delete-id"value="<?= $row['id'];?>">
                             <?= $row['id'] ?></td>
                         <td><?= $row['name'] ?></td>
                         <td><?= $row['surname'] ?></td>
@@ -109,7 +109,7 @@ if (isset($_POST['delete'])) {
                         <td><?= $row['role'] ?></td>
                         <td>
                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
-                              <button type="submit"class="btn btn-sm btn-secondary badge" type="button" name="delete"><i
+                              <button type="submit"class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i
                                   class="fa fa-trash"></i></button>
                         </td>
                     </tr>
@@ -208,6 +208,8 @@ if (isset($_POST['delete'])) {
     </div>
     </div>
 
+    <div id='comm'></div>
+
     <script>
         $(function() {
             $('#ajax-form').submit(function(e) {
@@ -223,7 +225,6 @@ if (isset($_POST['delete'])) {
                     data: $(this).serialize(),
                     success: function(result) {
                         //     $("#result").html(result);
-
 
                         $("#result").load("load_users.php"), {
 
@@ -247,7 +248,36 @@ if (isset($_POST['delete'])) {
             })
         });
 
-        
+        $("button#delete").click(function(){
+          
+          var id = [];
+          $(".delete-id:checked").each(function(){
+              id.push($(this).val());
+              element = this;
+          });
+          
+          if (id.length > 0) {
+              if (confirm("Are you sure want to delete this records")) {
+                $.ajax({
+                    url : "load_users.php",
+                    type: "POST",
+                    cache:false,
+                    data:{deleteId:id},
+                    success:function(response){
+                      if (response==1) {
+                          alert("Record delete successfully");
+                          loadData();
+                      }else{
+                          alert("Some thing went wrong try again");
+                      }
+                    }
+                });
+              }
+          }else{
+            alert("Please select atleast one checkbox");
+          }
+        });
+   
     </script>
 
 </body>

@@ -31,6 +31,13 @@ $user->role = $_POST['select'];
 // $user->role = $_POST['select'];
 //     $user->Edit();
 // }   
+
+if (isset($_POST['deleteId'])) {
+    $deleteId = $_POST['deleteId'];
+    
+    $deleteId = implode(',', $deleteId);
+    $user->delete($deleteId);
+}
 ?>
 <table class="table table-bordered table">
 

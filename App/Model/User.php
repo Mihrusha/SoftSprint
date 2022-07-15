@@ -18,7 +18,7 @@ class User extends Model
 
      public  function Delete($method)
     {
-        $db = new Database;
+        //$db = new Database;
 
         $checkbox = $method;
         //var_dump($checkbox);
@@ -26,8 +26,8 @@ class User extends Model
         //$extract = implode(',', $checkbox);
 
         $sql = "DELETE FROM users WHERE users.id = '$checkbox' ";
-        $stmt = $db->conn->prepare($sql);
-        $stmt->execute();
+        $db = Database::Instanse();
+        $db->execute($sql);
         header("Location:index.php");
 
         
@@ -36,7 +36,7 @@ class User extends Model
 
     public  function EditStatus($method)
     {
-        $db = new Database;
+        //$db = new Database;
         
         $checkbox = $method;
         //var_dump($checkbox);
@@ -44,15 +44,15 @@ class User extends Model
         //$extract = implode(',', $checkbox);
 
         $sql = "UPDATE  users SET status = '$status' WHERE id=$checkbox";
-        $stmt = $db->conn->prepare($sql);
-        $stmt->execute();
+        $db = Database::Instanse();
+        $db->execute($sql);
         header("Location:index.php");
         
     }
 
     public  function Edit()
     {
-        $db = new Database;
+        //$db = new Database;
 
         $checkbox = $_POST['check'];
         //var_dump($checkbox);
@@ -62,8 +62,8 @@ class User extends Model
         //$extract = implode(',', $checkbox);
 
         $sql = "UPDATE  users SET status = '$role',name='$name',surname='$surname' WHERE id=$checkbox";
-        $stmt = $db->conn->prepare($sql);
-        $stmt->execute();
+        $db = Database::Instanse();
+        $db->execute($sql);
         header("Location:index.php");
         
     }
