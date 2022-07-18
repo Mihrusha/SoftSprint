@@ -5,19 +5,29 @@ use App\Model\User;
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 $user=new User;
-
+$data = $user->GetAllLim();
 // var_dump($_POST['deleteId']);
 // var_dump($_POST['select']);
+
+    if(isset($_POST['name'])){
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $role = $_POST['role'];
+        $id=$_POST['id'];
+        $user->Edit($name,$surname,$role,$id);
+    }
+
+
 
    if (isset($_POST['deleteId'])) {
     var_dump($_POST['deleteId']);
      var_dump($_POST['select']);
      $deleteId = $_POST['deleteId'];
      $deleteId = implode(',', $deleteId);
-   
+     
     // //$user->Delete($_POST['check']);
     $user->EditStatus($deleteId,$_POST['select']);
-
+    header("Location:App\View\index.php");
  }
 ?>
  <table class="table table-bordered table">

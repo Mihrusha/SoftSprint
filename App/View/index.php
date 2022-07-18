@@ -95,19 +95,19 @@ $data = $user->GetAll();
 
                 <?php foreach ($data as $row) { ?>
 
-                    <tr>
-                        <td><input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
+                    <tr id='<?= $row['id']; ?>'>
+                        <td><input type="checkbox" name="check" id="check" data-id="<?php echo $row['id']; ?>" class="delete-id" value="<?= $row['id']; ?>">
                             <?= $row['id'] ?></td>
-                        <td><?= $row['name'] ?></td>
-                        <td><?= $row['surname'] ?></td>
+                        <td data-target='name'><?= $row['name'] ?></td>
+                        <td data-target='surname'><?= $row['surname'] ?></td>
                         <?php if ($row["status"] == 1) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
                         <?php } elseif ($row["status"] == 2) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
                         <?php } else  echo '<td></td>'; ?>
-                        <td><?= $row['role'] ?></td>
+                        <td data-target='role'><?= $row['role'] ?></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-role='update' id='edit'>Edit</button>
                             <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
@@ -176,17 +176,22 @@ $data = $user->GetAll();
                             <p>Please fill all fields in the form</p>
                             <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
                             <span id="error" style="display: none"></span>
-                            <form action="javascript:void(0)" method="post" id="ajax-form">
+                            <form action="javascript:void(0)" method="post" id="newForm">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" value="" maxlength="50">
+                                    <input type="text" name="userName" id="userName" class="form-control" value="" maxlength="50">
+                                    <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
                                 </div>
                                 <div class="form-group ">
                                     <label>Surname</label>
-                                    <input type="text" name="surname" id="surname" class="form-control" value="" maxlength="30">
+                                    <input type="text" name="userSurname" id="userSurname" class="form-control" value="" maxlength="30">
                                 </div>
                                 <div class='col-6'>
-                                    <select class="form-select" aria-label="Default select example" id="select" name='select'>
+
+                                    <input type="hidden" name="Role" id="Role" class="form-control" value="" maxlength="50">
+
+
+                                    <select class="form-select" aria-label="" id="userRole" name='userRole'>
                                         <option selected>Open this select menu</option>
                                         <option value="Admin">Admin</option>
                                         <option value="User">User</option>
@@ -194,7 +199,7 @@ $data = $user->GetAll();
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="edit" value="edit">EDIT</button>
+                                <button type="submit" class="btn btn-primary" name="edit" value="edit" id="save">EDIT</button>
                             </form>
                         </div>
                     </div>
@@ -216,8 +221,8 @@ $data = $user->GetAll();
                 var name = $("input#name").val();
                 var surname = $("input#surname").val();
                 var role = $("input#select").val();
-                var check = $("input#check").val();
-                var OkBtn = $("input#OK").val();
+                alert(role);
+
                 $.ajax({
                     type: 'post',
                     url: 'load_users.php',
@@ -287,6 +292,57 @@ $data = $user->GetAll();
             }
             return false;
         });
+
+
+        //Edit name and surname function
+
+
+        $(document).ready(function() {
+            $(document).on('click', 'button#edit', function() {
+                var id = [];
+                $(".delete-id:checked").each(function() {
+                    id.push($(this).val());
+                    element = this;
+                });
+
+
+                var name = $("input#name").val();
+                var surname = $("input#surname").val();
+                var role = $("input#userRole").val();
+                $('#userId').val(id);
+                
+            })
+
+
+
+        })
+
+        $('#newForm').submit(function() {
+            var id = $('#userId').val();
+            var name = $("input#userName").val();
+            var surname = $("input#userSurname").val();
+            var select = $("#userRole").val();
+          
+            $.ajax({
+                url: 'edit.php',
+                method: 'post',
+                data: {
+                    name: name,
+                    surname: surname,
+                    role: select,
+                    id: id
+                },
+                success: function(result) {
+                    // $("#response").html(response);
+
+                    $("#result").load("load_users.php"), {
+
+                    }
+
+                }
+            })
+        })
+
         // Delete function
         $("button#delete").click(function() {
 
@@ -316,7 +372,7 @@ $data = $user->GetAll();
 
                 return false;
             };
-            
+
 
         });
     </script>

@@ -50,21 +50,17 @@ class User extends Model
         
     }
 
-    public  function Edit()
+    public  function Edit($name,$surname,$role,$id)
     {
         //$db = new Database;
 
-        $checkbox = $_POST['check'];
-        //var_dump($checkbox);
-       $role = $_POST['select'];
-       $name = $_POST['name'];
-       $surname = $_POST['surname'];
-        //$extract = implode(',', $checkbox);
+        // var_dump($name,$surname,$role,$id);
+        // die;
 
-        $sql = "UPDATE  users SET status = '$role',name='$name',surname='$surname' WHERE id=$checkbox";
+        $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname' WHERE id=$id";
         $db = Database::Instanse();
         $db->execute($sql);
-        header("Location:index.php");
+        
         
     }
 
