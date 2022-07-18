@@ -11,7 +11,7 @@ class User extends Model
     public  $name;
     public  $surname;
     //error
-    // public $status;
+    public $status;
      public $role;
      
 
@@ -28,25 +28,23 @@ class User extends Model
         $sql = "DELETE FROM users WHERE users.id = '$checkbox' ";
         $db = Database::Instanse();
         $db->execute($sql);
-        header("Location:index.php");
+       // header("Location:index.php");
 
         
     }
 
 
-    public  function EditStatus($method,$status)
+    public  function EditStatus($id,$status)
     {
         //$db = new Database;
         
-        $checkbox = $method;
-        //var_dump($checkbox);
-       $status =$status;
-        //$extract = implode(',', $checkbox);
-
-        $sql = "UPDATE  users SET status = '$status' WHERE id=$checkbox";
+       
+        $extract = implode(',', $id);
+       
+        $sql = "UPDATE  users SET status = '$status' WHERE id IN($id)";
         $db = Database::Instanse();
         $db->execute($sql);
-        header("Location:index.php");
+       header('index.php');
         
     }
 

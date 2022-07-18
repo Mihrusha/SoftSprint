@@ -11,20 +11,7 @@ $user = new User;
 
 $data = $user->GetAll();
 
-// if (isset($_POST['OK'])) {
-//     //$user->Delete($_POST['check']);
-//     $user->EditStatus($_POST['check']);
-// }
 
-// if (isset($_POST['edit'])) {
-//     //$user->Delete($_POST['check']);
-//     $user->Edit();
-// }
-
-// if (isset($_POST['delete'])) {
-//     //$user->Delete($_POST['check']);
-//     $user->delete($_POST['check']);
-// }
 ?>
 
 <html lang="en">
@@ -70,7 +57,7 @@ $data = $user->GetAll();
                 </div>
                 <div class='col'>
 
-                    <button type="submit" class="btn btn-danger" type="button" name="OK" value="OK" id="Ok">OK</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal3" type="button" name="OK" value="OK" id="Ok">OK</button>
                 </div>
 
 
@@ -96,16 +83,17 @@ $data = $user->GetAll();
                 <?php foreach ($data as $row) { ?>
 
                     <tr id='<?= $row['id']; ?>'>
-                        <td><input type="checkbox" name="check" id="check" data-id="<?php echo $row['id']; ?>" class="delete-id" value="<?= $row['id']; ?>">
+                        <td><input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
                             <?= $row['id'] ?></td>
-                        <td data-target='name'><?= $row['name'] ?></td>
-                        <td data-target='surname'><?= $row['surname'] ?></td>
+                        <td><?= $row['name'] ?></td>
+                        <td><?= $row['surname'] ?></td>
+
                         <?php if ($row["status"] == 1) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
                         <?php } elseif ($row["status"] == 2) { ?>
                             <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
                         <?php } else  echo '<td></td>'; ?>
-                        <td data-target='role'><?= $row['role'] ?></td>
+                        <td><?= $row['role'] ?></td>
                         <td>
                             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-role='update' id='edit'>Edit</button>
                             <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash"></i></button>
@@ -118,7 +106,7 @@ $data = $user->GetAll();
     </form>
     <!-- Button trigger modal -->
 
-    <!-- Modal -->
+    <!-- Modal 1-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -142,16 +130,28 @@ $data = $user->GetAll();
                                     <label>Surname</label>
                                     <input type="text" name="surname" id="surname" class="form-control" value="" maxlength="30">
                                 </div>
-                                <div class='col-6'>
-                                    <select class="form-select" aria-label="Default select example" id="select" name='select'>
-                                        <option selected>Open this select menu</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="User">User</option>
+                                <div class='row mt-2 mb-2'>
+                                    <div class='col-5'>
+                                        <select class="form-select" aria-label="Default select example" id="select" name='select'>
+                                            <option selected>Set Role</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="User">User</option>
 
-                                    </select>
+                                        </select>
+                                    </div>
+                                    <div class='col-5'>
+                                        <select class="form-select" aria-label="Default select example" id="status" name='status'>
+                                            <option selected>Set Status</option>
+                                            <option value="1">Set Active</option>
+                                            <option value="2">Set Not Active</option>
+
+                                        </select>
+                                    </div>
                                 </div>
+
+
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="submit" value="submit">Add</button>
+                                <button type="submit" class="btn btn-primary" name="submit" value="submit" onclick="GFG_Fun()">Add</button>
                             </form>
                         </div>
                     </div>
@@ -162,6 +162,8 @@ $data = $user->GetAll();
         </div>
     </div>
     </div>
+
+    <!-- Modal 2-->
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -188,8 +190,6 @@ $data = $user->GetAll();
                                 </div>
                                 <div class='col-6'>
 
-                                    <input type="hidden" name="Role" id="Role" class="form-control" value="" maxlength="50">
-
 
                                     <select class="form-select" aria-label="" id="userRole" name='userRole'>
                                         <option selected>Open this select menu</option>
@@ -211,9 +211,77 @@ $data = $user->GetAll();
     </div>
     </div>
 
+    <!-- Modal 3-->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Check</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>Please fill all fields in the form</p>
+                            <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
+                            <span id="error" style="display: none"></span>
+                            <form action="javascript:void(0)" method="post" id="statusForm">
+                                <div class="form-group">
+
+                                    <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
+                                </div>
+                                <div class="form-group ">
+
+                                    <input type="hidden" name="status" id="status" class="form-control" value="" maxlength="30">
+                                </div>
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="">EDIT</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <!-- buttons 2 -->
+    <div class=' container d-flex justify-content-center mt-2 mb-2'>
+
+        <div class='row '>
+            <div class='col-2'>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ADD
+                </button>
+
+            </div>
+
+            <div class='col-5'>
+                <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
+                    <option selected>Open this select menu</option>
+                    <option value="1">Set Active</option>
+                    <option value="2">Set Not Active</option>
+                    <option value="3">Delite</option>
+                </select>
+            </div>
+            <div class='col'>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal3" type="button" name="OK" value="OK" id="Ok">OK</button>
+            </div>
+
+
+        </div>
+
+    </div>
     <div id='response'></div>
 
     <script>
+        
+
         //send and get function
         $(function() {
             $('#ajax-form').submit(function(e) {
@@ -221,7 +289,7 @@ $data = $user->GetAll();
                 var name = $("input#name").val();
                 var surname = $("input#surname").val();
                 var role = $("input#select").val();
-                alert(role);
+                var status = $("input#status").val();
 
                 $.ajax({
                     type: 'post',
@@ -238,7 +306,7 @@ $data = $user->GetAll();
                 });
                 $("input#surname").val('');
                 $("input#name").val('');
-
+                $("input#status").val('');
             });
             return false;
         });
@@ -254,43 +322,50 @@ $data = $user->GetAll();
         });
 
 
-        // Edit Status function - work not right, must to find why
-        $("button#Ok").click(function() {
-            // alert('Hello');
+        //edit status work with problem need reload
 
-            var id = [];
-            var status;
-            $(".delete-id:checked").each(function() {
-                id.push($(this).val());
-                element = this;
-            });
+        $(document).ready(function() {
+            $(document).on('click', 'button#Ok', function() {
+                var id = [];
+                $(".delete-id:checked").each(function() {
+                    id.push($(this).val());
+                    element = this;
+                });
+                var status = $("#choose").val();
+                $('#userId').val(id);
+                $("#status").val(status);
 
+            })
 
-            status = ($('#choose').val());
+        })
+        $(function() {
+            $('#statusForm').submit(function(e) {
+                e.preventDefault();
+                var id = $('#userId').val();
 
+                var status = $("#status").val();
 
-            if (id.length > 0) {
 
                 $.ajax({
-                    url: "edit.php",
-                    type: "POST",
-                    cache: false,
+                    url: 'edit.php',
+                    method: 'post',
                     data: {
-                        deleteId: id,
-                        select: status
+
+                        status: status,
+                        id: id
                     },
-                    success: function(result) {
-                        //     $("#result").html(result);
+                    success: function(response) {
+                        //$("#response").html(response);
 
                         $("#result").load("load_users.php"), {
 
                         }
 
                     }
-                });
+                })
 
-            }
-            return false;
+            })
+
         });
 
 
@@ -306,42 +381,52 @@ $data = $user->GetAll();
                 });
 
 
-                var name = $("input#name").val();
-                var surname = $("input#surname").val();
+                var currentRow=$(this).closest("tr")
+                var name=currentRow.find("td:eq(1)").text();
+               
+               
+                
+                var surname = currentRow.find("td:eq(2)").text();;
                 var role = $("input#userRole").val();
                 $('#userId').val(id);
-                
+                $("#userName").val(name);
+                $("#userSurname").val(surname);
             })
 
 
 
         })
+        $(function() {
+            $('#newForm').submit(function() {
+                var id = $('#userId').val();
+                var name = $("input#userName").val();
+                var surname = $("input#userSurname").val();
+                var select = $("#userRole").val();
 
-        $('#newForm').submit(function() {
-            var id = $('#userId').val();
-            var name = $("input#userName").val();
-            var surname = $("input#userSurname").val();
-            var select = $("#userRole").val();
-          
-            $.ajax({
-                url: 'edit.php',
-                method: 'post',
-                data: {
-                    name: name,
-                    surname: surname,
-                    role: select,
-                    id: id
-                },
-                success: function(result) {
-                    // $("#response").html(response);
+                $.ajax({
+                    url: 'edit.php',
+                    method: 'post',
+                    data: {
+                        name: name,
+                        surname: surname,
+                        role: select,
+                        id: id
+                    },
+                    success: function(result) {
+                        // $("#response").html(response);
 
-                    $("#result").load("load_users.php"), {
+                        $("#result").load("load_users.php"), {
+
+                        }
 
                     }
 
-                }
+                })
+                $("input#userSurname").val('');
+                $("input#userName").val('');
             })
-        })
+            return false;
+        });
 
         // Delete function
         $("button#delete").click(function() {
@@ -366,7 +451,7 @@ $data = $user->GetAll();
                         $("#result").load("load_users.php"), {
 
                         }
-
+                        location.reload();
                     }
                 });
 

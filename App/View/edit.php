@@ -19,15 +19,17 @@ $data = $user->GetAllLim();
 
 
 
-   if (isset($_POST['deleteId'])) {
-    var_dump($_POST['deleteId']);
-     var_dump($_POST['select']);
-     $deleteId = $_POST['deleteId'];
-     $deleteId = implode(',', $deleteId);
-     
+   if (isset($_POST['id'])) {
+    // var_dump($_POST['id']);
+    //  var_dump($_POST['status']);
+    //  die;
+     $deleteId = $_POST['id'];
+     //$deleteId = implode(',', $id);
+     echo $_POST['id'];
+     echo $_POST['status'];
     // //$user->Delete($_POST['check']);
-    $user->EditStatus($deleteId,$_POST['select']);
-    header("Location:App\View\index.php");
+    $user->EditStatus($deleteId,$_POST['status']);
+    
  }
 ?>
  <table class="table table-bordered table">
