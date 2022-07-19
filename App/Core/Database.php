@@ -15,7 +15,7 @@ class Database
   private $pass = "";
 
   # database name
-  private $db_name = "soft_sprint";
+  private $db_name = "soft";
 
   public $conn;
 

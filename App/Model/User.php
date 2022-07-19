@@ -48,14 +48,14 @@ class User extends Model
         
     }
 
-    public  function Edit($name,$surname,$role,$id)
+    public  function Edit($name=null,$surname=null,$role=null,$id=null,$status=null)
     {
         //$db = new Database;
 
         // var_dump($name,$surname,$role,$id);
         // die;
 
-        $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname' WHERE id=$id";
+        $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname',status='$status' WHERE id=$id";
         $db = Database::Instanse();
         $db->execute($sql);
         

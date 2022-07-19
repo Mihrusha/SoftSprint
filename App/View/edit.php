@@ -7,14 +7,15 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 $user=new User;
 $data = $user->GetAllLim();
 // var_dump($_POST['deleteId']);
-// var_dump($_POST['select']);
+ //var_dump($_POST['name']);
 
     if(isset($_POST['name'])){
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $role = $_POST['role'];
         $id=$_POST['id'];
-        $user->Edit($name,$surname,$role,$id);
+        $status=$_POST['status'];
+        $user->Edit($name,$surname,$role,$id,$status);
     }
 
 

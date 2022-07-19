@@ -197,6 +197,15 @@ $data = $user->GetAll();
                                         <option value="User">User</option>
 
                                     </select>
+
+                                    <div class='col-5'>
+                                        <select class="form-select" aria-label="" id="userStatus" name='userStatus'>
+                                            <option selected>Set Status</option>
+                                            <option value="1">Set Active</option>
+                                            <option value="2">Set Not Active</option>
+
+                                        </select>
+                                    </div>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary" name="edit" value="edit" id="save">EDIT</button>
@@ -280,8 +289,6 @@ $data = $user->GetAll();
     <div id='response'></div>
 
     <script>
-        
-
         //send and get function
         $(function() {
             $('#ajax-form').submit(function(e) {
@@ -322,8 +329,63 @@ $data = $user->GetAll();
         });
 
 
-        //edit status work with problem need reload
+        //Edit name and surname function
 
+
+        $(document).ready(function() {
+            $(document).on('click', 'button#edit', function() {
+                var id = [];
+                $(".delete-id:checked").each(function() {
+                    id.push($(this).val());
+                    element = this;
+                });
+
+
+                var currentRow = $(this).closest("tr")
+                var name = currentRow.find("td:eq(1)").text();
+
+
+
+                var surname = currentRow.find("td:eq(2)").text();;
+                var role = $("input#userRole").val();
+                $('#userId').val(id);
+                $("#userName").val(name);
+                $("#userSurname").val(surname);
+
+            })
+
+        })
+
+
+        $(document).on('submit', '#newForm', function(e) {
+            e.preventDefault();
+            var id = $("input[name='userId']").val();
+            var name = $("input[name='userName']").val();
+            var surname = $("input[name='userSurname']").val();
+            var role = $('#userRole').val();
+            var status = $('#userStatus').val();
+
+
+            $.ajax({
+                method: "POST",
+                url: "edit.php",
+                data: {
+                    id: id,
+                    name: name,
+                    role: role,
+                    surname: surname,
+                    status: status
+                },
+                success: function(data) {
+                    $('#result').load('load_users.php');
+
+
+                }
+
+            });
+        });
+
+        //edit status
         $(document).ready(function() {
             $(document).on('click', 'button#Ok', function() {
                 var id = [];
@@ -342,9 +404,7 @@ $data = $user->GetAll();
             $('#statusForm').submit(function(e) {
                 e.preventDefault();
                 var id = $('#userId').val();
-
                 var status = $("#status").val();
-
 
                 $.ajax({
                     url: 'edit.php',
@@ -356,77 +416,12 @@ $data = $user->GetAll();
                     },
                     success: function(response) {
                         //$("#response").html(response);
-
-                        $("#result").load("load_users.php"), {
-
-                        }
-
+                        $("#result").load("load_users.php"), {}
                     }
                 })
-
             })
-
         });
 
-
-        //Edit name and surname function
-
-
-        $(document).ready(function() {
-            $(document).on('click', 'button#edit', function() {
-                var id = [];
-                $(".delete-id:checked").each(function() {
-                    id.push($(this).val());
-                    element = this;
-                });
-
-
-                var currentRow=$(this).closest("tr")
-                var name=currentRow.find("td:eq(1)").text();
-               
-               
-                
-                var surname = currentRow.find("td:eq(2)").text();;
-                var role = $("input#userRole").val();
-                $('#userId').val(id);
-                $("#userName").val(name);
-                $("#userSurname").val(surname);
-            })
-
-
-
-        })
-        $(function() {
-            $('#newForm').submit(function() {
-                var id = $('#userId').val();
-                var name = $("input#userName").val();
-                var surname = $("input#userSurname").val();
-                var select = $("#userRole").val();
-
-                $.ajax({
-                    url: 'edit.php',
-                    method: 'post',
-                    data: {
-                        name: name,
-                        surname: surname,
-                        role: select,
-                        id: id
-                    },
-                    success: function(result) {
-                        // $("#response").html(response);
-
-                        $("#result").load("load_users.php"), {
-
-                        }
-
-                    }
-
-                })
-                $("input#userSurname").val('');
-                $("input#userName").val('');
-            })
-            return false;
-        });
 
         // Delete function
         $("button#delete").click(function() {
@@ -456,9 +451,7 @@ $data = $user->GetAll();
                 });
 
                 return false;
-            };
-
-
+            }
         });
     </script>
 
