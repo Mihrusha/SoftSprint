@@ -5,7 +5,7 @@ use App\Model\User;
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 $user=new User;
-$data = $user->GetAllLim();
+$data = $user->GetAll();
 // var_dump($_POST['deleteId']);
  //var_dump($_POST['name']);
 

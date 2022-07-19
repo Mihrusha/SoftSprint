@@ -41,7 +41,7 @@ $data = $user->GetAll();
 
             <div class='row '>
                 <div class='col-2'>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal">
                         ADD
                     </button>
 
@@ -95,7 +95,7 @@ $data = $user->GetAll();
                         <?php } else  echo '<td></td>'; ?>
                         <td><?= $row['role'] ?></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-role='update' id='edit'>Edit</button>
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit'>Edit</button>
                             <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
@@ -107,22 +107,24 @@ $data = $user->GetAll();
     <!-- Button trigger modal -->
 
     <!-- Modal 1-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Modal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-8 col-offset-2">
-
+                            
                             <p>Please fill all fields in the form</p>
                             <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
                                 <div class="form-group">
+                                    <label>id</label>
+                                    <input type="text" name="userId" id="userId" class="form-control" value="" maxlength="50">
                                     <label>Name</label>
                                     <input type="text" name="name" id="name" class="form-control" value="" maxlength="50">
                                 </div>
@@ -151,7 +153,7 @@ $data = $user->GetAll();
 
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="submit" value="submit" onclick="GFG_Fun()">Add</button>
+                                <button type="submit" class="btn btn-primary" name="submit" value="submit">Add</button>
                             </form>
                         </div>
                     </div>
@@ -340,35 +342,35 @@ $data = $user->GetAll();
                     element = this;
                 });
 
-
+                
                 var currentRow = $(this).closest("tr")
                 var name = currentRow.find("td:eq(1)").text();
 
-
-
                 var surname = currentRow.find("td:eq(2)").text();;
                 var role = $("input#userRole").val();
+               
                 $('#userId').val(id);
-                $("#userName").val(name);
-                $("#userSurname").val(surname);
+                $("#name").val(name);
+                $("#surname").val(surname);
 
+               
             })
 
         })
 
 
-        $(document).on('submit', '#newForm', function(e) {
+        $(document).on('submit', '#ajax-form', function(e) {
             e.preventDefault();
-            var id = $("input[name='userId']").val();
-            var name = $("input[name='userName']").val();
-            var surname = $("input[name='userSurname']").val();
-            var role = $('#userRole').val();
-            var status = $('#userStatus').val();
+            var id = $("#userId").val();
+            var name = $("#name").val();
+            var surname = $("#surname").val();
+            var role = $('#select').val();
+            var status = $('#status').val();
 
 
             $.ajax({
                 method: "POST",
-                url: "edit.php",
+                url: "editAll.php",
                 data: {
                     id: id,
                     name: name,
@@ -376,13 +378,15 @@ $data = $user->GetAll();
                     surname: surname,
                     status: status
                 },
-                success: function(data) {
-                    $('#result').load('load_users.php');
-
+                success: function(result) {
+                    $('#result').load('editAll.php');
+                    location.reload();
 
                 }
+                
 
             });
+           return false;
         });
 
         //edit status
@@ -416,9 +420,14 @@ $data = $user->GetAll();
                     },
                     success: function(response) {
                         //$("#response").html(response);
-                        $("#result").load("load_users.php"), {}
+                        $("#result").load("load_users.php"), {
+                            
+                        }
+                        location.reload();
                     }
+                    
                 })
+                
             })
         });
 

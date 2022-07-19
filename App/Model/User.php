@@ -62,12 +62,12 @@ class User extends Model
         
     }
 
-    public static function GetAllLim()
+    public static function GetOne($id)
     {
         
         $db = Database::Instanse();
         // $class=get_called_class();
-        $sql = "SELECT * FROM users ";
+        $sql = "SELECT * FROM users WHERE id='$id";
         // $sql = "SELECT* FROM" . " " . static::TABLE ."LIMIT $method";
         $data = $db->Query($sql, [], static::class);
         return $data;
