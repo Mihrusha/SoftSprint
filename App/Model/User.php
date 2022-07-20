@@ -54,10 +54,12 @@ class User extends Model
 
         // var_dump($name,$surname,$role,$id);
         // die;
-
-        $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname',status='$status' WHERE id=$id";
-        $db = Database::Instanse();
-        $db->execute($sql);
+        if($id!=null)
+        {
+            $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname',status='$status' WHERE id=$id";
+            $db = Database::Instanse();
+            $db->execute($sql);
+        }
         
         
     }
@@ -72,5 +74,33 @@ class User extends Model
         $data = $db->Query($sql, [], static::class);
         return $data;
        
+    }
+
+    public function Insert($name,$surname,$status,$role)
+    {
+        //var_dump(get_object_vars($this));
+        $db = new Database;
+        $name = $db->conn->quote($name);
+            $surname = $db->conn->quote($surname);
+            $status = $db->conn->quote($status);
+            $role = $db->conn->quote($role);
+
+        $sql = "INSERT INTO users (name,surname,status,role) VALUES ($name,$surname,$status,$role)";
+        
+        $db->execute($sql);
+        //$this->id = $db->lastId();
+    }
+
+    public function Result($name,$surname,$status,$role,$id=null)
+    {
+        if($id!=null && !empty($id))
+        {
+             $this->Edit($name,$surname,$role,$id,$status);   
+        }
+        if($id==null && empty($id))
+        {
+            $this->Insert($name,$surname,$status,$role);
+        } 
+
     }
 }

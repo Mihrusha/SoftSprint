@@ -26,8 +26,7 @@ $data = $user->GetAll();
     //  die;
      $deleteId = $_POST['id'];
      //$deleteId = implode(',', $id);
-     echo $_POST['id'];
-     echo $_POST['status'];
+    
     // //$user->Delete($_POST['check']);
     $user->EditStatus($deleteId,$_POST['status']);
     

@@ -6,12 +6,9 @@ use App\Model\User;
 
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
-$user=new User;
-$data = $user->GetOne($_POST['id']);
-// var_dump($_POST['deleteId']);
- //var_dump($_POST['name']);
 
-    if(isset($_POST['name'])){
+
+    if(!empty($_POST['id'])&& $_POST['id']>0 && $_POST['id']!=null) {
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $role = $_POST['role'];
@@ -19,7 +16,7 @@ $data = $user->GetOne($_POST['id']);
         $status=$_POST['status'];
         $user->Edit($name,$surname,$role,$id,$status);
     }
-
+  
 
 
 ?>

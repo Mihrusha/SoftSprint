@@ -111,21 +111,20 @@ $data = $user->GetAll();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Modal</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-8 col-offset-2">
-                            
+
                             <p>Please fill all fields in the form</p>
                             <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
                                 <div class="form-group">
-                                    <label>id</label>
-                                    <input type="text" name="userId" id="userId" class="form-control" value="" maxlength="50">
                                     <label>Name</label>
+                                    <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
                                     <input type="text" name="name" id="name" class="form-control" value="" maxlength="50">
                                 </div>
                                 <div class="form-group ">
@@ -134,7 +133,7 @@ $data = $user->GetAll();
                                 </div>
                                 <div class='row mt-2 mb-2'>
                                     <div class='col-5'>
-                                        <select class="form-select" aria-label="Default select example" id="select" name='select'>
+                                        <select class="form-select" aria-label="Default select example" id="role" name='role'>
                                             <option selected>Set Role</option>
                                             <option value="Admin">Admin</option>
                                             <option value="User">User</option>
@@ -154,6 +153,7 @@ $data = $user->GetAll();
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary" name="submit" value="submit">Add</button>
+                                <button type="submit" class="btn btn-danger" name="save" value="save">Save</button>
                             </form>
                         </div>
                     </div>
@@ -165,12 +165,12 @@ $data = $user->GetAll();
     </div>
     </div>
 
-    <!-- Modal 2-->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Test Modal-->
+    <div class="modal fade" id="TestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title2</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Test Modal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -180,28 +180,27 @@ $data = $user->GetAll();
                             <p>Please fill all fields in the form</p>
                             <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
                             <span id="error" style="display: none"></span>
-                            <form action="javascript:void(0)" method="post" id="newForm">
+                            <form action="javascript:void(0)" method="post" id="ajax-form">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="userName" id="userName" class="form-control" value="" maxlength="50">
                                     <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
+                                    <input type="text" name="name" id="newName" class="form-control" value="" maxlength="50">
                                 </div>
                                 <div class="form-group ">
                                     <label>Surname</label>
-                                    <input type="text" name="userSurname" id="userSurname" class="form-control" value="" maxlength="30">
+                                    <input type="text" name="surname" id="surname" class="form-control" value="" maxlength="30">
                                 </div>
-                                <div class='col-6'>
-
-
-                                    <select class="form-select" aria-label="" id="userRole" name='userRole'>
-                                        <option selected>Open this select menu</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="User">User</option>
-
-                                    </select>
-
+                                <div class='row mt-2 mb-2'>
                                     <div class='col-5'>
-                                        <select class="form-select" aria-label="" id="userStatus" name='userStatus'>
+                                        <select class="form-select" aria-label="Default select example" id="role" name='role'>
+                                            <option selected>Set Role</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="User">User</option>
+
+                                        </select>
+                                    </div>
+                                    <div class='col-5'>
+                                        <select class="form-select" aria-label="Default select example" id="status" name='status'>
                                             <option selected>Set Status</option>
                                             <option value="1">Set Active</option>
                                             <option value="2">Set Not Active</option>
@@ -209,8 +208,11 @@ $data = $user->GetAll();
                                         </select>
                                     </div>
                                 </div>
+
+
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="edit" value="edit" id="save">EDIT</button>
+                                <button type="submit" class="btn btn-primary" name="submit" value="submit" id="newSubmit">Add</button>
+                                <!-- <button type="submit" class="btn btn-danger" name="save" value="save">Save</button> -->
                             </form>
                         </div>
                     </div>
@@ -291,46 +293,6 @@ $data = $user->GetAll();
     <div id='response'></div>
 
     <script>
-        //send and get function
-        $(function() {
-            $('#ajax-form').submit(function(e) {
-                e.preventDefault();
-                var name = $("input#name").val();
-                var surname = $("input#surname").val();
-                var role = $("input#select").val();
-                var status = $("input#status").val();
-
-                $.ajax({
-                    type: 'post',
-                    url: 'load_users.php',
-                    data: $(this).serialize(),
-                    success: function(result) {
-                        //     $("#result").html(result);
-
-                        $("#result").load("load_users.php"), {
-
-                        }
-
-                    }
-                });
-                $("input#surname").val('');
-                $("input#name").val('');
-                $("input#status").val('');
-            });
-            return false;
-        });
-
-        //Choose all checkboxes
-        $(document).ready(function() {
-            $('#main_checkbox').click(function() {
-                var checked = this.checked;
-                $('input[type="checkbox"]').each(function() {
-                    this.checked = checked;
-                });
-            })
-        });
-
-
         //Edit name and surname function
 
 
@@ -342,52 +304,97 @@ $data = $user->GetAll();
                     element = this;
                 });
 
-                
+
                 var currentRow = $(this).closest("tr")
                 var name = currentRow.find("td:eq(1)").text();
 
+
                 var surname = currentRow.find("td:eq(2)").text();;
                 var role = $("input#userRole").val();
-               
                 $('#userId').val(id);
                 $("#name").val(name);
                 $("#surname").val(surname);
 
-               
             })
+
+
+            let form = document.getElementById("ajax-form");
+            form.addEventListener("submit", handleSubmit);
+
+            function handleSubmit(event) {
+                event.preventDefault()
+
+                submitter = event.submitter.value
+                switch (submitter) {
+                    case "submit":
+                        // alert(1)
+
+                        $('.btn-primary').click(function(e) {
+                            e.preventDefault();
+                            var name = $("#name").val();
+                            var surname = $("#surname").val();
+                            var role = $("#role").val();
+                            var status = $("#status").val();
+                            $.ajax({
+                                method: "POST",
+                                url: "some.php",
+                                data: {
+                                    name: name,
+                                    surname: surname,
+                                    role: role,
+                                    status: status
+                                },
+                                success: function(data) {
+                                    $('#result').load('load_users.php');
+
+                                }
+
+                            })
+
+                        });
+
+                        break;
+                    case "save":
+                        $(document).on('submit', '#ajax-form', function(e) {
+                            e.preventDefault();
+                            var id = $("input[name='userId']").val();
+                            var name = $("input[name='name']").val();
+                            var surname = $("input[name='surname']").val();
+                            var role = $('#role').val();
+                            var status = $('#status').val();
+                            $.ajax({
+                                method: "POST",
+                                url: "edit.php",
+                                data: {
+                                    id: id,
+                                    name: name,
+                                    role: role,
+                                    surname: surname,
+                                    status: status
+                                },
+                                success: function(data) {
+                                    $('#result').load('load_users.php');
+
+                                }
+
+                            });
+                        });
+                        break;
+
+                }
+
+            }
+
+
+
+            //submit
+
 
         })
 
 
-        $(document).on('submit', '#ajax-form', function(e) {
-            e.preventDefault();
-            var id = $("#userId").val();
-            var name = $("#name").val();
-            var surname = $("#surname").val();
-            var role = $('#select').val();
-            var status = $('#status').val();
 
 
-            $.ajax({
-                method: "POST",
-                url: "editAll.php",
-                data: {
-                    id: id,
-                    name: name,
-                    role: role,
-                    surname: surname,
-                    status: status
-                },
-                success: function(result) {
-                    $('#result').load('editAll.php');
-                    location.reload();
-
-                }
-                
-
-            });
-           return false;
-        });
 
         //edit status
         $(document).ready(function() {
@@ -404,6 +411,7 @@ $data = $user->GetAll();
             })
 
         })
+
         $(function() {
             $('#statusForm').submit(function(e) {
                 e.preventDefault();
@@ -420,14 +428,9 @@ $data = $user->GetAll();
                     },
                     success: function(response) {
                         //$("#response").html(response);
-                        $("#result").load("load_users.php"), {
-                            
-                        }
-                        location.reload();
+                        $("#result").load("load_users.php"), {}
                     }
-                    
                 })
-                
             })
         });
 
