@@ -26,17 +26,16 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet" href="App\View\styles.css?v=4">
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
-    
     <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="App\View\styles.css?v=4">
+
 
     <title>Document</title>
 </head>
@@ -103,7 +102,8 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         <td style="text-align:center">
                             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit'>Edit</button>
                             <span style="font-size: 22px">
-                                <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button>
+                                <!-- <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button> -->
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" type="button" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
                             </span>
 
                         </td>
@@ -296,25 +296,30 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
     <!-- **********Modals for delete********  -->
     <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal fade" id="DeleteMod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete check 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>You must choose checkbox</p>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
     
 
@@ -498,10 +503,11 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             })
         });
 
-
-        // Delete function
-        $("button#delete").click(function() {
-            let url = 'App/View/some.php'
+          // Delete function
+        $(document).ready(function(e) {
+            
+            $(document).on('click', 'button#delete', function() {
+                let url = 'App/View/some.php'
             var id = [];
             $(".delete-id:checked").each(function() {
                 id.push($(this).val());
@@ -509,7 +515,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             });
 
             if (id == 0) {
-                $("#exampleModalCenter").modal('show');
+                $("#DeleteMod").modal('show');
                 
             }
 
@@ -534,7 +540,11 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     alert("You choose not delete")
                 return false;
             }
+            })
+
         });
+
+      
 
         //Choose all checkboxes
         $(document).ready(function() {
