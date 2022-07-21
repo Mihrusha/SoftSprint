@@ -18,7 +18,12 @@ if (isset($_POST['name'])) {
     $user->Insert($name, $surname, $status, $role);
 }
 
+if (isset($_POST['deleteId'])) {
+    $deleteId = $_POST['deleteId'];
 
+    $deleteId = implode(',', $deleteId);
+    $user->delete($deleteId);
+}
 
 ?>
 
