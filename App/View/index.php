@@ -295,7 +295,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <!-- ******************************* -->
 
     <!-- **********Modals for delete********  -->
-    <!-- Modal -->
+
     <div class="modal fade" id="DeleteMod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -321,7 +321,32 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     </div>
     </div>
 
-    
+    <div class="modal fade" id="Delete_Mod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete check 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>Do you want delete person?</p>
+
+                            <button type="button" class="btn btn-primary" id="modal-btn-yes">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
 
     <!-- ******************************* -->
 
@@ -503,48 +528,68 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             })
         });
 
-          // Delete function
+        // Delete function
         $(document).ready(function(e) {
-            
+
             $(document).on('click', 'button#delete', function() {
                 let url = 'App/View/some.php'
-            var id = [];
-            $(".delete-id:checked").each(function() {
-                id.push($(this).val());
-                element = this;
-            });
+                var id = [];
+                $(".delete-id:checked").each(function() {
+                    id.push($(this).val());
+                    element = this;
+                });
 
-            if (id == 0) {
-                $("#DeleteMod").modal('show');
-                
-            }
+                if (id == 0) {
+                    $("#DeleteMod").modal('show');
+                    die;
+                }
 
-            if (id.length > 0) {
-                if (confirm("Do you want delete user?")) {
-                    $.ajax({
-                        type: 'post',
-                        url: url,
-                        data: {
-                            deleteId: id,
+                if (id.length > 0) {
+                    $("#Delete_Mod").modal('show');
 
-                        },
-                        success: function(result) {
-                            //     $("#result").html(result);
+                    var modalConfirm = function(callback) {
 
-                            $("#result").load(url);
-                            // location.reload();
+                        $("#btn-confirm").on("click", function() {
+                            $("#mi-modal").modal('show');
+                        });
 
+                        $("#modal-btn-yes").on("click", function() {
+                            callback(true);
+                            $("#mi-modal").modal('hide');
+                        });
+
+                        $("#modal-btn-no").on("click", function() {
+                            callback(false);
+                            $("#mi-modal").modal('hide');
+                        });
+                    };
+
+
+                    modalConfirm(function(confirm) {
+                        if (confirm) {
+                            
+                            $.ajax({
+                                type:'post',
+                                url:url,
+                                data:{deleteId: id},
+                                success:function(result)
+                                {
+                                    $("#result").load(url);
+                                }
+                            })
+                        } else {
+                            
+                            die;
                         }
                     });
-                } else
-                    alert("You choose not delete")
+                }
                 return false;
-            }
-            })
 
-        });
+            });
 
-      
+        })
+
+        
 
         //Choose all checkboxes
         $(document).ready(function() {
