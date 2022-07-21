@@ -67,40 +67,43 @@ $data = $user->GetAll();
 
         <!-- Central rable -->
 
-        <div id='result'>
-            <table class="table table-bordered table">
+        <div id='result' class="container mt-3">
+            <table class="table table-bordered  table-responsive-sm ">
 
                 <tr>
-
-                    <th><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'>Main CheckBox</th>
-                    <th>name</th>
-                    <th>surname</th>
-                    <th>status</th>
-                    <th>role</th>
-                    <th>action</th>
+                    
+                    <th style="text-align:center" ><label for="">Main Checkbox</label><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'></th>
+                    <th style="text-align:center" >name</th>
+                    <th style="text-align:center">surname</th>
+                    <th style="text-align:center">status</th>
+                    <th style="text-align:center">role</th>
+                    <th style="text-align:center">action</th>
                 </tr>
 
                 <?php foreach ($data as $row) { ?>
 
-                    <tr id='<?= $row['id']; ?>'>
-                        <td><input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
-                            <?= $row['id'] ?></td>
-                        <td><?= $row['name'] ?></td>
-                        <td><?= $row['surname'] ?></td>
+                    <tr>
+                        <td style="text-align:center; width:100px"><input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
+                            </td>  <!-- id='<?= $row['id']; ?>' -->
+                        <td style="text-align:center"><?= $row['name'] ?></td>
+                        <td style="text-align:center"><?= $row['surname'] ?></td>
 
                         <?php if ($row["status"] == 1) { ?>
-                            <td><img src="https://img.icons8.com/fluency/48/000000/toggle-on.png"></td>
+                            <td style="text-align:center"><i class="fa-solid fa fa-circle  fa-2x " style="color:green"></i></td>
                         <?php } elseif ($row["status"] == 2) { ?>
-                            <td><img src="https://img.icons8.com/fluency/48/000000/toggle-off.png"></td>
+                            <td style="text-align:center"><i class="fa-solid fa fa-circle  fa-2x" style="color:red"></i></td>
                         <?php } else  echo '<td></td>'; ?>
-                        <td><?= $row['role'] ?></td>
-                        <td>
+                        <td style="text-align:center"><?= $row['role'] ?></td>
+                        <td style="text-align:center">
                             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit'>Edit</button>
-                            <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash"></i></button>
+                            <span style="font-size: 22px">
+                            <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg " ></i></button>
+                            </span>
+                            
                         </td>
                     </tr>
 
-                <?php  } ?>
+                <?php  } ?> 
             </table>
         </div>
     </form>
@@ -323,7 +326,7 @@ $data = $user->GetAll();
 
             function handleSubmit(event) {
                 event.preventDefault()
-
+                
                 submitter = event.submitter.value
                 switch (submitter) {
                     case "submit":
@@ -345,7 +348,7 @@ $data = $user->GetAll();
                                     status: status
                                 },
                                 success: function(data) {
-                                    $('#result').load('load_users.php');
+                                    $('#result').load('some.php');
 
                                 }
 
@@ -373,7 +376,7 @@ $data = $user->GetAll();
                                     status: status
                                 },
                                 success: function(data) {
-                                    $('#result').load('load_users.php');
+                                    $('#result').load('some.php');
 
                                 }
 
@@ -386,15 +389,7 @@ $data = $user->GetAll();
             }
 
 
-
-            //submit
-
-
         })
-
-
-
-
 
         //edit status
         $(document).ready(function() {
@@ -428,7 +423,7 @@ $data = $user->GetAll();
                     },
                     success: function(response) {
                         //$("#response").html(response);
-                        $("#result").load("load_users.php"), {}
+                        $("#result").load("some.php"), {}
                     }
                 })
             })
@@ -464,7 +459,17 @@ $data = $user->GetAll();
 
                 return false;
             }
+        });//Choose all checkboxes
+        $(document).ready(function() {
+            $('#main_checkbox').click(function() {
+                var checked = this.checked;
+                $('input[type="checkbox"]').each(function() {
+                    this.checked = checked;
+                });
+            })
         });
+
+
     </script>
 
 </body>
