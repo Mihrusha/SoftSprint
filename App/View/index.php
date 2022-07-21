@@ -7,29 +7,36 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 // echo $_POST['check'];
 
 
-$user = new User;
+// $user = new User;
 
-$data = $user->GetAll();
+// $data = $user->GetAll();
 
 
 ?>
 
 <html lang="en">
 
+<?php if (isset($_GET['error'])) { ?>
+    <div class="alert alert-danger" role="alert">
+        <?= htmlspecialchars($_GET['error']); ?>
+    </div>
+<?php } ?>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css?v=4">
+    
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
+    
     <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="App\View\styles.css?v=4">
 
     <title>Document</title>
 </head>
@@ -150,7 +157,8 @@ $data = $user->GetAll();
                         <div class="col-lg-8 col-offset-2">
 
                             <p>Please fill all fields in the form</p>
-                            <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
+
+
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
                                 <div class="form-group">
@@ -208,8 +216,7 @@ $data = $user->GetAll();
                         <div class="col-lg-8 col-offset-2">
 
                             <p>Please fill all fields in the form</p>
-                            <p id="show_message" style="display: none">Form data sent. Thanks for your comments. </p>
-                            <span id="error" style="display: none"></span>
+
                             <form action="javascript:void(0)" method="post" id="statusForm">
                                 <div class="form-group">
 
@@ -232,6 +239,86 @@ $data = $user->GetAll();
         </div>
     </div>
     </div>
+
+    <!-- **********Modals for edit********  -->
+    <div class="modal fade" id="editMod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Check 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>You click Ok but not click checbox</p>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="edit_Mod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Check 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>You must choose status</p>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <!-- ******************************* -->
+
+    <!-- **********Modals for delete********  -->
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    <!-- ******************************* -->
 
 
 
@@ -273,22 +360,21 @@ $data = $user->GetAll();
                 switch (submitter) {
                     case "submit":
 
-
                         $('.btn-primary').click(function(e) {
-                                e.preventDefault();
-                                var name = $("#name").val();
-                                var surname = $("#surname").val();
-                                var role = $("#role").val();
-                                let status;
-                                //var status = $("#status").val();
-                               if (jQuery('input[name=status]').is(':checked')) {
+                            e.preventDefault();
+                            var name = $("#name").val();
+                            var surname = $("#surname").val();
+                            var role = $("#role").val();
+                            let status;
+                            //var status = $("#status").val();
+                            if (jQuery('input[name=status]').is(':checked')) {
                                 status = 1;
-                            }
-                                else status = 2;
+                            } else status = 2;
 
+                            let url = 'App/View/some.php'
                             $.ajax({
                                 method: "POST",
-                                url: "some.php",
+                                url: url,
                                 data: {
                                     name: name,
                                     surname: surname,
@@ -296,45 +382,53 @@ $data = $user->GetAll();
                                     status: status
                                 },
                                 success: function(data) {
-                                    $('#result').load('some.php');
+                                    $('#result').load(url);
 
                                 }
 
                             })
-
+                            $("input#name").val('');
+                            $("input#surname").val('');
                         });
 
-                break;
-                case "save":
-                $(document).on('submit', '#ajax-form', function(e) {
-                    e.preventDefault();
-                    var id = $("input[name='userId']").val();
-                    var name = $("input[name='name']").val();
-                    var surname = $("input[name='surname']").val();
-                    var role = $('#role').val();
-                    var status = $('#status').val();
-                    $.ajax({
-                        method: "POST",
-                        url: "edit.php",
-                        data: {
-                            id: id,
-                            name: name,
-                            role: role,
-                            surname: surname,
-                            status: status
-                        },
-                        success: function(data) {
-                            $('#result').load('some.php');
+                        break;
+                    case "save":
 
-                        }
+                        $(document).on('submit', '#ajax-form', function(e) {
+                            e.preventDefault();
+                            var id = $("input[name='userId']").val();
+                            var name = $("input[name='name']").val();
+                            var surname = $("input[name='surname']").val();
+                            var role = $('#role').val();
+                            let status;
+                            let url = 'App/View/edit.php'
 
-                    });
-                });
-                break;
+                            //var status = $("#status").val();
+                            if (jQuery('input[name=status]').is(':checked')) {
+                                status = 1;
+                            } else status = 2;
+                            $.ajax({
+                                method: "POST",
+                                url: url,
+                                data: {
+                                    id: id,
+                                    name: name,
+                                    role: role,
+                                    surname: surname,
+                                    status: status
+                                },
+                                success: function(data) {
+                                    $('#result').load(url);
+
+                                }
+
+                            });
+                        });
+                        break;
+
+                }
 
             }
-
-        }
 
 
         })
@@ -350,7 +444,7 @@ $data = $user->GetAll();
                 });
 
                 if (id == 0) {
-                    alert("click on checkbox to choose person")
+                    $("#editMod").modal('show');
                     die;
                 }
 
@@ -365,7 +459,7 @@ $data = $user->GetAll();
                 // status$("#choose").val()
 
                 if (status[0] == '0') {
-                    alert('choose status');
+                    $("#edit_Mod").modal('show');
                     die;
                 }
 
@@ -385,11 +479,11 @@ $data = $user->GetAll();
             $('#statusForm').submit(function(e) {
                 e.preventDefault();
                 var id = $('#userId').val();
-                var status = $("#status").val();
-
-
+                var status = $("#choose").val();
+                let url = 'App/View/edit.php'
+                let url2 = 'App/View/some.php'
                 $.ajax({
-                    url: 'edit.php',
+                    url: url,
                     method: 'post',
                     data: {
 
@@ -398,7 +492,7 @@ $data = $user->GetAll();
                     },
                     success: function(response) {
                         //$("#response").html(response);
-                        $("#result").load("some.php"), {}
+                        $('#result').load(url2);
                     }
                 })
             })
@@ -407,7 +501,7 @@ $data = $user->GetAll();
 
         // Delete function
         $("button#delete").click(function() {
-
+            let url = 'App/View/some.php'
             var id = [];
             $(".delete-id:checked").each(function() {
                 id.push($(this).val());
@@ -415,14 +509,15 @@ $data = $user->GetAll();
             });
 
             if (id == 0) {
-                alert("You must click checkbox near person")
+                $("#exampleModalCenter").modal('show');
+                
             }
 
             if (id.length > 0) {
                 if (confirm("Do you want delete user?")) {
                     $.ajax({
                         type: 'post',
-                        url: 'some.php',
+                        url: url,
                         data: {
                             deleteId: id,
 
@@ -430,17 +525,18 @@ $data = $user->GetAll();
                         success: function(result) {
                             //     $("#result").html(result);
 
-                            $("#result").load("some.php"), {
+                            $("#result").load(url);
+                            // location.reload();
 
-                            }
-                            location.reload();
                         }
                     });
                 } else
                     alert("You choose not delete")
                 return false;
             }
-        }); //Choose all checkboxes
+        });
+
+        //Choose all checkboxes
         $(document).ready(function() {
             $('#main_checkbox').click(function() {
                 var checked = this.checked;
