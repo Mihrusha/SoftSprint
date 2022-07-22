@@ -11,8 +11,6 @@ $data = $user->GetAll();
 
 if (isset($_POST['name'])) {
 
-
-
     $name = $_POST['name'];
 
     $name = $user->check_input($name);
@@ -40,9 +38,16 @@ if (isset($_POST['name'])) {
         echo json_encode(array('status' => false, 'error' => array('code' => '3', 'message' => 'no users role')));
         die;
     } 
-    else
 
+    if($user->UserCheck($name,$surname)>0){
+        echo json_encode(array('status' => false, 'error' => array('code' => '4', 'message' => 'user already exist')));
+        die;
+    }
+    else
+         
         $user->Insert($name, $surname, $status, $role);
+        echo json_encode(array('status' => true, 'error' => null, 'user'=>array("name"=>$name, "surname"=>$surname)));
+        die;
 }
 
 

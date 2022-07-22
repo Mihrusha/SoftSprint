@@ -60,7 +60,7 @@ if (isset($_GET['msg'])) {
                         <option selected value="0">Open this select menu</option>
                         <option value="1">Set Active</option>
                         <option value="2">Set Not Active</option>
-                        <option value="3">Delite</option>
+                        <option value="3">Delete</option>
                     </select>
                 </div>
                 <div class='col'>
@@ -131,7 +131,7 @@ if (isset($_GET['msg'])) {
                         <option selected value="0">Open this select menu</option>
                         <option value="1">Set Active</option>
                         <option value="2">Set Not Active</option>
-                        <option value="3">Delite</option>
+                        <option value="3">Delete</option>
                     </select>
                 </div>
                 <div class='col'>
@@ -161,9 +161,7 @@ if (isset($_GET['msg'])) {
                             <p>Please fill all fields in the form</p>
 
 
-                            <p id="msg" style="color:red"></p>
-
-
+                            <p id="msg" style="background-color:lightcoral"></p>
 
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
@@ -419,14 +417,16 @@ if (isset($_GET['msg'])) {
                                 },
                                 success: function(data) {
 
-                                    if (data.includes('error')) {
+                                    if (data.includes('message')) {
                                         $("#msg").html(data);
                                     } else
-                                    $("#msg").html(''),
+                                        $("#msg").html(''),
                                         $('#result').load(url);
-                                       
+
                                 }
 
+                            }).done(function(msg) {
+                                $("#msg").html(msg);
                             });
 
                             $("input#name").val('');
@@ -462,7 +462,7 @@ if (isset($_GET['msg'])) {
                                 },
                                 success: function(data) {
 
-                                    if (data == 'Error') {
+                                    if (data.includes('message')) {
                                         $("#msg").html(data);
                                     } else
                                         $("#msg").html(''),
@@ -470,8 +470,12 @@ if (isset($_GET['msg'])) {
 
                                 }
 
-
+                            }).done(function(msg) {
+                                $("#msg").html(msg);
                             });
+
+
+
                         });
                         break;
 
@@ -563,6 +567,7 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
+               
                 if (id.length > 0) {
                     $("#Delete_Mod").modal('show');
 

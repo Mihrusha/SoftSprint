@@ -25,7 +25,7 @@ class User extends Model
 
         //$extract = implode(',', $checkbox);
 
-        $sql = "DELETE FROM users WHERE users.id = '$checkbox' ";
+        $sql = "DELETE FROM users WHERE  id IN($checkbox) ";
         $db = Database::Instanse();
         $db->execute($sql);
         // header("Location:index.php");
@@ -90,15 +90,7 @@ class User extends Model
         $db->execute($sql);
     }
 
-    public function Result($name, $surname, $status, $role, $id = null)
-    {
-        if ($id != null && !empty($id)) {
-            $this->Edit($name, $surname, $role, $id, $status);
-        }
-        if ($id == null && empty($id)) {
-            $this->Insert($name, $surname, $status, $role);
-        }
-    }
+   
 
     public function check_input($data)
     {
@@ -108,16 +100,17 @@ class User extends Model
         return $data;
     }
 
-    public function UserCheck($id)
+    public function UserCheck($name, $surname)
     {
+        $db = new Database;
+        $stmt = $db->conn->prepare("SELECT name,surname FROM users WHERE  (name='$name') AND (surname='$surname')");
 
-        $stmt = $this->conn->prepare("SELECT name,surname FROM users WHERE  id=:id");
-       
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam('name', $name);
+        $stmt->bindParam('surname', $surname);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            echo "exists!";
+            //echo "exists!";
             return 1;
         } else {
             //echo "non existant";

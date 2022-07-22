@@ -12,30 +12,42 @@ $data = $user->GetAll();
 if (isset($_POST['name'])) {
 
     $name = $_POST['name'];
+
     $name = $user->check_input($name);
-   
+
     $surname = $_POST['surname'];
     $surname = $user->check_input($surname);
 
     $role = $_POST['role'];
     $role = $user->check_input($role);
 
-    $id = $_POST['id'];
-    $id = $user->check_input($id);
-
     $status = $_POST['status'];
     $status = $user->check_input($status);
 
-    if($name==''||$surname=='')
-{
-    echo "Error";
-    die;
-}
+    $id =$_POST['id'];
+    $id = $user->check_input($id);
 
+    if (empty($name)) {
+        echo json_encode(array('status' => false, 'error' => array('code' => '1', 'message' => 'no name')));
+        die;
+    } 
+    
+    if (empty($surname)) {
+        echo json_encode(array('status' => false, 'error' => array('code' => '2', 'message' => 'no surname')));
+        die;
+    } 
 
-else 
+    if ($role == 'no') {
+        echo json_encode(array('status' => false, 'error' => array('code' => '3', 'message' => 'no users role')));
+        die;
+    } 
+
+   
+    else
    
     $user->Edit($name, $surname, $role, $id, $status);
+    echo json_encode(array('status' => true, 'error' => null, 'user'=>array("id"=>$id,"name"=>$name, "surname"=>$surname)));
+    die;
 }
 
 
