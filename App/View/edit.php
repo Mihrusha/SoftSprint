@@ -9,6 +9,8 @@ $data = $user->GetAll();
 // var_dump($_POST['deleteId']);
 //var_dump($_POST['name']);
 
+
+
 if (isset($_POST['name'])) {
 
     $name = $_POST['name'];

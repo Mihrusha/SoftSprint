@@ -219,7 +219,7 @@ if (isset($_GET['msg'])) {
                     <div class="row">
                         <div class="col-lg-8 col-offset-2">
 
-                            <p>Please fill all fields in the form</p>
+                            <p>Do you realy want this action?</p>
 
                             <form action="javascript:void(0)" method="post" id="statusForm">
                                 <div class="form-group">
@@ -232,7 +232,7 @@ if (isset($_GET['msg'])) {
                                 </div>
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="">EDIT</button>
+                                <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="action">Action</button>
                             </form>
                         </div>
                     </div>
@@ -535,6 +535,8 @@ if (isset($_GET['msg'])) {
                 var status = $("#choose").val();
                 let url = 'App/View/edit.php'
                 let url2 = 'App/View/insert.php'
+
+                
                 $.ajax({
                     url: url,
                     method: 'post',
@@ -550,6 +552,10 @@ if (isset($_GET['msg'])) {
                 })
             })
         });
+
+        //Delete All
+
+     
 
         // Delete function
         $(document).ready(function(e) {
@@ -613,6 +619,9 @@ if (isset($_GET['msg'])) {
             });
 
         })
+
+        //Delete Many Function
+
 
 
 

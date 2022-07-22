@@ -23,7 +23,7 @@ class User extends Model
         $checkbox = $method;
         //var_dump($checkbox);
 
-        //$extract = implode(',', $checkbox);
+        $extract = implode(',', $checkbox);
 
         $sql = "DELETE FROM users WHERE  id IN($checkbox) ";
         $db = Database::Instanse();
