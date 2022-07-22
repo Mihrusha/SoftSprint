@@ -107,4 +107,21 @@ class User extends Model
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    public function UserCheck($id)
+    {
+
+        $stmt = $this->conn->prepare("SELECT name,surname FROM users WHERE  id=:id");
+       
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            echo "exists!";
+            return 1;
+        } else {
+            //echo "non existant";
+            return 0;
+        }
+    }
 }

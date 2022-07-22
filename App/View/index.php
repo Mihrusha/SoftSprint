@@ -80,7 +80,7 @@ if (isset($_GET['msg'])) {
                 <tr>
 
                     <th style="text-align:center"><label for="">Main Checkbox</label><input type="checkbox" name="main_checkbox" id="main_checkbox" onclick='selects()'></th>
-                    <th style="text-align:center">name</th>
+                    <th style="text-align:center"> full name</th>
                     <th style="text-align:center">surname</th>
                     <th style="text-align:center">status</th>
                     <th style="text-align:center">role</th>
@@ -163,7 +163,7 @@ if (isset($_GET['msg'])) {
 
                             <p id="msg" style="color:red"></p>
 
-                            
+
 
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
@@ -179,7 +179,7 @@ if (isset($_GET['msg'])) {
                                 <div class='row mt-2 mb-2'>
                                     <div class='col-5'>
                                         <select class="form-select" aria-label="Default select example" id="role" name='role'>
-                                            <option selected>Set Role</option>
+                                            <option selected value="no">Set Role</option>
                                             <option value="Admin">Admin</option>
                                             <option value="User">User</option>
 
@@ -419,24 +419,19 @@ if (isset($_GET['msg'])) {
                                 },
                                 success: function(data) {
 
-                                    if(data=='Error')
-                                    {
+                                    if (data.includes('error')) {
                                         $("#msg").html(data);
-                                        
-                                    }
-                                    
-                                    
-                                  else
-                                  $("#msg").html(''),
-                                    $('#result').load(url);
-                                   
-                                } 
+                                    } else
+                                    $("#msg").html(''),
+                                        $('#result').load(url);
+                                       
+                                }
 
                             });
 
                             $("input#name").val('');
                             $("input#surname").val('');
-                            
+
                         });
 
                         break;
@@ -466,9 +461,15 @@ if (isset($_GET['msg'])) {
                                     status: status
                                 },
                                 success: function(data) {
-                                    $('#result').load(url);
+
+                                    if (data == 'Error') {
+                                        $("#msg").html(data);
+                                    } else
+                                        $("#msg").html(''),
+                                        $('#result').load(url);
 
                                 }
+
 
                             });
                         });

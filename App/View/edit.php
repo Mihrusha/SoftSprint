@@ -10,11 +10,31 @@ $data = $user->GetAll();
 //var_dump($_POST['name']);
 
 if (isset($_POST['name'])) {
+
     $name = $_POST['name'];
+    $name = $user->check_input($name);
+   
     $surname = $_POST['surname'];
+    $surname = $user->check_input($surname);
+
     $role = $_POST['role'];
+    $role = $user->check_input($role);
+
     $id = $_POST['id'];
+    $id = $user->check_input($id);
+
     $status = $_POST['status'];
+    $status = $user->check_input($status);
+
+    if($name==''||$surname=='')
+{
+    echo "Error";
+    die;
+}
+
+
+else 
+   
     $user->Edit($name, $surname, $role, $id, $status);
 }
 

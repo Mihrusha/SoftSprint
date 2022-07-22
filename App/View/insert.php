@@ -9,18 +9,14 @@ $user = new User;
 
 $data = $user->GetAll();
 
-if(isset($_POST['name'])){
-if($_POST['name']==''||$_POST['surname']=='')
-{
-    echo "Error";
-    die;
-}
+if (isset($_POST['name'])) {
 
-else
+
+
     $name = $_POST['name'];
-    
+
     $name = $user->check_input($name);
-   
+
     $surname = $_POST['surname'];
     $surname = $user->check_input($surname);
 
@@ -30,8 +26,23 @@ else
     $status = $_POST['status'];
     $status = $user->check_input($status);
 
-    $user->Insert($name, $surname, $status, $role);
+    if (empty($name)) {
+        echo json_encode(array('status' => false, 'error' => array('code' => '1', 'message' => 'no name')));
+        die;
+    } 
+    
+    if (empty($surname)) {
+        echo json_encode(array('status' => false, 'error' => array('code' => '2', 'message' => 'no surname')));
+        die;
+    } 
 
+    if ($role == 'no') {
+        echo json_encode(array('status' => false, 'error' => array('code' => '3', 'message' => 'no users role')));
+        die;
+    } 
+    else
+
+        $user->Insert($name, $surname, $status, $role);
 }
 
 
