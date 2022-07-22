@@ -75,16 +75,10 @@ class User extends Model
     {
         //var_dump(get_object_vars($this));
 
-        $location = '\Soft\exercise\App\App\View\test.php';
-         $massage = "error";
+        // $location = 'index.php';
+        //  $massage = "error";
 
-         if($name == null || empty($name) || $name=="")
-         {
-            $errormassage="You must write name";
-            header("Location: $location?$massage=$errormassage&''");
-            
-            die;
-         }
+
         $db = new Database;
         $name = $db->conn->quote($name);
         $surname = $db->conn->quote($surname);
@@ -94,7 +88,6 @@ class User extends Model
         $sql = "INSERT INTO users (name,surname,status,role) VALUES ($name,$surname,$status,$role)";
 
         $db->execute($sql);
-        //$this->id = $db->lastId();
     }
 
     public function Result($name, $surname, $status, $role, $id = null)
@@ -105,5 +98,13 @@ class User extends Model
         if ($id == null && empty($id)) {
             $this->Insert($name, $surname, $status, $role);
         }
+    }
+
+    public function check_input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 }

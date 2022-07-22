@@ -10,23 +10,22 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 // $user = new User;
 
 // $data = $user->GetAll();
-
+if (isset($_GET['msg'])) {
+    $message = "Some error occured please try after some time";
+    echo $message;
+}
 
 ?>
 
 <html lang="en">
 
-<?php if (isset($_GET['error'])) { ?>
-    <div class="alert alert-danger" role="alert">
-        <?= htmlspecialchars($_GET['error']); ?>
-    </div>
-<?php } ?>
+
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="App\View\styles.css?v=4">
+
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
@@ -36,9 +35,12 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+    <link rel="stylesheet" href="App\View\styles.css?v=5">
     <title>Document</title>
 </head>
+
+
+
 
 <body>
     <form action="" method="post" id="form">
@@ -159,6 +161,10 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             <p>Please fill all fields in the form</p>
 
 
+                            <p id="msg" style="color:red"></p>
+
+                            
+
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">
                                 <div class="form-group">
@@ -203,7 +209,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     </div>
 
 
-    <!-- Modal 3-->
+    <!-- Modal Edit Status-->
     <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -335,7 +341,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             <p>Do you want delete person?</p>
 
                             <button type="button" class="btn btn-primary" id="modal-btn-yes">Yes</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-btn-no">Close</button>
 
                         </div>
                     </div>
@@ -401,7 +407,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 status = 1;
                             } else status = 2;
 
-                            let url = 'App/View/some.php'
+                            let url = 'App/View/insert.php'
                             $.ajax({
                                 method: "POST",
                                 url: url,
@@ -412,13 +418,25 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                     status: status
                                 },
                                 success: function(data) {
+
+                                    if(data=='Error')
+                                    {
+                                        $("#msg").html(data);
+                                        
+                                    }
+                                    
+                                    
+                                  else
+                                  $("#msg").html(''),
                                     $('#result').load(url);
+                                   
+                                } 
 
-                                }
+                            });
 
-                            })
                             $("input#name").val('');
                             $("input#surname").val('');
+                            
                         });
 
                         break;
@@ -511,7 +529,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 var id = $('#userId').val();
                 var status = $("#choose").val();
                 let url = 'App/View/edit.php'
-                let url2 = 'App/View/some.php'
+                let url2 = 'App/View/insert.php'
                 $.ajax({
                     url: url,
                     method: 'post',
@@ -532,7 +550,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
         $(document).ready(function(e) {
 
             $(document).on('click', 'button#delete', function() {
-                let url = 'App/View/some.php'
+                let url = 'App/View/delete.php'
                 var id = [];
                 $(".delete-id:checked").each(function() {
                     id.push($(this).val());
@@ -567,18 +585,19 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                     modalConfirm(function(confirm) {
                         if (confirm) {
-                            
+
                             $.ajax({
-                                type:'post',
-                                url:url,
-                                data:{deleteId: id},
-                                success:function(result)
-                                {
+                                type: 'post',
+                                url: url,
+                                data: {
+                                    deleteId: id
+                                },
+                                success: function(result) {
                                     $("#result").load(url);
                                 }
                             })
                         } else {
-                            
+
                             die;
                         }
                     });
@@ -589,7 +608,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
         })
 
-        
+
 
         //Choose all checkboxes
         $(document).ready(function() {

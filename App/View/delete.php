@@ -4,33 +4,20 @@ use App\Model\User;
 
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
+
 $user = new User;
+
 $data = $user->GetAll();
-// var_dump($_POST['deleteId']);
-//var_dump($_POST['name']);
 
-if (isset($_POST['name'])) {
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $role = $_POST['role'];
-    $id = $_POST['id'];
-    $status = $_POST['status'];
-    $user->Edit($name, $surname, $role, $id, $status);
+if (isset($_POST['deleteId'])) {
+    $deleteId = $_POST['deleteId'];
+
+    $deleteId = implode(',', $deleteId);
+    $user->delete($deleteId);
 }
 
-
-
-if (isset($_POST['id'])) {
-    // var_dump($_POST['id']);
-    //  var_dump($_POST['status']);
-    //  die;
-    $deleteId = $_POST['id'];
-    //$deleteId = implode(',', $id);
-
-    // //$user->Delete($_POST['check']);
-    $user->EditStatus($deleteId, $_POST['status']);
-}
 ?>
+
 <div id='result' class="container mt-3">
     <table class="table table-bordered  table-responsive-sm ">
 
@@ -70,3 +57,4 @@ if (isset($_POST['id'])) {
 
         <?php  } ?>
     </table>
+</div>

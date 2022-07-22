@@ -4,33 +4,39 @@ use App\Model\User;
 
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
+
 $user = new User;
+
 $data = $user->GetAll();
-// var_dump($_POST['deleteId']);
-//var_dump($_POST['name']);
 
-if (isset($_POST['name'])) {
+if(isset($_POST['name'])){
+if($_POST['name']==''||$_POST['surname']=='')
+{
+    echo "Error";
+    die;
+}
+
+else
     $name = $_POST['name'];
+    
+    $name = $user->check_input($name);
+   
     $surname = $_POST['surname'];
+    $surname = $user->check_input($surname);
+
     $role = $_POST['role'];
-    $id = $_POST['id'];
+    $role = $user->check_input($role);
+
     $status = $_POST['status'];
-    $user->Edit($name, $surname, $role, $id, $status);
+    $status = $user->check_input($status);
+
+    $user->Insert($name, $surname, $status, $role);
+
 }
 
 
-
-if (isset($_POST['id'])) {
-    // var_dump($_POST['id']);
-    //  var_dump($_POST['status']);
-    //  die;
-    $deleteId = $_POST['id'];
-    //$deleteId = implode(',', $id);
-
-    // //$user->Delete($_POST['check']);
-    $user->EditStatus($deleteId, $_POST['status']);
-}
 ?>
+
 <div id='result' class="container mt-3">
     <table class="table table-bordered  table-responsive-sm ">
 
@@ -70,3 +76,4 @@ if (isset($_POST['id'])) {
 
         <?php  } ?>
     </table>
+</div>
