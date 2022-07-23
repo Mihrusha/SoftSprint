@@ -26,42 +26,41 @@ if (isset($_POST['name'])) {
     $status = $_POST['status'];
     $status = $user->check_input($status);
 
-    $id =$_POST['id'];
+    $id = $_POST['id'];
     $id = $user->check_input($id);
 
     if (empty($name)) {
         echo json_encode(array('status' => false, 'error' => array('code' => '1', 'message' => 'no name')));
         die;
-    } 
-    
+    }
+
     if (empty($surname)) {
         echo json_encode(array('status' => false, 'error' => array('code' => '2', 'message' => 'no surname')));
         die;
-    } 
+    }
 
     if ($role == 'no') {
         echo json_encode(array('status' => false, 'error' => array('code' => '3', 'message' => 'no users role')));
         die;
-    } 
+    } else
 
-   
-    else
-   
-    $user->Edit($name, $surname, $role, $id, $status);
-    echo json_encode(array('status' => true, 'error' => null, 'user'=>array("id"=>$id,"name"=>$name, "surname"=>$surname)));
+        $user->Edit($name, $surname, $role, $id, $status);
+    echo json_encode(array('status' => true, 'error' => null, 'user' => array("id" => $id, "name" => $name, "surname" => $surname)));
     die;
 }
 
 
-
 if (isset($_POST['id'])) {
-   
+
     $deleteId[] = $_POST['id'];
     //$deleteId = implode(',', $id);
 
     //$user->Delete($deleteId);
     $user->EditStatus($deleteId, $_POST['status']);
 }
+
+
+
 ?>
 <div id='result' class="container mt-3">
     <table class="table table-bordered  table-responsive-sm ">

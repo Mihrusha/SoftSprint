@@ -33,6 +33,22 @@ class User extends Model
 
     }
 
+    
+    public  function massDelete($method)
+    {
+        $db = new Database;
+
+       
+        //$extract = implode(',', $method);
+
+        $sql = "DELETE FROM users WHERE id IN($method)";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->execute();
+
+
+
+    }
+
 
     public  function EditStatus($id, $status)
     {

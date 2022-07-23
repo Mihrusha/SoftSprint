@@ -351,6 +351,38 @@ if (isset($_GET['msg'])) {
     </div>
     </div>
 
+    <!-- **************Mass Delet Modal************** -->
+
+    <div class="modal fade" id="MassDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Check</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-offset-2">
+
+                            <p>Do you realy want delete ?</p>
+
+                            <form action="javascript:void(0)" method="post" id="MassDeleteForm">
+                                <div class="form-group">
+
+                                    <input type="hidden" name="deleteId" id="deleteId" class="form-control" value="" maxlength="50">
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="action">Action</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
 
     <!-- ******************************* -->
 
@@ -359,7 +391,7 @@ if (isset($_GET['msg'])) {
     <div id='response'></div>
 
     <script>
-        //Edit name and surname function
+        //   ****************Insert and Edit*******************
 
 
         $(document).ready(function() {
@@ -406,6 +438,7 @@ if (isset($_GET['msg'])) {
                             } else status = 2;
 
                             let url = 'App/View/insert.php'
+                            let conUrl='App/Controller/Insert'
                             $.ajax({
                                 method: "POST",
                                 url: url,
@@ -486,7 +519,7 @@ if (isset($_GET['msg'])) {
 
         })
 
-        //edit status
+        //   ****************Edit Status*******************
         $(document).ready(function() {
             $(document).on('click', 'button#Ok', function() {
 
@@ -501,8 +534,6 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
-               
-
                 let status = [];
 
                 $("#choose").each(function() {
@@ -510,23 +541,22 @@ if (isset($_GET['msg'])) {
                     element = this;
                 });
 
-                
-                // status$("#choose").val()
 
                 if (status[0] == '0') {
                     $("#edit_Mod").modal('show');
                     die;
                 }
 
-                // if (id > 0) {
-                //     $("#statusModal").modal('show');
-                // }
-
-
                 $('#userId').val(id);
+                $('#deleteId').val(id);
                 $("#Editstatus").val(status);
 
-                $("#statusModal").modal('show');
+
+                if (status[0] == '3') {
+                    $("#MassDeleteModal").modal('show');
+                    die;
+                } else
+                    $("#statusModal").modal('show');
             })
 
         })
@@ -534,14 +564,14 @@ if (isset($_GET['msg'])) {
         $(function() {
             $('#statusForm').submit(function(e) {
                 e.preventDefault();
-                let id=[];
+                let id = [];
                 id = $('#userId').val();
-               
+
                 var status = $("#Editstatus").val();
                 let url = 'App/View/edit.php'
                 let url2 = 'App/View/insert.php'
 
-                
+
                 $.ajax({
                     url: url,
                     method: 'post',
@@ -558,12 +588,43 @@ if (isset($_GET['msg'])) {
             })
         });
 
-        //Delete All
+        //   ****************Mass Delete*******************
 
-     
+        $(function() {
+            $('#MassDeleteForm').submit(function() {
 
-        // Delete function
-        $(document).ready(function(e) {
+                var id = [];
+                id = $('#deleteId').val();
+                var url = 'App/View/massDelete.php'
+                //alert(id);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: {
+
+                        mass_id: id
+                    },
+                    success: function(response) {
+
+                        $('#result').load(url);
+                        // alert('id')
+
+                    },
+                    error: function(response) {
+                        alert('Not send');
+                    }
+                })
+            })
+        });
+
+
+
+        // ************************************************
+
+
+
+        //   ****************One Delete*******************
+        $(document).ready(function() {
 
             $(document).on('click', 'button#delete', function() {
                 let url = 'App/View/delete.php'
@@ -578,7 +639,7 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
-               
+
                 if (id.length > 0) {
                     $("#Delete_Mod").modal('show');
 
@@ -611,6 +672,7 @@ if (isset($_GET['msg'])) {
                                 },
                                 success: function(result) {
                                     $("#result").load(url);
+
                                 }
                             })
                         } else {
@@ -625,19 +687,20 @@ if (isset($_GET['msg'])) {
 
         })
 
-        //Delete Many Function
-
-
-
 
         //Choose all checkboxes
         $(document).ready(function() {
+
             $('#main_checkbox').click(function() {
                 var checked = this.checked;
                 $('input[type="checkbox"]').each(function() {
                     this.checked = checked;
                 });
             })
+            $('#check').on('change', function() {
+                $('#main_checkbox').not(this).prop('checked', false);
+            });
+            return false;
         });
     </script>
 
