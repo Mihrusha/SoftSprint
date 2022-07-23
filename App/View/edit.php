@@ -55,13 +55,11 @@ if (isset($_POST['name'])) {
 
 
 if (isset($_POST['id'])) {
-    // var_dump($_POST['id']);
-    //  var_dump($_POST['status']);
-    //  die;
-    $deleteId = $_POST['id'];
+   
+    $deleteId[] = $_POST['id'];
     //$deleteId = implode(',', $id);
 
-    // //$user->Delete($_POST['check']);
+    //$user->Delete($deleteId);
     $user->EditStatus($deleteId, $_POST['status']);
 }
 ?>

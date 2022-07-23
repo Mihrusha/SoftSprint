@@ -41,7 +41,7 @@ class User extends Model
 
         $extract = implode(',', $id);
 
-        $sql = "UPDATE  users SET status = '$status' WHERE id IN($id)";
+        $sql = "UPDATE  users SET status = '$status' WHERE id IN($extract)";
         $db = Database::Instanse();
         $db->execute($sql);
         header('index.php');
@@ -91,7 +91,6 @@ class User extends Model
     }
 
    
-
     public function check_input($data)
     {
         $data = trim($data);

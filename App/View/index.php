@@ -208,7 +208,7 @@ if (isset($_GET['msg'])) {
 
 
     <!-- Modal Edit Status-->
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -228,7 +228,7 @@ if (isset($_GET['msg'])) {
                                 </div>
                                 <div class="form-group ">
 
-                                    <input type="hidden" name="status" id="status" class="form-control" value="" maxlength="30">
+                                    <input type="hidden" name="Editstatus" id="Editstatus" class="form-control" value="" maxlength="30">
                                 </div>
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -501,7 +501,7 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
-
+               
 
                 let status = [];
 
@@ -509,6 +509,8 @@ if (isset($_GET['msg'])) {
                     status.push($(this).val());
                     element = this;
                 });
+
+                
                 // status$("#choose").val()
 
                 if (status[0] == '0') {
@@ -516,14 +518,15 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
-                if (id > 0) {
-                    $("#exampleModal3").modal('show');
-                }
+                // if (id > 0) {
+                //     $("#statusModal").modal('show');
+                // }
 
 
                 $('#userId').val(id);
-                $("#status").val(status);
+                $("#Editstatus").val(status);
 
+                $("#statusModal").modal('show');
             })
 
         })
@@ -531,8 +534,10 @@ if (isset($_GET['msg'])) {
         $(function() {
             $('#statusForm').submit(function(e) {
                 e.preventDefault();
-                var id = $('#userId').val();
-                var status = $("#choose").val();
+                let id=[];
+                id = $('#userId').val();
+               
+                var status = $("#Editstatus").val();
                 let url = 'App/View/edit.php'
                 let url2 = 'App/View/insert.php'
 
