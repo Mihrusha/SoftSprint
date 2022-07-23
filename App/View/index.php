@@ -437,12 +437,14 @@ if (isset($_GET['msg'])) {
                                 status = 1;
                             } else status = 2;
 
-                            let url = 'App/View/insert.php'
-                            let conUrl='App/Controller/Insert'
+                            let url = 'App/View/insert.php';
+                            let Pass = 'App/View/handler.php'
+
                             $.ajax({
                                 method: "POST",
-                                url: url,
+                                url: Pass,
                                 data: {
+                                    insert: 'insert',
                                     name: name,
                                     surname: surname,
                                     role: role,
@@ -455,7 +457,7 @@ if (isset($_GET['msg'])) {
                                     } else
                                         $("#msg").html(''),
                                         $('#result').load(url);
-
+                                    //alert('Send')
                                 }
 
                             }).done(function(msg) {
@@ -478,15 +480,16 @@ if (isset($_GET['msg'])) {
                             var role = $('#role').val();
                             let status;
                             let url = 'App/View/edit.php'
-
+                            let Pass = 'App/View/handler.php'
                             //var status = $("#status").val();
                             if (jQuery('input[name=status]').is(':checked')) {
                                 status = 1;
                             } else status = 2;
                             $.ajax({
                                 method: "POST",
-                                url: url,
+                                url: Pass,
                                 data: {
+                                    edit: 'edit',
                                     id: id,
                                     name: name,
                                     role: role,
@@ -534,18 +537,17 @@ if (isset($_GET['msg'])) {
                     die;
                 }
 
-                let status = [];
 
-                $("#choose").each(function() {
-                    status.push($(this).val());
-                    element = this;
+                let status;
+
+
+                $('#choose').each(function() {
+                    status = $(this).val();
+                    //element = this;
                 });
 
 
-                if (status[0] == '0') {
-                    $("#edit_Mod").modal('show');
-                    die;
-                }
+                alert(status);
 
                 $('#userId').val(id);
                 $('#deleteId').val(id);
@@ -570,13 +572,13 @@ if (isset($_GET['msg'])) {
                 var status = $("#Editstatus").val();
                 let url = 'App/View/edit.php'
                 let url2 = 'App/View/insert.php'
-
+                let Pass = 'App/View/handler.php'
 
                 $.ajax({
-                    url: url,
+                    url: Pass,
                     method: 'post',
                     data: {
-
+                        edit_status: 'edit',
                         status: status,
                         id: id
                     },
@@ -596,12 +598,13 @@ if (isset($_GET['msg'])) {
                 var id = [];
                 id = $('#deleteId').val();
                 var url = 'App/View/massDelete.php'
+                let Pass = 'App/View/handler.php'
                 //alert(id);
                 $.ajax({
-                    url: url,
+                    url: Pass,
                     type: 'post',
                     data: {
-
+                        mass_delete:'mass',
                         mass_id: id
                     },
                     success: function(response) {
@@ -660,14 +663,15 @@ if (isset($_GET['msg'])) {
                         });
                     };
 
-
+                    let Pass = 'App/View/handler.php'
                     modalConfirm(function(confirm) {
                         if (confirm) {
 
                             $.ajax({
                                 type: 'post',
-                                url: url,
+                                url: Pass,
                                 data: {
+                                    delete:'delete',
                                     deleteId: id
                                 },
                                 success: function(result) {
