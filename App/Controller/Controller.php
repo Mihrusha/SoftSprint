@@ -25,7 +25,7 @@ class Controller
     {
         // var_dump('test');
         // die;
-        $view = new View;
+       
         $user = new User;
 
         $data = $user->GetAll();
@@ -69,7 +69,7 @@ class Controller
             echo json_encode(array('status' => true, 'error' => null, 'user' => array("name" => $name, "surname" => $surname)));
             die;
 
-            $view->Change($data);
+            
         }
     }
 
@@ -77,7 +77,7 @@ class Controller
     {
         // var_dump('test');
         // die;
-        $view = new View;
+      
         $user = new User;
 
         $data = $user->GetAll();
@@ -120,13 +120,13 @@ class Controller
             echo json_encode(array('status' => true, 'error' => null, 'user' => array("id" => $id, "name" => $name, "surname" => $surname)));
             die;
 
-            $view->Change($data);
+            
         }
     }
 
     public function editStatus()
     {
-        $view = new View;
+       
         $user = new User;
 
         $data = $user->GetAll();
@@ -138,7 +138,7 @@ class Controller
             //$user->Delete($deleteId);
             $user->EditStatus($deleteId, $_POST['status']);
 
-            $view->Change($data);
+           
         }
     }
 
@@ -155,14 +155,13 @@ class Controller
             $user->Delete($deleteId);
         }
 
-        $view->Change($data);
+        
     }
 
     public function massDelete()
     {
+       
         $user = new User;
-        $data = $user->GetAll();
-
         if (isset($_POST['mass_id'])) {
             //echo $_POST['mass_id'];
 
@@ -171,5 +170,15 @@ class Controller
             echo $id;
             $user->massDelete($id);
         }
+    }
+
+    public function Change()
+    {
+
+        $user = new User;
+        $data = $user->GetAll();
+        $view=new View;
+
+        $view->Change($data);
     }
 }

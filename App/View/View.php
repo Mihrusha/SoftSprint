@@ -1,7 +1,7 @@
 <?php
 
 namespace App\View;
-
+include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 class View
 {
     public function Show($data)
@@ -11,7 +11,7 @@ class View
 
     public function Change($data)
     {
-        include_once 'App\View\change.php';
+        include_once 'change.php';
     }
     
 }

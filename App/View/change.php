@@ -1,4 +1,9 @@
 
+<?php
+
+include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
+?>
+
 
 <div id='result' class="container mt-3">
     <table class="table table-bordered  table-responsive-sm ">

@@ -456,7 +456,7 @@ if (isset($_GET['msg'])) {
                                         $("#msg").html(data);
                                     } else
                                         $("#msg").html(''),
-                                        $('#result').load(url);
+                                        $('#result').load(Pass);
                                     //alert('Send')
                                 }
 
@@ -502,7 +502,7 @@ if (isset($_GET['msg'])) {
                                         $("#msg").html(data);
                                     } else
                                         $("#msg").html(''),
-                                        $('#result').load(url);
+                                        $('#result').load(Pass);
 
                                 }
 
@@ -547,7 +547,7 @@ if (isset($_GET['msg'])) {
                 });
 
 
-                alert(status);
+                //alert(status);
 
                 $('#userId').val(id);
                 $('#deleteId').val(id);
@@ -584,7 +584,7 @@ if (isset($_GET['msg'])) {
                     },
                     success: function(response) {
                         //$("#response").html(response);
-                        $('#result').load(url2);
+                        $('#result').load(Pass);
                     }
                 })
             })
@@ -609,7 +609,7 @@ if (isset($_GET['msg'])) {
                     },
                     success: function(response) {
 
-                        $('#result').load(url);
+                        $('#result').load(Pass);
                         // alert('id')
 
                     },
@@ -675,7 +675,7 @@ if (isset($_GET['msg'])) {
                                     deleteId: id
                                 },
                                 success: function(result) {
-                                    $("#result").load(url);
+                                    $("#result").load(Pass);
 
                                 }
                             })
