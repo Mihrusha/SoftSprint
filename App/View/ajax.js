@@ -9,7 +9,7 @@
                 element = this;
             });
 
-
+            $("#msg").empty();
             var currentRow = $(this).closest("tr")
             var name = currentRow.find("td:eq(1)").text();
 
@@ -22,7 +22,10 @@
 
         })
 
-
+        $('button#AddMain').click(function(){
+            $("#msg").empty();
+        }) 
+        
         let form = document.getElementById("ajax-form");
         form.addEventListener("submit", handleSubmit);
 
@@ -69,8 +72,9 @@
 
                         }).done(function(msg) {
                             $("#msg").html(msg);
+                            
                         });
-
+                        
                         $("input#name").val('');
                         $("input#surname").val('');
 
@@ -126,7 +130,7 @@
 
         }
 
-
+        return false;
     })
 
     //   ****************Edit Status*******************
@@ -137,7 +141,7 @@
             status = $(this).val();
         });
 
-      
+       
 
         $(document).on('click', 'button#Ok', function() {
 
@@ -153,17 +157,23 @@
             }
 
 
-          
-
             $('#userId').val(id);
             $('#deleteId').val(id);
             $("#Editstatus").val(status);
 
 
-            if (status[0] == '3') {
+            if (status == '3') {
                 $("#MassDeleteModal").modal('show');
                 die;
-            } else
+            } 
+            
+            if (status<1||status==null||status==undefined)
+            {
+                $("#edit_Mod").modal('show');
+                die;
+            }
+            
+            else
                 $("#statusModal").modal('show');
         })
 
@@ -196,8 +206,8 @@
         })
     });
 
-    //   ****************Mass Delete*******************
 
+    //   ****************Mass Delete*******************
     $(function() {
         $('#MassDeleteForm').submit(function() {
 
@@ -205,7 +215,8 @@
             id = $('#deleteId').val();
             var url = 'App/View/massDelete.php'
             let Pass = 'App/View/handler.php'
-            //alert(id);
+
+          
             $.ajax({
                 url: Pass,
                 type: 'post',
@@ -225,9 +236,6 @@
             })
         })
     });
-
-
-
     // ************************************************
 
 

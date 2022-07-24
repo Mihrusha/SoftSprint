@@ -10,7 +10,6 @@ class User extends Model
     public const TABLE = 'users';
     public  $name;
     public  $surname;
-    //error
     public $status;
     public $role;
 
@@ -18,43 +17,20 @@ class User extends Model
 
     public  function Delete($method)
     {
-        //$db = new Database;
-
+       
         $checkbox = $method;
-        //var_dump($checkbox);
-
-        $extract = implode(',', $checkbox);
-
+        
         $sql = "DELETE FROM users WHERE  id IN($checkbox) ";
         $db = Database::Instanse();
         $db->execute($sql);
-        // header("Location:index.php");
-
-
+       
     }
 
     
-    public  function massDelete($method)
-    {
-        $db = new Database;
-
-       
-        //$extract = implode(',', $method);
-
-        $sql = "DELETE FROM users WHERE id IN($method)";
-        $stmt = $db->conn->prepare($sql);
-        $stmt->execute();
-
-
-
-    }
-
 
     public  function EditStatus($id, $status)
     {
-        //$db = new Database;
-
-
+       
         $extract = implode(',', $id);
 
         $sql = "UPDATE  users SET status = '$status' WHERE id IN($extract)";

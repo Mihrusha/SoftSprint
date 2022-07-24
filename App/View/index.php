@@ -34,7 +34,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
             <div class='row '>
                 <div class='col-2'>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" id="AddMain">
                         ADD
                     </button>
 
@@ -105,7 +105,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
             <div class='row '>
                 <div class='col-2'>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" id="AddMain">
                         ADD
                     </button>
 
@@ -146,7 +146,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             <p>Please fill all fields in the form</p>
 
 
-                            <p id="msg" style="background-color:lightcoral"></p>
+                            <div id="msg" class='msg' style="background-color:lightcoral"></div>
 
                             <span id="error" style="display: none"></span>
                             <form action="javascript:void(0)" method="post" id="ajax-form">

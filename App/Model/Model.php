@@ -4,12 +4,10 @@ namespace App\Model;
 
 use App\Core\Database;
 
-abstract class Model
+ class Model
 {
     public const TABLE = '';
     public $id;
-
-
 
     public static function GetAll()
     {
@@ -23,5 +21,4 @@ abstract class Model
     }
 
 
-    
 }
