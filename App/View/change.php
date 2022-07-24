@@ -1,4 +1,3 @@
-
 <?php
 
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
@@ -44,4 +43,21 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
         <?php  } ?>
     </table>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#main_checkbox').click(function() {
+                var checked = this.checked;
+                $('input[type="checkbox"]').each(function() {
+                    this.checked = checked;
+                });
+            })
+            $("[name='check']").on('change', function() {
+                $('#main_checkbox').not(this).prop('checked', false);
+            });
+
+        });
+    </script>
+
 </div>
