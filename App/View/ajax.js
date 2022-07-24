@@ -48,7 +48,7 @@
                         } else status = 2;
 
                         let url = 'App/View/insert.php';
-                        let Pass = 'App/View/handler.php'
+                        let Pass = 'App/Core/handler.php'
 
                         $.ajax({
                             method: "POST",
@@ -91,7 +91,7 @@
                         var role = $('#role').val();
                         let status;
                         let url = 'App/View/edit.php'
-                        let Pass = 'App/View/handler.php'
+                        let Pass = 'App/Core/handler.php'
                         //var status = $("#status").val();
                         if (jQuery('input[name=status]').is(':checked')) {
                             status = 1;
@@ -188,7 +188,7 @@
             var status = $("#Editstatus").val();
             let url = 'App/View/edit.php'
             let url2 = 'App/View/insert.php'
-            let Pass = 'App/View/handler.php'
+            let Pass = 'App/Core/handler.php'
 
             $.ajax({
                 url: Pass,
@@ -214,7 +214,7 @@
             var id = [];
             id = $('#deleteId').val();
             var url = 'App/View/massDelete.php'
-            let Pass = 'App/View/handler.php'
+            let Pass = 'App/Core/handler.php'
 
           
             $.ajax({
@@ -277,7 +277,7 @@
                     });
                 };
 
-                let Pass = 'App/View/handler.php'
+                let Pass = 'App/Core/handler.php'
                 modalConfirm(function(confirm) {
                     if (confirm) {
 
