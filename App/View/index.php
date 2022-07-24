@@ -524,6 +524,12 @@ if (isset($_GET['msg'])) {
 
         //   ****************Edit Status*******************
         $(document).ready(function() {
+
+            let status;
+            $("[name='choose']").change(function() {
+                status = $(this).val();
+            });
+
             $(document).on('click', 'button#Ok', function() {
 
                 let id = [];
@@ -538,16 +544,17 @@ if (isset($_GET['msg'])) {
                 }
 
 
-                let status;
+                // $('#choose').each(function() {
+                //     status = $(this).val();
+                //     //element = this;
+                // });
+                // let status;
+                // $("[name='choose']").change(function() {
+                //     status = $(this).val();
+                // });
 
 
-                $('#choose').each(function() {
-                    status = $(this).val();
-                    //element = this;
-                });
-
-
-                //alert(status);
+                 alert(status);
 
                 $('#userId').val(id);
                 $('#deleteId').val(id);
@@ -604,7 +611,7 @@ if (isset($_GET['msg'])) {
                     url: Pass,
                     type: 'post',
                     data: {
-                        mass_delete:'mass',
+                        mass_delete: 'mass',
                         mass_id: id
                     },
                     success: function(response) {
@@ -671,7 +678,7 @@ if (isset($_GET['msg'])) {
                                 type: 'post',
                                 url: Pass,
                                 data: {
-                                    delete:'delete',
+                                    delete: 'delete',
                                     deleteId: id
                                 },
                                 success: function(result) {
