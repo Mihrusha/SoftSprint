@@ -112,7 +112,11 @@ class Controller
 
             if ($role == 'no') {
                 echo json_encode(array('status' => false, 'error' => array('code' => '3', 'message' => 'no users role')));
-                die;
+                die;}
+
+            if ($id == '') {
+                    echo json_encode(array('status' => false, 'error' => array('code' => '4', 'message' => 'no id-new user')));
+                    die;
             } else
 
                 $user->Edit($name, $surname, $role, $id, $status);

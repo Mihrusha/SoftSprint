@@ -25,11 +25,9 @@
             $("#name").val(name);
             $("#surname").val(surname);
             
-        });
+        })
 
        
-
-   
         let form = document.getElementById("ajax-form");
         form.addEventListener("submit", handleSubmit);
 
@@ -82,7 +80,7 @@
                         $("input#name").val('');
                         $("input#surname").val('');
 
-                    });
+                    })
 
                     break;
                 case "save":
@@ -127,14 +125,13 @@
 
                         $("input#name").val('');
                         $("input#surname").val('');
-                    });
+                    })
                     break;
 
             }
 
         }
 
-        return false;
     });
 
     //   ****************Edit Status*******************
@@ -144,8 +141,6 @@
         $("[name='choose']").change(function() {
             status = $(this).val();
         });
-
-       
 
         $(document).on('click', 'button#Ok', function() {
 

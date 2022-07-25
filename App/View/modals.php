@@ -4,11 +4,15 @@
         <div class="modal-content">
             <div class="modal-header" id="header">
                 <h5 class="modal-title" id="ModalName">Edit Modal</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Close" name="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" action="javascript:void(0)" method="post" id="ajax-form">
+                <div style="background-color:red"  id='msg'>
+                  
+                </div>
                 <form>
                     <div class="form-group">
                         <label for="first-name" class="col-form-label">First Name:</label>

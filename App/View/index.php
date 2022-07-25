@@ -35,21 +35,34 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             <div class=' container d-flex justify-content-center mt-2 mb-2'>
 
                 <div class='row '>
-                    <div class='col-2'>
-                        <button type="button" class="btn  btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='insert' id='AddMain' name='insert'>ADD</button>
+
+                    <div class='col-3'>
+                        <div class="form-group">
+                            <button type="button" class="btn  btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='insert' id='AddMain' name='insert'>ADD</button>
+                        </div>
                     </div>
 
-                    <div class='col-5'>
-                        <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
-                            <option selected value="0">Open this select menu</option>
-                            <option value="1">Set Active</option>
-                            <option value="2">Set Not Active</option>
-                            <option value="3">Delete</option>
-                        </select>
+                    <div class='col-7'>
+                        <div class='form-group'>
+                            <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
+                                <option selected value="0">Open this menu</option>
+                                <option value="1">Set Active</option>
+                                <option value="2">Set Not Active</option>
+                                <option value="3">Delete</option>
+                            </select>
+                        </div>
+
                     </div>
-                    <div class='col'>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" type="button" name="OK" value="OK" id="Ok">OK</button>
+
+                    <div class="col-2">
+                        <div class='form-group'>
+
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" type="button" name="OK" value="OK" id="Ok">OK</button>
+
+                        </div>
                     </div>
+
+
                 </div>
             </div>
             <!-- ********************************************************************* -->
@@ -124,25 +137,33 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             <div class=' container d-flex justify-content-center mt-2 mb-2'>
 
                 <div class='row '>
-                    <div class='col-2'>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" name='insert' id="AddMain">
-                            ADD
-                        </button>
+
+                    <div class='col-3'>
+                        <div class="form-group">
+                            <button type="button" class="btn  btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='insert' id='AddMain' name='insert'>ADD</button>
+                        </div>
+                    </div>
+
+                    <div class='col-7'>
+                        <div class='form-group'>
+                            <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
+                                <option selected value="0">Open this menu</option>
+                                <option value="1">Set Active</option>
+                                <option value="2">Set Not Active</option>
+                                <option value="3">Delete</option>
+                            </select>
+                        </div>
 
                     </div>
 
-                    <div class='col-5'>
-                        <select class="form-select" aria-label="Default select example" name='choose' id='choose'>
-                            <option selected value="0">Open this select menu</option>
-                            <option value="1">Set Active</option>
-                            <option value="2">Set Not Active</option>
-                            <option value="3">Delete</option>
-                        </select>
-                    </div>
-                    <div class='col'>
+                    <div class="col-2">
+                        <div class='form-group'>
 
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" type="button" name="OK" value="OK" id="Ok">OK</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" type="button" name="OK" value="OK" id="Ok">OK</button>
+
+                        </div>
                     </div>
+
 
                 </div>
 
@@ -186,6 +207,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             $("[name='Close']").click(function() {
 
                 $('#ModalName').text("Edit Modal");
+                $("#msg").empty();
             });
         })
     </script>
