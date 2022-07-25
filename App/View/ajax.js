@@ -2,14 +2,19 @@
 
 
      $(document).ready(function() {
+        
+
         $(document).on('click', 'button#edit', function() {
+            
             var id = [];
             $(".delete-id:checked").each(function() {
                 id.push($(this).val());
                 element = this;
             });
-
+            
             $("#msg").empty();
+           
+
             var currentRow = $(this).closest("tr")
             var name = currentRow.find("td:eq(1)").text();
 
@@ -19,13 +24,12 @@
             $('#userId').val(id);
             $("#name").val(name);
             $("#surname").val(surname);
+            
+        });
 
-        })
+       
 
-        $('button#AddMain').click(function(){
-            $("#msg").empty();
-        }) 
-        
+   
         let form = document.getElementById("ajax-form");
         form.addEventListener("submit", handleSubmit);
 
@@ -121,8 +125,8 @@
                             $("#msg").html(msg);
                         });
 
-
-
+                        $("input#name").val('');
+                        $("input#surname").val('');
                     });
                     break;
 
@@ -131,7 +135,7 @@
         }
 
         return false;
-    })
+    });
 
     //   ****************Edit Status*******************
     $(document).ready(function() {
@@ -150,7 +154,7 @@
                 id.push($(this).val());
                 element = this;
             });
-
+            
             if (id == 0) {
                 $("#editMod").modal('show');
                 die;
@@ -161,7 +165,7 @@
             $('#deleteId').val(id);
             $("#Editstatus").val(status);
 
-
+           
             if (status == '3') {
                 $("#MassDeleteModal").modal('show');
                 die;
@@ -177,7 +181,7 @@
                 $("#statusModal").modal('show');
         })
 
-    })
+    });
 
     $(function() {
         $('#statusForm').submit(function(e) {
@@ -303,9 +307,10 @@
 
         });
 
-    })
+    });
 
-
+    
+   
     //Choose all checkboxes
     $(document).ready(function() {
 
@@ -318,5 +323,16 @@
         $("[name='check']").on('change', function() {
             $('#main_checkbox').not(this).prop('checked', false);
         });
+       
 
+        $("[name='check']").on('change', function() {
+            var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
+
+        
+        if(lenghtOfUnchecked==0)
+        {
+            $('#main_checkbox').not(this).prop('checked', true)
+        }
+        });
+   
     });
