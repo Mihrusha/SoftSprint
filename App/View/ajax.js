@@ -16,14 +16,15 @@
            
 
             var currentRow = $(this).closest("tr")
-            var name = currentRow.find("td:eq(1)").text();
-
-
-            var surname = currentRow.find("td:eq(2)").text();;
+           
+           
+           
+            var surname = currentRow.find("td:eq(1)").text();
+            let surArr = surname.split(" ");
             var role = $("input#userRole").val();
             $('#userId').val(id);
-            $("#name").val(name);
-            $("#surname").val(surname);
+            $("#name").val(surArr[0]);
+            $("#surname").val(surArr[1]);
             
         })
 

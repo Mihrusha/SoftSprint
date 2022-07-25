@@ -87,8 +87,8 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                             </div>
                                                         </th>
 
-                                                        <th style="text-align:center"> name</th>
-                                                        <th style="text-align:center">surname</th>
+                                                        <th style="text-align:center">  full name</th>
+                                                        <!-- <th style="text-align:center">surname</th> -->
                                                         <th style="text-align:center">role</th>
                                                         <th style="text-align:center">status</th>
                                                         <th style="text-align:center">action</th>
@@ -105,8 +105,8 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                                 </div>
                                                             </td>
 
-                                                            <td class="text-nowrap align-middle"><?= $row['name'] ?></td>
-                                                            <td class="text-nowrap align-middle"><?= $row['surname'] ?></td>
+                                                            <td class="text-nowrap align-middle"><?= $row['name'] ?> <?= $row['surname'] ?></td>
+                                                            <!-- <td class="text-nowrap align-middle"><?= $row['surname'] ?></td> -->
                                                             <td class="text-nowrap align-middle"><?= $row['role'] ?></td>
 
                                                             <?php if ($row["status"] == 1) { ?>
