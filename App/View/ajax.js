@@ -14,28 +14,25 @@
             
             $("#msg").empty();
            
-
             var currentRow = $(this).closest("tr")
-           
-           
-           
             var surname = currentRow.find("td:eq(1)").text();
             let surArr = surname.split(" ");
             var role = $("input#userRole").val();
             $('#userId').val(id);
             $("#name").val(surArr[0]);
             $("#surname").val(surArr[1]);
-            
+           
         })
 
        
         let form = document.getElementById("ajax-form");
-        form.addEventListener("submit", handleSubmit);
+        form.addEventListener("hidden", handleSubmit);
 
         function handleSubmit(event) {
             event.preventDefault()
 
             submitter = event.submitter.value
+
             switch (submitter) {
                 case "submit":
 
@@ -152,28 +149,26 @@
             });
             
             if (id == 0) {
-                $("#editMod").modal('show');
-                die;
+                $("#CheckboxCheck").modal('show');
+                
             }
 
-
-            $('#userId').val(id);
-            $('#deleteId').val(id);
             $("#Editstatus").val(status);
 
            
-            if (status == '3') {
+            if (id != 0 &&(status == '3')) {
+                
                 $("#MassDeleteModal").modal('show');
-                die;
+               
             } 
             
-            if (status<1||status==null||status==undefined)
+            if  (id != 0 && (status<1||status==null||status==undefined))
             {
-                $("#edit_Mod").modal('show');
-                die;
+                $("#SelectCheck").modal('show');
+               
             }
             
-            else
+            if(id != 0 && (status==1||status==2))
                 $("#statusModal").modal('show');
         })
 
@@ -253,7 +248,7 @@
 
             if (id == 0) {
                 $("#DeleteMod").modal('show');
-                die;
+                
             }
 
 
@@ -295,7 +290,6 @@
                         })
                     } else {
 
-                        die;
                     }
                 });
             }
