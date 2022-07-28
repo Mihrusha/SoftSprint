@@ -154,7 +154,9 @@
             }
 
             $("#Editstatus").val(status);
-
+            $('#userId').val(id);
+            $('#deleteId').val(id);
+            
            
             if (id != 0 &&(status == '3')) {
                 
