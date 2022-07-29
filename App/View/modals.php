@@ -36,12 +36,12 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Close" name='Close'>Close</button>
-                        <button type="submit" class="btn btn-primary" name="save" value="save">Add</button>
-                        <!-- <button type="submit" class="btn btn-danger" name="save" value="save">Save</button> -->
-                    </div>
                 </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Close" name='Close'>Close</button>
+                    <button type="submit" class="btn btn-primary" name="save" id='save' value="save" data-name=''>Action</button>
+                    <!-- <button type="submit" class="btn btn-danger" name="save" value="save">Save</button> -->
+                </div>
             </div>
         </div>
     </div>
@@ -57,35 +57,26 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
-
-                        <p>Do you realy want this action?</p>
-
-                        <form action="javascript:void(0)" method="post" id="statusForm">
-                            <div class="form-group">
-
-                                <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
-                            </div>
-                            <div class="form-group ">
-
-                                <input type="hidden" name="Editstatus" id="Editstatus" class="form-control" value="" maxlength="30">
-                            </div>
-
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="action">Action</button>
-                        </form>
+                <p>Do you realy want this action?</p>
+                <form action="javascript:void(0)" method="post" id="statusForm">
+                    <div class="form-group">
+                        <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
                     </div>
+                    <div class="form-group ">
+                        <input type="hidden" name="Editstatus" id="Editstatus" class="form-control" value="" maxlength="30">
+                    </div>
+                </form>
+                <div class='modal-footer'>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name="StatusEdit" value="StatusEdit" id="StatusEdit">Action</button>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 
+<!-- *****************Edit Status Modals********* -->
 
-<!-- **********Modals for edit********  -->
 
 <div class="modal fade" id="CheckboxCheck" tabindex="-1" aria-labelledby="CheckboxCheck" aria-hidden="true">
     <div class="modal-dialog">
@@ -95,20 +86,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
+                <p>You must choose checkbox</p>
 
-                        <p>You must choose checkbox</p>
-
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                    </div>
-                </div>
+            </div>
+            <div class='modal-footer'>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="SelectCheck" tabindex="-1" aria-labelledby="SelectCheck" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -117,15 +103,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
+                <p>You must choose status</p>
 
-                        <p>You must choose status</p>
-
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                    </div>
-                </div>
+            </div>
+            <div class='modal-footer'>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -133,29 +115,23 @@
 
 
 
-<!-- ******************************* -->
-
 <!-- **********Modals for delete********  -->
 
 <div class="modal fade" id="DeleteMod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete check</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete check </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
-
-                        <p>You must choose checkbox</p>
-
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                    </div>
-                </div>
+                <p>You must choose checkbox</p>
+            </div>
+            <div class='modal-footer'>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -164,25 +140,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete check 2</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
-                        <p>Do you want delete person?</p>
-                        <button type="button" class="btn btn-primary" id="modal-btn-yes">Yes</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-btn-no">Close</button>
-                    </div>
-                </div>
+                <p>Do you want delete person?</p>
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modal-btn-yes">Yes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-btn-no">Close</button>
+            </div>
         </div>
+
     </div>
 </div>
 
 
-<!-- **************Mass Delet Modal************** -->
+<!-- **************Mass Delete Modal************** -->
 
 <div class="modal fade" id="MassDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -192,24 +166,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8 col-offset-2">
-
-                        <p>Do you realy want delete ?</p>
-
-                        <form action="javascript:void(0)" method="post" id="MassDeleteForm">
-                            <div class="form-group">
-
-                                <input type="hidden" name="deleteId" id="deleteId" class="form-control" value="" maxlength="50">
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="edit" value="Edit" id="action">Action</button>
-                        </form>
+                <p>Do you realy want delete ?</p>
+                <form action="javascript:void(0)" method="post" id="MassDeleteForm">
+                    <div class="form-group">
+                        <input type="hidden" name="deleteId" id="deleteId" class="form-control" value="" maxlength="50">
                     </div>
+                </form>
+                <div class='modal-footer'>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name="massDel" value="massDel" id="massDel">Action</button>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>

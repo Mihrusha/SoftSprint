@@ -1,248 +1,231 @@
-     //   ****************Insert and Edit*******************
+//   ****************Insert and Edit*******************
 
+$(document).ready(function () {
 
-     $(document).ready(function() {
-        
+    let status;
+    $("[name='choose']").change(function () {
+      status = $(this).val();
+    });
 
-        $(document).on('click', 'button#edit', function() {
-            
-            var id = [];
-            $(".delete-id:checked").each(function() {
-                id.push($(this).val());
-                element = this;
-            });
-            
-            $("#msg").empty();
-           
-            var currentRow = $(this).closest("tr")
-            var surname = currentRow.find("td:eq(1)").text();
-            let surArr = surname.split(" ");
-            var role = $("input#userRole").val();
-            $('#userId').val(id);
-            $("#name").val(surArr[0]);
-            $("#surname").val(surArr[1]);
-           
-        })
-
+    $("[name='insert']").click(function (e) {
+        e.preventDefault();
+        $('#save').attr('name', 'submit');
+        $('#ModalName').text("Add User");
+        $("#name").val('');
+        $("#surname").val('');
        
-        let form = document.getElementById("ajax-form");
-        form.addEventListener("hidden", handleSubmit);
+        $("#AddModal").modal('show');
+      
+    })
 
-        function handleSubmit(event) {
-            event.preventDefault()
+    $("[name='update']").click(function (e) {
+        e.preventDefault();
+        var id = [];
+        $(".delete-id:checked").each(function () {
+            id.push($(this).val());
+            element = this;
+        });
 
-            submitter = event.submitter.value
+        $("#msg").empty();
 
-            switch (submitter) {
-                case "submit":
+        var currentRow = $(this).closest("tr")
 
-                    $('.btn-primary').click(function(e) {
-                        e.preventDefault();
-                        var name = $("#name").val();
-                        var surname = $("#surname").val();
-                        var role = $("#role").val();
-                        let status;
-                        //var status = $("#status").val();
-                        if (jQuery('input[name=status]').is(':checked')) {
-                            status = 1;
-                        } else status = 2;
+        var surname = currentRow.find("td:eq(1)").text();
+        let surArr = surname.split(" ");
+        var role = $("input#userRole").val();
+        $('#userId').val(id);
+        $("#name").val(surArr[0]);
+        $("#surname").val(surArr[1]);
+        $('#save').attr('name', 'save');
+       
+        $("#AddModal").modal('show');
 
-                        let url = 'App/View/insert.php';
-                        let Pass = 'App/Core/handler.php'
+    })
 
-                        $.ajax({
-                            method: "POST",
-                            url: Pass,
-                            data: {
-                                insert: 'insert',
-                                name: name,
-                                surname: surname,
-                                role: role,
-                                status: status
-                            },
-                            success: function(data) {
+    $("[name='Close']").click(function () {
 
-                                if (data.includes('message')) {
-                                    $("#msg").html(data);
-                                } else
-                                    $("#msg").html(''),
-                                    $('#result').load(Pass);
-                                //alert('Send')
-                            }
+        $('#ModalName').text("Edit User");
+        $("#msg").empty();
 
-                        }).done(function(msg) {
-                            $("#msg").html(msg);
-                            
-                        });
-                        
-                        $("input#name").val('');
-                        $("input#surname").val('');
+    });
 
-                    })
+    // *************INSERT***************
+    $("#save").click(function (e) {
+        if ($('#save').attr('name') == 'submit') {
+            
+            var name = $("#name").val();
+            var surname = $("#surname").val();
+            var role = $("#role").val();
+            let status;
+            //var status = $("#status").val();
+            if (jQuery('input[name=status]').is(':checked')) {
+                status = 1;
+            } else status = 2;
 
-                    break;
-                case "save":
+            let url = 'App/View/insert.php';
+            let Pass = 'App/Core/handler.php'
 
-                    $(document).on('submit', '#ajax-form', function(e) {
-                        e.preventDefault();
-                        var id = $("input[name='userId']").val();
-                        var name = $("input[name='name']").val();
-                        var surname = $("input[name='surname']").val();
-                        var role = $('#role').val();
-                        let status;
-                        let url = 'App/View/edit.php'
-                        let Pass = 'App/Core/handler.php'
-                        //var status = $("#status").val();
-                        if (jQuery('input[name=status]').is(':checked')) {
-                            status = 1;
-                        } else status = 2;
-                        $.ajax({
-                            method: "POST",
-                            url: Pass,
-                            data: {
-                                edit: 'edit',
-                                id: id,
-                                name: name,
-                                role: role,
-                                surname: surname,
-                                status: status
-                            },
-                            success: function(data) {
+            $.ajax({
+                method: "POST",
+                url: Pass,
+                data: {
+                    insert: 'insert',
+                    name: name,
+                    surname: surname,
+                    role: role,
+                    status: status
+                },
+                success: function (data) {
 
-                                if (data.includes('message')) {
-                                    $("#msg").html(data);
-                                } else
-                                    $("#msg").html(''),
-                                    $('#result').load(Pass);
+                    if (data.includes('message')) {
+                        $("#msg").html(data);
+                    } else
+                        $("#msg").html(''),
+                            $('#result').load(Pass);
+                    
+                }
 
-                            }
+            }).done(function (msg) {
+                $("#msg").html(msg);
 
-                        }).done(function(msg) {
-                            $("#msg").html(msg);
-                        });
+            });
 
-                        $("input#name").val('');
-                        $("input#surname").val('');
-                    })
-                    break;
-
-            }
+            $("input#name").val('');
+            $("input#surname").val('');
 
         }
 
-    });
+        // *************EDIT***************
+        else if ($('#save').attr('name') == 'save') {
+            var id = $("input[name='userId']").val();
+            var name = $("input[name='name']").val();
+            var surname = $("input[name='surname']").val();
+            var role = $('#role').val();
+            let status;
+            
+            let Pass = 'App/Core/handler.php'
+            
+            if (jQuery('input[name=status]').is(':checked')) {
+                status = 1;
+            } else status = 2;
+            $.ajax({
+                method: "POST",
+                url: Pass,
+                data: {
+                    edit: 'edit',
+                    id: id,
+                    name: name,
+                    role: role,
+                    surname: surname,
+                    status: status
+                },
+                success: function (data) {
 
-    //   ****************Edit Status*******************
-    $(document).ready(function() {
+                    if (data.includes('message')) {
+                        $("#msg").html(data);
+                    } else
+                        $("#msg").html(''),
+                            $('#result').load(Pass);
 
-        let status;
-        $("[name='choose']").change(function() {
-            status = $(this).val();
+                }
+
+            }).done(function (msg) {
+                $("#msg").html(msg);
+            });
+
+            $("input#name").val('');
+            $("input#surname").val('');
+
+        }
+
+
+    })
+
+     // *******************************
+    $("[name='OK']").click(function () {
+        var id = [];
+        $(".delete-id:checked").each(function () {
+            id.push($(this).val());
+            element = this;
         });
 
-        $(document).on('click', 'button#Ok', function() {
+       
+        if (id == 0) {
+            $("#CheckboxCheck").modal('show');
+            return false;
+        }
 
-            let id = [];
-            $(".delete-id:checked").each(function() {
-                id.push($(this).val());
-                element = this;
-            });
-            
-            if (id == 0) {
-                $("#CheckboxCheck").modal('show');
-                
-            }
+        if (id != 0 && (status < 1 || status == null || status == undefined)) {
+            $("#SelectCheck").modal('show');
 
-            $("#Editstatus").val(status);
-            $('#userId').val(id);
-            $('#deleteId').val(id);
-            
-           
-            if (id != 0 &&(status == '3')) {
-                
-                $("#MassDeleteModal").modal('show');
-               
-            } 
-            
-            if  (id != 0 && (status<1||status==null||status==undefined))
-            {
-                $("#SelectCheck").modal('show');
-               
-            }
-            
-            if(id != 0 && (status==1||status==2))
-                $("#statusModal").modal('show');
-        })
+        }
 
-    });
+        $('#userId').val(id);
+        $('#deleteId').val(id);
+        $("#Editstatus").val(status);
 
-    $(function() {
-        $('#statusForm').submit(function(e) {
-            e.preventDefault();
-            let id = [];
-            id = $('#userId').val();
+        // **********MASS DELETE************
+        if (id != 0 && (status == '3')) {
 
-            var status = $("#Editstatus").val();
-            let url = 'App/View/edit.php'
-            let url2 = 'App/View/insert.php'
-            let Pass = 'App/Core/handler.php'
+            $("#MassDeleteModal").modal('show');
 
-            $.ajax({
-                url: Pass,
-                method: 'post',
-                data: {
-                    edit_status: 'edit',
-                    status: status,
-                    id: id
-                },
-                success: function(response) {
-                    //$("#response").html(response);
-                    $('#result').load(Pass);
-                }
+            $("[name='massDel']").click(function () {
+                var id = [];
+                id = $('#deleteId').val();
+
+                let Pass = 'App/Core/handler.php'
+
+                $.ajax({
+                    url: Pass,
+                    type: 'post',
+                    data: {
+                        mass_delete: 'mass',
+                        mass_id: id
+                    },
+                    success: function (response) {
+
+                        $('#result').load(Pass);
+                        // alert('id')
+
+                    },
+                    error: function (response) {
+                        alert('Not send');
+                    }
+                })
             })
-        })
-    });
-
-
-    //   ****************Mass Delete*******************
-    $(function() {
-        $('#MassDeleteForm').submit(function() {
-
-            var id = [];
-            id = $('#deleteId').val();
-            var url = 'App/View/massDelete.php'
-            let Pass = 'App/Core/handler.php'
-
-          
-            $.ajax({
-                url: Pass,
-                type: 'post',
-                data: {
-                    mass_delete: 'mass',
-                    mass_id: id
-                },
-                success: function(response) {
-
-                    $('#result').load(Pass);
-                    // alert('id')
-
-                },
-                error: function(response) {
-                    alert('Not send');
-                }
+        }
+        // **********STATUS EDIT************
+        if (id != 0 && (status == 1 || status == 2)) {
+            $("#statusModal").modal('show');
+            $("[name='StatusEdit']").click(function () {
+                let id = [];
+                id = $('#userId').val();
+    
+                var status = $("#Editstatus").val();
+               
+                let Pass = 'App/Core/handler.php'
+    
+                $.ajax({
+                    url: Pass,
+                    method: 'post',
+                    data: {
+                        edit_status: 'edit',
+                        status: status,
+                        id: id
+                    },
+                    success: function(response) {
+                        //$("#response").html(response);
+                        $('#result').load(Pass);
+                    }
+                })
             })
-        })
-    });
-    // ************************************************
+        }
 
+    })
 
+    $("[name='delete']").click(function () {
 
-    //   ****************One Delete*******************
-    $(document).ready(function() {
-
-        $(document).on('click', 'button#delete', function() {
-            let url = 'App/View/delete.php'
-            var id = [];
+        var id = [];
             $(".delete-id:checked").each(function() {
                 id.push($(this).val());
                 element = this;
@@ -250,7 +233,7 @@
 
             if (id == 0) {
                 $("#DeleteMod").modal('show');
-                
+                return false;
             }
 
 
@@ -292,39 +275,36 @@
                         })
                     } else {
 
+                        return false;
                     }
                 });
             }
             return false;
 
-        });
+    })
 
+    $('#main_checkbox').click(function() {
+        var checked = this.checked;
+        $('input[type="checkbox"]').each(function() {
+            this.checked = checked;
+        });
+    })
+    $("[name='check']").on('change', function() {
+        $('#main_checkbox').not(this).prop('checked', false);
     });
+   
+
+    $("[name='check']").on('change', function() {
+        var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
 
     
-   
-    //Choose all checkboxes
-    $(document).ready(function() {
-
-        $('#main_checkbox').click(function() {
-            var checked = this.checked;
-            $('input[type="checkbox"]').each(function() {
-                this.checked = checked;
-            });
-        })
-        $("[name='check']").on('change', function() {
-            $('#main_checkbox').not(this).prop('checked', false);
-        });
-       
-
-        $("[name='check']").on('change', function() {
-            var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
-
-        
-        if(lenghtOfUnchecked==0)
-        {
-            $('#main_checkbox').not(this).prop('checked', true)
-        }
-        });
-   
+    if(lenghtOfUnchecked==0)
+    {
+        $('#main_checkbox').not(this).prop('checked', true)
+    }
     });
+
+})
+
+
+
