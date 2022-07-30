@@ -32,7 +32,7 @@ class User extends Model
     {
        
         $extract = implode(',', $id);
-
+        
         $sql = "UPDATE  users SET status = '$status' WHERE id IN($extract)";
         $db = Database::Instanse();
         $db->execute($sql);

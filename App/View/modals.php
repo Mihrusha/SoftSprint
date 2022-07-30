@@ -49,13 +49,15 @@
 
 
 <!-- Modal Edit Status-->
-<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="statusModal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit Confirm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div style="background-color:red" id='msg2'>
+                </div>
             <div class="modal-body">
                 <p>Do you realy want this action?</p>
                 <form action="javascript:void(0)" method="post" id="statusForm">
@@ -75,7 +77,7 @@
     </div>
 </div>
 
-<!-- *****************Edit Status Modals********* -->
+<!-- *****************Edit Check Modals********* -->
 
 
 <div class="modal fade" id="CheckboxCheck" tabindex="-1" aria-labelledby="CheckboxCheck" aria-hidden="true">
@@ -95,7 +97,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="SelectCheck" tabindex="-1" aria-labelledby="SelectCheck" aria-hidden="true">
+<div class="modal" id="SelectCheck"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

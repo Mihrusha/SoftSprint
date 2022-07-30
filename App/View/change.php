@@ -47,5 +47,5 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
         </table>
     </div>
     <script src="App\View\ajax.js"></script>
-    
+   
 </body>

@@ -192,26 +192,7 @@
         });
 
         // *******CHECKBOXES
-        $('#main_checkbox').click(function() {
-            var checked = this.checked;
-            $('input[type="checkbox"]').each(function() {
-                this.checked = checked;
-            });
-        })
-        $("[name='check']").on('change', function() {
-            $('#main_checkbox').not(this).prop('checked', false);
-        });
        
-
-        $("[name='check']").on('change', function() {
-            var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
-
-        
-        if(lenghtOfUnchecked==0)
-        {
-            $('#main_checkbox').not(this).prop('checked', true)
-        }
-        });
 
     });
 

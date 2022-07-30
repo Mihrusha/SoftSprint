@@ -2,10 +2,31 @@
 
 $(document).ready(function () {
 
-    let status;
-    $("[name='choose']").change(function () {
-      status = $(this).val();
+    var status;
+    $("[name='choose']").click(function () {
+        status = $("#choose option:selected").val();
     });
+
+    $('#main_checkbox').click(function () {
+        var checked = this.checked;
+        $('input[type="checkbox"]').each(function () {
+            this.checked = checked;
+        });
+    })
+    $("[name='check']").on('change', function () {
+        $('#main_checkbox').not(this).prop('checked', false);
+    });
+
+
+    $("[name='check']").on('change', function () {
+        var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
+
+
+        if (lenghtOfUnchecked == 0) {
+            $('#main_checkbox').not(this).prop('checked', true)
+        }
+    });
+
 
     $("[name='insert']").click(function (e) {
         e.preventDefault();
@@ -13,9 +34,9 @@ $(document).ready(function () {
         $('#ModalName').text("Add User");
         $("#name").val('');
         $("#surname").val('');
-       
+
         $("#AddModal").modal('show');
-      
+
     })
 
     $("[name='update']").click(function (e) {
@@ -37,7 +58,7 @@ $(document).ready(function () {
         $("#name").val(surArr[0]);
         $("#surname").val(surArr[1]);
         $('#save').attr('name', 'save');
-       
+
         $("#AddModal").modal('show');
 
     })
@@ -52,7 +73,7 @@ $(document).ready(function () {
     // *************INSERT***************
     $("#save").click(function (e) {
         if ($('#save').attr('name') == 'submit') {
-            
+
             var name = $("#name").val();
             var surname = $("#surname").val();
             var role = $("#role").val();
@@ -82,7 +103,7 @@ $(document).ready(function () {
                     } else
                         $("#msg").html(''),
                             $('#result').load(Pass);
-                    
+
                 }
 
             }).done(function (msg) {
@@ -102,9 +123,9 @@ $(document).ready(function () {
             var surname = $("input[name='surname']").val();
             var role = $('#role').val();
             let status;
-            
+
             let Pass = 'App/Core/handler.php'
-            
+
             if (jQuery('input[name=status]').is(':checked')) {
                 status = 1;
             } else status = 2;
@@ -141,29 +162,27 @@ $(document).ready(function () {
 
     })
 
-     // *******************************
-    $("[name='OK']").click(function () {
+    // *******************************
+    $("[name='OK']").click(function (e) {
+        e.preventDefault();
         var id = [];
+        $("#msg2").html('');
         $(".delete-id:checked").each(function () {
             id.push($(this).val());
             element = this;
         });
-
-       
-        if (id == 0) {
-            $("#CheckboxCheck").modal('show');
-            return false;
-        }
-
-        if (id != 0 && (status < 1 || status == null || status == undefined)) {
-            $("#SelectCheck").modal('show');
-
-        }
-
+        console.log(id);
+        console.log(status);
         $('#userId').val(id);
         $('#deleteId').val(id);
         $("#Editstatus").val(status);
 
+        if ((id == 0) || (id == 0) && (status < 1 || status == null || status == undefined||status == 0)) {
+            $("#CheckboxCheck").modal('show');
+            return false;
+        }
+
+        
         // **********MASS DELETE************
         if (id != 0 && (status == '3')) {
 
@@ -194,17 +213,24 @@ $(document).ready(function () {
                 })
             })
         }
+
+        if(status==undefined){
+            status=1;
+        }
+
         // **********STATUS EDIT************
-        if (id != 0 && (status == 1 || status == 2)) {
+         if ((id != 0) && (status == 1 || status == 2 && status != undefined && status !=0) &&  ($("#Editstatus").val()!=undefined)&&$("#Editstatus").val()!=0) {
             $("#statusModal").modal('show');
             $("[name='StatusEdit']").click(function () {
                 let id = [];
                 id = $('#userId').val();
-    
+                
                 var status = $("#Editstatus").val();
-               
+
                 let Pass = 'App/Core/handler.php'
-    
+                if(status==''){
+                    $("#msg2").html("'status' => false, 'error' => array('code' => '5', 'message' => 'click status'")
+                }
                 $.ajax({
                     url: Pass,
                     method: 'post',
@@ -213,12 +239,21 @@ $(document).ready(function () {
                         status: status,
                         id: id
                     },
-                    success: function(response) {
+                    success: function (response) {
+                       
                         //$("#response").html(response);
                         $('#result').load(Pass);
+                       
                     }
+                    
                 })
+                
             })
+        }
+
+        else if ((id > 0) && (status < 1 || status == null || status == undefined||status == 0)) {
+            $("#SelectCheck").modal('show');
+            
         }
 
     })
@@ -226,82 +261,81 @@ $(document).ready(function () {
     $("[name='delete']").click(function () {
 
         var id = [];
-            $(".delete-id:checked").each(function() {
-                id.push($(this).val());
-                element = this;
-            });
+        $(".delete-id:checked").each(function () {
+            id.push($(this).val());
+            element = this;
+        });
 
-            if (id == 0) {
-                $("#DeleteMod").modal('show');
-                return false;
-            }
-
-
-            if (id.length > 0) {
-                $("#Delete_Mod").modal('show');
-
-                var modalConfirm = function(callback) {
-
-                    $("#btn-confirm").on("click", function() {
-                        $("#mi-modal").modal('show');
-                    });
-
-                    $("#modal-btn-yes").on("click", function() {
-                        callback(true);
-                        $("#mi-modal").modal('hide');
-                    });
-
-                    $("#modal-btn-no").on("click", function() {
-                        callback(false);
-                        $("#mi-modal").modal('hide');
-                    });
-                };
-
-                let Pass = 'App/Core/handler.php'
-                modalConfirm(function(confirm) {
-                    if (confirm) {
-
-                        $.ajax({
-                            type: 'post',
-                            url: Pass,
-                            data: {
-                                delete: 'delete',
-                                deleteId: id
-                            },
-                            success: function(result) {
-                                $("#result").load(Pass);
-
-                            }
-                        })
-                    } else {
-
-                        return false;
-                    }
-                });
-            }
+        if (id == 0) {
+            $("#DeleteMod").modal('show');
             return false;
+        }
+
+
+        if (id.length > 0) {
+            $("#Delete_Mod").modal('show');
+
+            var modalConfirm = function (callback) {
+
+                $("#btn-confirm").on("click", function () {
+                    $("#mi-modal").modal('show');
+                });
+
+                $("#modal-btn-yes").on("click", function () {
+                    callback(true);
+                    $("#mi-modal").modal('hide');
+                });
+
+                $("#modal-btn-no").on("click", function () {
+                    callback(false);
+                    $("#mi-modal").modal('hide');
+                });
+            };
+
+            let Pass = 'App/Core/handler.php'
+            modalConfirm(function (confirm) {
+                if (confirm) {
+
+                    $.ajax({
+                        type: 'post',
+                        url: Pass,
+                        data: {
+                            delete: 'delete',
+                            deleteId: id
+                        },
+                        success: function (result) {
+                            $("#result").load(Pass);
+
+                        }
+                    })
+                } else {
+
+                    return false;
+                }
+            });
+        }
+        return false;
 
     })
 
-    $('#main_checkbox').click(function() {
+    $('#main_checkbox').click(function () {
         var checked = this.checked;
-        $('input[type="checkbox"]').each(function() {
+        $('input[type="checkbox"]').each(function () {
             this.checked = checked;
         });
     })
-    $("[name='check']").on('change', function() {
+    $("[name='check']").on('change', function () {
         $('#main_checkbox').not(this).prop('checked', false);
     });
-   
 
-    $("[name='check']").on('change', function() {
+
+    $("[name='check']").on('change', function () {
         var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
 
-    
-    if(lenghtOfUnchecked==0)
-    {
-        $('#main_checkbox').not(this).prop('checked', true)
-    }
+
+        if (lenghtOfUnchecked == 0) {
+            $('#main_checkbox').not(this).prop('checked', true)
+        }
     });
 
 })
