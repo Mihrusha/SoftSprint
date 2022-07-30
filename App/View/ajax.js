@@ -2,31 +2,7 @@
 
 $(document).ready(function () {
 
-    var status;
-    $("[name='choose']").click(function () {
-        status = $("#choose option:selected").val();
-    });
-
-    $('#main_checkbox').click(function () {
-        var checked = this.checked;
-        $('input[type="checkbox"]').each(function () {
-            this.checked = checked;
-        });
-    })
-    $("[name='check']").on('change', function () {
-        $('#main_checkbox').not(this).prop('checked', false);
-    });
-
-
-    $("[name='check']").on('change', function () {
-        var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
-
-
-        if (lenghtOfUnchecked == 0) {
-            $('#main_checkbox').not(this).prop('checked', true)
-        }
-    });
-
+    
 
     $("[name='insert']").click(function (e) {
         e.preventDefault();
@@ -161,30 +137,47 @@ $(document).ready(function () {
 
 
     })
-
+    var status=[];
+    $("[name='choose']").click(function () {
+        status[0]=( $(this).val());
+    });
     // *******************************
     $("[name='OK']").click(function (e) {
         e.preventDefault();
         var id = [];
-        $("#msg2").html('');
         $(".delete-id:checked").each(function () {
             id.push($(this).val());
             element = this;
         });
-        console.log(id);
-        console.log(status);
-        $('#userId').val(id);
-        $('#deleteId').val(id);
-        $("#Editstatus").val(status);
+        
 
-        if ((id == 0) || (id == 0) && (status < 1 || status == null || status == undefined||status == 0)) {
+   
+
+        $('#msg2').html('');
+
+        if (id == 0)  {
             $("#CheckboxCheck").modal('show');
             return false;
         }
 
-        
+        // if(status==undefined){
+        //     status=0;
+        // }
+        console.log(status)
+
+        $('#userId').val(id);
+        $('#deleteId').val(id);
+        $("#Editstatus").val(status);
+
+        if((status < 1 || status == null || status == undefined)) {
+            $("#SelectCheck").modal('show');
+            
+        }
+
+
+
         // **********MASS DELETE************
-        if (id != 0 && (status == '3')) {
+        else if ((id != 0 && status == 3)) {
 
             $("#MassDeleteModal").modal('show');
 
@@ -208,29 +201,31 @@ $(document).ready(function () {
 
                     },
                     error: function (response) {
-                        alert('Not send');
+                        $('#msg2').html('Not send');
                     }
                 })
             })
         }
 
-        if(status==undefined){
-            status=1;
-        }
+        console.log(id);
+
+        
 
         // **********STATUS EDIT************
-         if ((id != 0) && (status == 1 || status == 2 && status != undefined && status !=0) &&  ($("#Editstatus").val()!=undefined)&&$("#Editstatus").val()!=0) {
+         if((status == 1 || status == 2) ) {
             $("#statusModal").modal('show');
             $("[name='StatusEdit']").click(function () {
                 let id = [];
                 id = $('#userId').val();
-                
+
                 var status = $("#Editstatus").val();
 
                 let Pass = 'App/Core/handler.php'
-                if(status==''){
-                    $("#msg2").html("'status' => false, 'error' => array('code' => '5', 'message' => 'click status'")
+
+                if(status==0||status==undefined){
+                    $('#msg2').html("status' => false, 'error' => array('code' => '8', 'message' => 'please choose status'")
                 }
+
                 $.ajax({
                     url: Pass,
                     method: 'post',
@@ -240,21 +235,15 @@ $(document).ready(function () {
                         id: id
                     },
                     success: function (response) {
-                       
                         //$("#response").html(response);
                         $('#result').load(Pass);
-                       
                     }
-                    
                 })
                 
             })
         }
 
-        else if ((id > 0) && (status < 1 || status == null || status == undefined||status == 0)) {
-            $("#SelectCheck").modal('show');
-            
-        }
+        
 
     })
 
@@ -339,6 +328,5 @@ $(document).ready(function () {
     });
 
 })
-
 
 

@@ -11,7 +11,7 @@ use App\Core\Database;
 
     public static function GetAll()
     {
-        $db = Database::Instanse();
+        $db = new Database;
         // $class=get_called_class();
        
         $sql = "SELECT* FROM" . " " . static::TABLE;

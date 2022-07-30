@@ -46,6 +46,112 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             <tbody>
         </table>
     </div>
-    <script src="App\View\ajax.js"></script>
+
+    <script>
+$('#main_checkbox').click(function () {
+    var checked = this.checked;
+    $('input[type="checkbox"]').each(function () {
+        this.checked = checked;
+    });
+})
+$("[name='check']").on('change', function () {
+    $('#main_checkbox').not(this).prop('checked', false);
+});
+
+
+$("[name='check']").on('change', function () {
+    var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
+
+
+    if (lenghtOfUnchecked == 0) {
+        $('#main_checkbox').not(this).prop('checked', true)
+    }
+});
+
+$("[name='update']").click(function (e) {
+        e.preventDefault();
+        var id = [];
+        $(".delete-id:checked").each(function () {
+            id.push($(this).val());
+            element = this;
+        });
+
+        $("#msg").empty();
+
+        var currentRow = $(this).closest("tr")
+
+        var surname = currentRow.find("td:eq(1)").text();
+        let surArr = surname.split(" ");
+        var role = $("input#userRole").val();
+        $('#userId').val(id);
+        $("#name").val(surArr[0]);
+        $("#surname").val(surArr[1]);
+        $('#save').attr('name', 'save');
+
+        $("#AddModal").modal('show');
+
+    })
+
+    $("[name='delete']").click(function () {
+
+var id = [];
+$(".delete-id:checked").each(function () {
+    id.push($(this).val());
+    element = this;
+});
+
+if (id == 0) {
+    $("#DeleteMod").modal('show');
+    return false;
+}
+
+
+if (id.length > 0) {
+    $("#Delete_Mod").modal('show');
+
+    var modalConfirm = function (callback) {
+
+        $("#btn-confirm").on("click", function () {
+            $("#mi-modal").modal('show');
+        });
+
+        $("#modal-btn-yes").on("click", function () {
+            callback(true);
+            $("#mi-modal").modal('hide');
+        });
+
+        $("#modal-btn-no").on("click", function () {
+            callback(false);
+            $("#mi-modal").modal('hide');
+        });
+    };
+
+    let Pass = 'App/Core/handler.php'
+    modalConfirm(function (confirm) {
+        if (confirm) {
+
+            $.ajax({
+                type: 'post',
+                url: Pass,
+                data: {
+                    delete: 'delete',
+                    deleteId: id
+                },
+                success: function (result) {
+                    $("#result").load(Pass);
+
+                }
+            })
+        } else {
+
+            return false;
+        }
+    });
+}
+return false;
+
+})
+
+    </script>
    
 </body>

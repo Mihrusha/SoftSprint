@@ -15,6 +15,8 @@ class User extends Model
 
 
 
+    
+
     public  function Delete($method)
     {
        
