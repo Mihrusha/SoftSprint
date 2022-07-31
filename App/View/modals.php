@@ -1,16 +1,13 @@
 <div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header ">
-                <span>
-                    <h5 class="modal-title" id="ModalName">Add User</h5>
-                </span>
-                <div id="msg" class='msg' style="background-color:lightcoral"></div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalName">Add User</h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Close" name='Close'></button>
             </div>
-            <div class="modal-body" action="javascript:void(0)" method="post" id="ajax-form">
-                <div style="background-color:red" id='msg'>
-                </div>
+            <div class="modal-body">
+            <div id="msg" class='msg' style="background-color:lightcoral"></div>
                 <form>
                     <div class="form-group">
                         <label for="first-name" class="col-form-label">First Name:</label>
@@ -37,19 +34,22 @@
                         </label>
                     </div>
                 </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Close" name='Close'>Close</button>
-                    <button type="submit" class="btn btn-primary" name="save" id='save' value="save" data-name=''>Action</button>
-                    <!-- <button type="submit" class="btn btn-danger" name="save" value="save">Save</button> -->
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Close" name='Close'>Close</button>
+                <button type="submit" class="btn btn-primary" name="save" id='save' value="save" data-name=''>Edit</button>
             </div>
         </div>
     </div>
 </div>
 
 
+
+
+
+
 <!-- Modal Edit Status-->
-<div class="modal fade" id="statusModal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,7 +57,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div style="background-color:red" id='msg2'>
-                </div>
+            </div>
             <div class="modal-body">
                 <p>Do you realy want this action?</p>
                 <form action="javascript:void(0)" method="post" id="statusForm">
@@ -97,7 +97,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="SelectCheck"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div class="modal fade" id="SelectCheck" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -142,7 +142,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <div style="background-color:red" id='msg2'>
+                <div style="background-color:red" id='msg2'>
                 </div>
                 <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

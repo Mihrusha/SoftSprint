@@ -2,18 +2,19 @@
 
 $(document).ready(function () {
 
-    
+
 
     $("[name='insert']").click(function (e) {
         e.preventDefault();
         $('#save').attr('name', 'submit');
         $('#ModalName').text("Add User");
+        $("#save").html("Add");
         $("#name").val('');
         $("#surname").val('');
-
         $("#AddModal").modal('show');
 
     })
+
 
     $("[name='update']").click(function (e) {
         e.preventDefault();
@@ -42,6 +43,7 @@ $(document).ready(function () {
     $("[name='Close']").click(function () {
 
         $('#ModalName').text("Edit User");
+        $('#save').text("Edit");
         $("#msg").empty();
 
     });
@@ -61,7 +63,7 @@ $(document).ready(function () {
 
             let url = 'App/View/insert.php';
             let Pass = 'App/Core/handler.php'
-
+            let arr = [];
             $.ajax({
                 method: "POST",
                 url: Pass,
@@ -74,18 +76,41 @@ $(document).ready(function () {
                 },
                 success: function (data) {
 
-                    if (data.includes('message')) {
-                        $("#msg").html(data);
-                    } else
-                        $("#msg").html(''),
-                            $('#result').load(Pass);
+                    if (data.includes('no name')) {
+                        $("#msg").html("Please Give Name");
+
+                    }
+                    else if (data.includes('no surname')) {
+                        $("#msg").html("Please Give Surname");
+
+                    }
+                    else if (data.includes('no users role')) {
+                        $("#msg").html("Please Give Role");
+
+                    }
+
+                    else if (data.includes('user already exist')) {
+                        $("#msg").html("This user already exist");
+
+                    }
+                    else
+                        arr = $.parseJSON(data);
+                    text = null;
+                    $.each(arr, function (key, value) {
+                        text = value;
+                       
+                        var txt = "";
+                        for (let x in text) {
+                            txt += text[x] + " ";
+                        }
+                        $("#msg").html("User "+txt+"created succefully");
+                    });
+                   
+                        $('#result').load(Pass);
 
                 }
 
-            }).done(function (msg) {
-                $("#msg").html(msg);
-
-            });
+            })
 
             $("input#name").val('');
             $("input#surname").val('');
@@ -118,17 +143,40 @@ $(document).ready(function () {
                 },
                 success: function (data) {
 
-                    if (data.includes('message')) {
-                        $("#msg").html(data);
-                    } else
-                        $("#msg").html(''),
-                            $('#result').load(Pass);
+                    if (data.includes('no name')) {
+                        $("#msg").html("Please Give Name");
 
+                    }
+                    else if (data.includes('no surname')) {
+                        $("#msg").html("Please Give Surname");
+
+                    }
+                    else if (data.includes('no users role')) {
+                        $("#msg").html("Please Give Role");
+
+                    }
+
+                    else if (data.includes('no id-new user')) {
+                        $("#msg").html("This is new user cant change");
+
+                    
+                    } else
+                    arr = $.parseJSON(data);
+                    text = null;
+                    $.each(arr, function (key, value) {
+                        text = value;
+                       
+                        var txt = "";
+                        for (let x in text) {
+                            txt += text[x] + " ";
+                        }
+                        $("#msg").html("User "+txt+"changed succefully");
+                    });
+                   
+                        $('#result').load(Pass);
                 }
 
-            }).done(function (msg) {
-                $("#msg").html(msg);
-            });
+            })
 
             $("input#name").val('');
             $("input#surname").val('');
@@ -137,9 +185,9 @@ $(document).ready(function () {
 
 
     })
-    var status=[];
+    var status = [];
     $("[name='choose']").click(function () {
-        status[0]=( $(this).val());
+        status[0] = ($(this).val());
     });
     // *******************************
     $("[name='OK']").click(function (e) {
@@ -149,13 +197,13 @@ $(document).ready(function () {
             id.push($(this).val());
             element = this;
         });
-        
 
-   
+
+
 
         $('#msg2').html('');
 
-        if (id == 0)  {
+        if (id == 0) {
             $("#CheckboxCheck").modal('show');
             return false;
         }
@@ -163,15 +211,15 @@ $(document).ready(function () {
         // if(status==undefined){
         //     status=0;
         // }
-        console.log(status)
+        
 
         $('#userId').val(id);
         $('#deleteId').val(id);
         $("#Editstatus").val(status);
 
-        if((status < 1 || status == null || status == undefined)) {
+        if ((status < 1 || status == null || status == undefined)) {
             $("#SelectCheck").modal('show');
-            
+
         }
 
 
@@ -207,12 +255,9 @@ $(document).ready(function () {
             })
         }
 
-        console.log(id);
-
-        
-
+      
         // **********STATUS EDIT************
-         if((status == 1 || status == 2) ) {
+        if ((status == 1 || status == 2)) {
             $("#statusModal").modal('show');
             $("[name='StatusEdit']").click(function () {
                 let id = [];
@@ -222,7 +267,7 @@ $(document).ready(function () {
 
                 let Pass = 'App/Core/handler.php'
 
-                if(status==0||status==undefined){
+                if (status == 0 || status == undefined) {
                     $('#msg2').html("status' => false, 'error' => array('code' => '8', 'message' => 'please choose status'")
                 }
 
@@ -239,11 +284,11 @@ $(document).ready(function () {
                         $('#result').load(Pass);
                     }
                 })
-                
+
             })
         }
 
-        
+
 
     })
 

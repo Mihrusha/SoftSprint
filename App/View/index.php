@@ -52,7 +52,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                             </select>
                                         </li>
                                         <li class="nav-item m-2">
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target=""  name="OK" value="OK" id="OK">OK</button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="OK" value="OK" id="OK">OK</button>
                                         </li>
                                     </ul>
                                     <div class=' container d-flex justify-content-center mt-2 mb-2'>
@@ -118,7 +118,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                             </select>
                                         </li>
                                         <li class="nav-item m-2">
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target=""  name="OK" value="OK" id="OK">OK</button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="OK" value="OK" id="OK">OK</button>
                                         </li>
                                     </ul>
                                 </form>
@@ -136,8 +136,8 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     </div>
 
     <script src="App\View\ajax.js"></script>
-    
 
+   
 </body>
 
 </html>

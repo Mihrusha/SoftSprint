@@ -52,7 +52,7 @@ class Database
     if ($sth->rowCount() > 0) {
       $items = $sth->fetchAll();
   } else {
-      $items = 0;
+      $items = $sth->fetchAll();
   }
 
   return $items;

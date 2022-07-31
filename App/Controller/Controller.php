@@ -60,6 +60,7 @@ class Controller
                 die;
             }
 
+            
             if ($user->UserCheck($name, $surname) > 0) {
                 echo json_encode(array('status' => false, 'error' => array('code' => '4', 'message' => 'user already exist')));
                 die;
