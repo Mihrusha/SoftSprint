@@ -60,7 +60,7 @@ include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                         <!-- Central rable -->
 
                                         <div id='result' class="container mt-3">
-                                            <table class="table table-bordered  table-responsive-sm ">
+                                            <table class="table table-bordered  table-responsive-sm " id='someTable'>
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center align-top">

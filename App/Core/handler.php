@@ -41,5 +41,5 @@ if (isset($_POST['mass_delete']))
     echo $result;
 }
 
-$controller->Change();
+//$controller->Change();
 ?>

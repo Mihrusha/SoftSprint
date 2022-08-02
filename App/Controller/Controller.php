@@ -67,7 +67,7 @@ class Controller
             } else
 
                 $user->Insert($name, $surname, $status, $role);
-            echo json_encode(array('status' => true, 'error' => null, 'user' => array("name" => $name, "surname" => $surname)));
+            echo json_encode(array('status' => true, 'error' => null, 'user' => array("name" => $name, "surname" => $surname, 'role'=>$role, 'status'=>$status)));
 
             die;
         }
