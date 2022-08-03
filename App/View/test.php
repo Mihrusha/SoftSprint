@@ -1,4 +1,12 @@
-<?php ?>
+<?php
+
+use App\Model\User;
+
+include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
+$user = new User;
+$data = $user->GetAll();
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +29,7 @@
 
 </html>
 
-<table class="table table-bordered  table-responsive-sm " id='someTable'>
+<table class="table table-bordered  table-responsive-sm " id='someTable' name='some'>
     <thead>
         <tr>
             <th class="text-center align-top">
@@ -35,7 +43,7 @@
     </thead>
     <tbody>
         <?php foreach ($data as $row) { ?>
-            <tr>
+            <tr id="<?= $row['id']; ?>">
                 <td class="text-center align-middle">
                     <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
                         <input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
@@ -59,7 +67,7 @@
                 </td>
             </tr>
         <?php  } ?>
-    <tbody>
+    </tbody>
 </table>
 
 <form method='post'>
@@ -71,7 +79,7 @@
 </form>
 
 <div id='msg'></div>
-
+<?= include_once "modals.php" ?>
 <script>
     $(document).ready(function() {
         $("[name='send']").click(function() {
@@ -89,15 +97,94 @@
                     role: role
                 },
                 success: function(msg) {
-                    // console.log(typeof(msg)),
                     arr = JSON.parse(msg);
-                    // console.log(typeof(arr)),
-                    // console.log(arr['user']['name']);
                     var name = arr['user']['name'];
                     var surname = arr['user']['surname'];
-                    $("#someTable tbody").append("<tr><td><div class='custom-control m-0 align-top'> <input type='checkbox' name='check' id='check' class='delete-id' value=''</div></td><td>" + name + " " + surname + "</td><td>" + role + "</td><td>" + status + "</td><td><div class='btn-group align-top'><button type='button' class='btn btn-sm btn-success' data-bs-toggle='modal' data-bs-target='#AddModal' data-role='update' id='edit' name='update'>Edit</button><button type='button' class='btn btn-danger' data-bs-toggle='' data-bs-target='' name='delete' id='delete' value='delete'><i class='fa fa-trash fa-lg '></i></buttton</div></td></tr>");
+                    var role = arr['user']['role'];
+                    var status = arr['user']['status']
+                    const rowContent = `<tr>
+                    <td class="text-center align-middle"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
+                        <input type="checkbox" name="check" id="check" class="delete-id" value="">
+                    </div></td>
+                    <td class="text-center align-middle">${name} ${surname}</td>
+                    <td class="text-center align-middle">${status}</td>
+                    <td class="text-center align-middle">${role}</td>
+                    <td class="text-center align-middle"><div class="btn-group align-top">
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit' name='update'>Edit</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
+                    </div></td>
+                     </tr>`;
+                    $("#someTable tbody").append(rowContent);
                 }
             })
+            var id = [];
+            $(".delete-id:checked").each(function() {
+                id.push($(this).val());
+                element = this;
+            });
+            console.log(id);
+
+        })
+
+// *****************DELETE*********************
+        $("[name='delete']").click(function() {
+
+            var id = [];
+            $(".delete-id:checked").each(function() {
+                id.push($(this).val());
+                element = this;
+            });
+
+            if (id == 0) {
+                $("#DeleteMod").modal('show');
+                return false;
+            }
+
+            var TableId = $('#someTable  tr').attr("id");
+            console.log(id);
+            if (id.length > 0) {
+                $("#Delete_Mod").modal('show');
+
+                var modalConfirm = function(callback) {
+
+                    $("#btn-confirm").on("click", function() {
+                        $("#mi-modal").modal('show');
+                    });
+
+                    $("#modal-btn-yes").on("click", function() {
+                        callback(true);
+                        $("#mi-modal").modal('hide');
+                    });
+
+                    $("#modal-btn-no").on("click", function() {
+                        callback(false);
+                        $("#mi-modal").modal('hide');
+                    });
+                };
+                var currentRow = $(this).closest("tr")
+                let Pass = '../Core/handler.php'
+                modalConfirm(function(confirm) {
+                    if (confirm) {
+
+                        $.ajax({
+                            type: 'post',
+                            url: 'delete.php',
+                            data: {
+                                delete: 'delete',
+                                deleteId: id
+                            },
+                            success: function(result) {
+                                currentRow.remove();
+
+                            }
+                        })
+                    } else {
+
+                        return false;
+                    }
+                });
+            }
+            return false;
 
         })
 

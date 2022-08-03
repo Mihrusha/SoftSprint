@@ -61,7 +61,7 @@ $(document).ready(function () {
                 status = 1;
             } else status = 2;
 
-           
+            let url = 'App/View/insert.php';
             let Pass = 'App/Core/handler.php'
             let arr = [];
             $.ajax({
@@ -76,8 +76,42 @@ $(document).ready(function () {
                 },
                 success: function (data) {
 
-                    $("#result").html(data);
+                    if (data.includes('no name')) {
+                        $("#msg").html("Please Give Name");
+
+                    }
+                    else if (data.includes('no surname')) {
+                        $("#msg").html("Please Give Surname");
+
+                    }
+                    else if (data.includes('no users role')) {
+                        $("#msg").html("Please Give Role");
+
+                    }
+
+                    else if (data.includes('user already exist')) {
+                        $("#msg").html("This user already exist");
+
+                    }
+                    else
+                        arr = $.parseJSON(data);
+                    text = null;
+                    $.each(arr, function (key, value) {
+                        text = value;
+                       
+                        var txt = "";
+                        for (let x in text) {
+                            txt += text[x] + " ";
+                        }
+                        $("#msg").html("User "+txt+"created succefully");
+                        $("#result").html(data);
+                    });
                     
+
+                        $("#result").html(data);
+
+              
+                
                         // $('#result').html(data);
 
                 }
