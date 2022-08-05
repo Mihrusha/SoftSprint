@@ -3,8 +3,8 @@
 use App\Model\User;
 
 include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
-$user = new User;
-$data = $user->GetAll();
+// $user = new User;
+// $data = $user->GetAll();
 
 ?>
 
@@ -16,7 +16,7 @@ $data = $user->GetAll();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
 
@@ -134,7 +134,7 @@ $data = $user->GetAll();
     </div>
 
     <?= include_once "modals.php" ?>
-    <div id='msg'></div>
+
 
     <script>
         $(document).ready(function() {
@@ -158,7 +158,7 @@ $data = $user->GetAll();
                     element = this;
                 });
 
-               
+
                 $("#msg").empty();
 
                 var currentRow = $(this).closest("tr")
@@ -181,7 +181,7 @@ $data = $user->GetAll();
                 $("#msg").empty();
 
             });
-// ******************INSERT********************
+            // ******************INSERT********************
             $("#save").click(function(e) {
                 if ($('#save').attr('name') == 'submit') {
 
@@ -194,13 +194,12 @@ $data = $user->GetAll();
                         status = 1;
                     } else status = 2;
 
-                    let url = 'App/View/insert.php';
-
-
+                    url = 'insert.php';
+                    new_url = 'App/View/Connector.php';
                     let arr = [];
                     $.ajax({
                         method: "POST",
-                        url: 'insert.php',
+                        url: new_url,
                         data: {
                             insert: 'insert',
                             name: name,
@@ -209,19 +208,25 @@ $data = $user->GetAll();
                             status: status
                         },
                         success: function(data) {
-                            arr = JSON.parse(data);
-                            var name = arr['user']['name'];
-                            var surname = arr['user']['surname'];
 
-                            var role = arr['user']['role'];
-                            var status = arr['user']['status']
-                            var str = null;
-                            if (status == 1) {
-                                str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
-                            } else if (status == 2) {
-                                str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
-                            }
-                            const rowContent = `<tr>
+
+                            arr = JSON.parse(data);
+                           
+                            // // if(data.includes(2)){
+                            //     $("#msg").html(arr['error']['massage']);
+                            // }
+                             if (data.includes('name')) {
+                                var name = arr['user']['name'];
+                                var surname = arr['user']['surname'];
+                                var role = arr['user']['role'];
+                                var status = arr['user']['status']
+                                var str = null;
+                                if (status == 1) {
+                                    str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
+                                } else if (status == 2) {
+                                    str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
+                                }
+                                const rowContent = `<tr>
                 <td class="text-center align-middle"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
                     <input type="checkbox" name="check" id="check" class="delete-id" value="">
                 </div></td>
@@ -233,11 +238,15 @@ $data = $user->GetAll();
                     <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
                 </div></td>
                  </tr>`;
-                            $("#someTable tbody").append(rowContent);
+                                $("#someTable tbody").append(rowContent);
 
 
+                            }
+
+                            else if (data.includes(1)) {
+                                $("#msg").html(arr['error']['massage']);
+                            }
                         }
-
 
                     })
 
@@ -265,9 +274,12 @@ $data = $user->GetAll();
                     t_id = $('#' + id);
                     console.log(t_id);
 
+                    url = 'edit.php';
+                    new_url = 'App/View/Connector.php';
+
                     $.ajax({
                         method: "POST",
-                        url: 'edit.php',
+                        url: new_url,
                         data: {
                             edit: 'edit',
                             id: id,
@@ -279,11 +291,8 @@ $data = $user->GetAll();
                         success: function(data) {
 
                             arr = JSON.parse(data);
-
                             var some_name = arr['user']['name'];
-
                             var some_surname = arr['user']['surname'];
-
                             var some_role = arr['user']['role'];
                             var some_status = arr['user']['status'];
                             var str = null;
@@ -292,7 +301,6 @@ $data = $user->GetAll();
                             } else if (some_status == 2) {
                                 str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
                             }
-
                             var rowContent = `<tr id='tr_info' >
                     <td class="text-center align-middle"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
                         <input type="checkbox" name="check" id="check" class="delete-id" value="">
@@ -357,13 +365,13 @@ $data = $user->GetAll();
                         });
                     };
                     var currentRow = $(this).closest("tr")
-                    let Pass = '../Core/handler.php'
+                    let Pass = 'App/View/Connector.php'
                     modalConfirm(function(confirm) {
                         if (confirm) {
 
                             $.ajax({
                                 type: 'post',
-                                url: 'delete.php',
+                                url: Pass,
                                 data: {
                                     delete: 'delete',
                                     deleteId: id
@@ -391,7 +399,7 @@ $data = $user->GetAll();
             });
 
 
-            let con = 0;
+
 
             // *******************************
             $("[name='OK']").click(function(e) {
@@ -402,14 +410,11 @@ $data = $user->GetAll();
                 var id = [];
                 $(".delete-id:checked").each(function() {
                     id.push($(this).val());
-                    // var row = $(this).closest('tr')
-                    //  var surname = row.find("td:eq(1)").text();
                     table.push($(this).closest('tr'));
-                    con++;
                     element = this;
                 });
 
-                console.log(con);
+
                 // console.log(table);
 
                 $('#msg2').html('');
@@ -442,7 +447,7 @@ $data = $user->GetAll();
                         var id = [];
                         id = $('#deleteId').val();
 
-                        let Pass = 'delete.php'
+                        let Pass = 'App/View/Connector.php'
 
                         $.ajax({
                             url: Pass,
@@ -474,12 +479,9 @@ $data = $user->GetAll();
                     $("[name='StatusEdit']").click(function() {
                         let id = [];
                         id = $('#userId').val();
-                        console.log(table);
+
                         var status = $("#Editstatus").val();
-
-                        let Pass = 'edit.php'
-
-
+                        let Pass = 'App/View/Connector.php'
                         t_id = $('#' + id);
 
                         if (status == 0 || status == undefined) {
@@ -497,9 +499,7 @@ $data = $user->GetAll();
                             success: function(data) {
 
                                 arr = JSON.parse(data);
-
                                 t_id = $('#' + id);
-
                                 var t_name = $('#' + id).children('td[data-target=first_name]').text();
                                 console.log(t_name);
                                 var t_role = $('#' + id).children('td[data-target=role]').text();
@@ -524,18 +524,32 @@ $data = $user->GetAll();
                             }
 
 
-
-
-
                         })
 
                     })
                 }
 
 
-
             })
+            $('#main_checkbox').click(function() {
+                var checked = this.checked;
+                $('input[type="checkbox"]').each(function() {
+                    this.checked = checked;
+                });
+            })
+            $("[name='check']").on('change', function() {
+                $('#main_checkbox').not(this).prop('checked', false);
+            });
 
+
+            $("[name='check']").on('change', function() {
+                var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
+
+
+                if (lenghtOfUnchecked == 0) {
+                    $('#main_checkbox').not(this).prop('checked', true)
+                }
+            });
 
 
         })

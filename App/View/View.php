@@ -14,4 +14,10 @@ class View
         include_once 'change.php';
     }
     
+    public function newIndex($data=null)
+    {
+        
+        include_once 'newIndex.php';
+       
+    }
 }

@@ -57,12 +57,12 @@ $(document).ready(function () {
                 status = 1;
             } else status = 2;
 
-            let url = 'App/View/insert.php';
+            let url = 'insert.php';
             let Pass = 'App/Core/handler.php'
             let arr = [];
             $.ajax({
                 method: "POST",
-                url: Pass,
+                url: url,
                 data: {
                     insert: 'insert',
                     name: name,
@@ -90,21 +90,31 @@ $(document).ready(function () {
 
                     }
                     else
-                        arr = $.parseJSON(data);
-                    text = null;
-                    $.each(arr, function (key, value) {
-                        text = value;
-                       
-                        var txt = "";
-                        for (let x in text) {
-                            txt += text[x] + " ";
-                        }
-                        $("#msg").html("User "+txt+"created succefully");
-                        $("#result").html(data);
-                    });
-                    
+                    arr = JSON.parse(data);
+                    var name = arr['user']['name'];
+                    var surname = arr['user']['surname'];
 
-                        $("#result").html(data);
+                    var role = arr['user']['role'];
+                    var status = arr['user']['status']
+                    var str = null;
+                    if (status == 1) {
+                        str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
+                    } else if (status == 2) {
+                        str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
+                    }
+                    const rowContent = `<tr>
+        <td class="text-center align-middle"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
+            <input type="checkbox" name="check" id="check" class="delete-id" value="">
+        </div></td>
+        <td class="text-center align-middle">${name} ${surname}</td>
+        <td class="text-center align-middle">${str}</td>
+        <td class="text-center align-middle">${role}</td>
+        <td class="text-center align-middle"><div class="btn-group align-top">
+            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit' name='update'>Edit</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
+        </div></td>
+         </tr>`;
+                    $("#someTable tbody").append(rowContent);
 
               
                 
@@ -132,9 +142,13 @@ $(document).ready(function () {
             if (jQuery('input[name=status]').is(':checked')) {
                 status = 1;
             } else status = 2;
+            t_id = $('#' + id);
+            console.log(t_id);
+
+
             $.ajax({
                 method: "POST",
-                url: Pass,
+                url: 'edit.php',
                 data: {
                     edit: 'edit',
                     id: id,
@@ -163,19 +177,32 @@ $(document).ready(function () {
 
                     
                     } else
-                    arr = $.parseJSON(data);
-                    text = null;
-                    $.each(arr, function (key, value) {
-                        text = value;
-                       
-                        var txt = "";
-                        for (let x in text) {
-                            txt += text[x] + " ";
-                        }
-                        $("#msg").html("User "+txt+"changed succefully");
-                    });
-                   
-                        $('#result').load(Pass);
+                    arr = JSON.parse(data);
+                    var some_name = arr['user']['name'];
+                    var some_surname = arr['user']['surname'];
+                    var some_role = arr['user']['role'];
+                    var some_status = arr['user']['status'];
+                    var str = null;
+                    if (some_status == 1) {
+                        str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
+                    } else if (some_status == 2) {
+                        str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
+                    }
+                    var rowContent = `<tr id='tr_info' >
+            <td class="text-center align-middle"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
+                <input type="checkbox" name="check" id="check" class="delete-id" value="">
+            </div></td>
+            <td class="text-center align-middle">${some_name} ${some_surname}</td>
+            <td class="text-center align-middle">${str}</td>
+            <td class="text-center align-middle">${some_role}</td>
+            <td class="text-center align-middle"><div class="btn-group align-top">
+                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit' name='update'>Edit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
+            </div></td>
+             </tr>`;
+                    t_id = $('#' + id);
+
+                    $(t_id).replaceWith(rowContent);
                 }
 
             })
@@ -194,9 +221,11 @@ $(document).ready(function () {
     // *******************************
     $("[name='OK']").click(function (e) {
         e.preventDefault();
+        var table = []
         var id = [];
         $(".delete-id:checked").each(function () {
             id.push($(this).val());
+            table.push($(this).closest('tr'));
             element = this;
         });
 
@@ -233,7 +262,7 @@ $(document).ready(function () {
                 let Pass = 'App/Core/handler.php'
 
                 $.ajax({
-                    url: Pass,
+                    url:'delete.php',
                     type: 'post',
                     data: {
                         mass_delete: 'mass',
@@ -241,8 +270,10 @@ $(document).ready(function () {
                     },
                     success: function (response) {
 
-                        $('#result').load(Pass);
-                        // alert('id')
+                        $(table).each(function(key, value) {
+
+                            value.remove()
+                        })
 
                     },
                     error: function (response) {
@@ -263,22 +294,41 @@ $(document).ready(function () {
                 var status = $("#Editstatus").val();
 
                 let Pass = 'App/Core/handler.php'
+                t_id = $('#' + id);
 
                 if (status == 0 || status == undefined) {
                     $('#msg2').html("status' => false, 'error' => array('code' => '8', 'message' => 'please choose status'")
                 }
 
                 $.ajax({
-                    url: Pass,
+                    url:'edit.php',
                     method: 'post',
                     data: {
                         edit_status: 'edit',
                         status: status,
                         id: id
                     },
-                    success: function (response) {
-                        //$("#response").html(response);
-                        $('#result').load(Pass);
+                    success: function (data) {
+                        arr = JSON.parse(data);
+                        t_id = $('#' + id);
+                        var t_name = $('#' + id).children('td[data-target=first_name]').text();
+                        console.log(t_name);
+                        var t_role = $('#' + id).children('td[data-target=role]').text();
+                        console.log(t_role);
+                        var some_status = arr['user']['status'];
+                        var str = null;
+                        if (some_status == 1) {
+                            str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
+                        } else if (some_status == 2) {
+                            str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
+                        }
+
+                        var rowContent = `<td class="text-center align-middle">${str}</td>`
+
+                        $(table).each(function(key, value) {
+
+                            value.children('td:eq(2)').replaceWith(rowContent);
+                        })
                     }
                 })
 
@@ -322,20 +372,20 @@ $(document).ready(function () {
                     $("#mi-modal").modal('hide');
                 });
             };
-
+            var currentRow = $(this).closest("tr")
             let Pass = 'App/Core/handler.php'
             modalConfirm(function (confirm) {
                 if (confirm) {
 
                     $.ajax({
                         type: 'post',
-                        url: Pass,
+                        url: 'delete.php',
                         data: {
                             delete: 'delete',
                             deleteId: id
                         },
                         success: function (result) {
-                            $("#result").load(Pass);
+                            currentRow.remove();
 
                         }
                     })
