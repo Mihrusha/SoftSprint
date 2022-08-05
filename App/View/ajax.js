@@ -2,8 +2,6 @@
 
 $(document).ready(function () {
 
-
-
     $("[name='insert']").click(function (e) {
         e.preventDefault();
         $('#save').attr('name', 'submit');
@@ -35,13 +33,11 @@ $(document).ready(function () {
         $("#name").val(surArr[0]);
         $("#surname").val(surArr[1]);
         $('#save').attr('name', 'save');
-
         $("#AddModal").modal('show');
 
     })
 
     $("[name='Close']").click(function () {
-
         $('#ModalName').text("Edit User");
         $('#save').text("Edit");
         $("#msg").empty();
@@ -204,9 +200,6 @@ $(document).ready(function () {
             element = this;
         });
 
-
-
-
         $('#msg2').html('');
 
         if (id == 0) {
@@ -227,8 +220,6 @@ $(document).ready(function () {
             $("#SelectCheck").modal('show');
 
         }
-
-
 
         // **********MASS DELETE************
         else if ((id != 0 && status == 3)) {

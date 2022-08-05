@@ -58,6 +58,7 @@
             </div>
             <div style="background-color:red" id='msg2'>
             </div>
+            <div id='msg_new'></div>
             <div class="modal-body">
                 <p>Do you realy want this action?</p>
                 <form action="javascript:void(0)" method="post" id="statusForm">

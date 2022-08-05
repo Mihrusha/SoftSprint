@@ -12,3 +12,10 @@ if (isset($_POST['deleteId'])) {
     $deleteId = implode(',', $deleteId);
     $user->Delete($deleteId);
 }
+
+if (isset($_POST['mass_id'])) {
+
+    $id = $_POST['mass_id'];
+
+    $user->Delete($id);
+}

@@ -4,7 +4,7 @@ use App\Model\User;
 include 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 $user = new User;
 
-if (isset($_POST['name'])) {
+if (isset($_POST['insert'])) {
     $name = $_POST['name'];
      $surname = $_POST['surname'];
         $role = $_POST['role'];

@@ -33,9 +33,10 @@ class User extends Model
     public  function EditStatus($id, $status)
     {
        
-        $extract = implode(',', $id);
+        //$extract = implode(',', $id);
         
-        $sql = "UPDATE  users SET status = '$status' WHERE id IN($extract)";
+
+        $sql = "UPDATE  users SET status = '$status' WHERE id IN($id)";
         $db = Database::Instanse();
         $db->execute($sql);
         header('index.php');
@@ -43,11 +44,7 @@ class User extends Model
 
     public  function Edit($name = null, $surname = null, $role = null, $id = null, $status = null)
     {
-        //$db = new Database;
-
-        // var_dump($name,$surname,$role,$id);
-        // die;
-        if ($id != null) {
+            if ($id != null) {
             $sql = "UPDATE  users SET role = '$role',name='$name',surname='$surname',status='$status' WHERE id=$id";
             $db = Database::Instanse();
             $db->execute($sql);
