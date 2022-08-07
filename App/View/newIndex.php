@@ -16,7 +16,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="App\View\styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
 
@@ -89,9 +89,10 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                             <td class="text-center align-middle" data-target="role"><?= $row['role'] ?></td>
                                                             <td class="text-center align-middle">
                                                                 <div class="btn-group align-top">
-                                                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit' name='update'>Edit</button>
+                                                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="" data-role='update' id='edit' name='update'>Edit</button>
                                                                     <!-- <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button> -->
-                                                                    <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="<?= $row['id']; ?>"><i class="fa fa-trash fa-lg "></i></button>
+                                                                    <div class='linksd'><button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="<?= $row['id']; ?>"><i class="fa fa-trash fa-lg "></i></button></div>
+                                                                        
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -119,12 +120,12 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                             <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="OK" value="OK" id="OK">OK</button>
                                         </li>
                                     </ul>
-                                </form>
-                                <!-- Modals -->
+                                </form> 
+                              <!-- Modals -->  
 
-                                <?php
-                                include_once "modals.php";
-                                ?>
+                                    <?php
+                                    include_once "modals.php";
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -138,6 +139,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
     <script>
         $(document).ready(function() {
+
             $("[name='insert']").click(function(e) {
                 e.preventDefault();
                 $('#save').attr('name', 'submit');
@@ -146,7 +148,6 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 $("#name").val('');
                 $("#surname").val('');
                 $("#AddModal").modal('show');
-
             })
 
 
@@ -157,11 +158,11 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     id.push($(this).val());
                     element = this;
                 });
-
-
                 $("#msg").empty();
-
-                var currentRow = $(this).closest("tr")
+                if (id == 0) {
+                    $("#CheckboxCheck").modal('show');
+                } else
+                    var currentRow = $(this).closest("tr")
 
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
@@ -182,9 +183,9 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
             });
             // ******************INSERT********************
-            $("#save").click(function(e) {
-                if ($('#save').attr('name') == 'submit') {
+            $(document).on('click', '#save', function(event) {
 
+                if ($('#save').attr('name') == 'submit') {
                     var name = $("#name").val();
                     var surname = $("#surname").val();
                     var role = $("#role").val();
@@ -209,13 +210,32 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         },
                         success: function(data) {
 
-
-                            arr = JSON.parse(data);
                            
-                            // // if(data.includes(2)){
-                            //     $("#msg").html(arr['error']['massage']);
-                            // }
-                             if (data.includes('name')) {
+
+                            if (data.includes('Must write a name')) {
+                             $("#msg").html("Please Give Name");
+                                
+                            }
+
+                           if (data.includes('Must write a surname')) {
+                            $("#msg").html("Please Give Surname");
+                                
+                            }
+
+                            if (data.includes('Must choose a role')) {
+                            $("#msg").html("Please choose role");
+                                
+                            }
+
+                            if (data.includes('User already exist')) {
+                            $("#msg").html("User already exist");
+                                
+                            }
+
+                            else 
+                               
+                                arr = JSON.parse(data);
+                                $("#msg").html("User"+" "+ arr['user']['name']+" "+arr['user']['surname']+" "+"added");
                                 var name = arr['user']['name'];
                                 var surname = arr['user']['surname'];
                                 var role = arr['user']['role'];
@@ -235,17 +255,13 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 <td class="text-center align-middle">${role}</td>
                 <td class="text-center align-middle"><div class="btn-group align-top">
                     <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role='update' id='edit' name='update'>Edit</button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
+                    <div class='linksd'> <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button></div>
                 </div></td>
                  </tr>`;
                                 $("#someTable tbody").append(rowContent);
 
 
-                            }
-
-                            else if (data.includes(1)) {
-                                $("#msg").html(arr['error']['massage']);
-                            }
+                           
                         }
 
                     })
@@ -264,8 +280,6 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     var surname = $("input[name='surname']").val();
                     var role = $('#role').val();
                     let status;
-
-
 
                     if (jQuery('input[name=status]').is(':checked')) {
                         status = 1;
@@ -290,7 +304,25 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         },
                         success: function(data) {
 
+                            if (data.includes('Must write a name')) {
+                             $("#msg").html("Please Give Name");
+                                
+                            }
+
+                           if (data.includes('Must write a surname')) {
+                            $("#msg").html("Please Give Surname");
+                                
+                            }
+
+                            if (data.includes('Must choose a role')) {
+                            $("#msg").html("Please choose role");
+                                
+                            }
+
+                            else 
+
                             arr = JSON.parse(data);
+                            $("#msg").html("User"+" "+ arr['user']['name']+" "+arr['user']['surname']+" "+"edited");
                             var some_name = arr['user']['name'];
                             var some_surname = arr['user']['surname'];
                             var some_role = arr['user']['role'];
@@ -316,8 +348,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             t_id = $('#' + id);
 
                             $(t_id).replaceWith(rowContent);
-
-
+                            // $(t_id).html(rowContent);
 
                         }
                     })
@@ -331,7 +362,12 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             })
 
             // *****************DELETE*********************
-            $("[name='delete']").click(function() {
+
+
+            $(document).on('click', ".linksd", function(event) {
+                event.preventDefault()
+                // jQuery(this).parent().parent().parent().remove();
+                // return false;
 
                 var id = [];
                 $(".delete-id:checked").each(function() {
@@ -344,7 +380,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     return false;
                 }
 
-
+                $('#oneDel').val(id);
                 if (id.length > 0) {
                     $("#Delete_Mod").modal('show');
 
@@ -377,17 +413,21 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                     deleteId: id
                                 },
                                 success: function(result) {
-                                    currentRow.remove();
-
+                                      currentRow.remove();
+                                  
                                 }
                             })
-                        } else {
+                            
+                         
 
-                            return false;
                         }
+                        
                     });
+
+                    // jQuery(this).parent().parent().parent().remove()
+                    //                 return false
                 }
-                return false;
+
 
             })
 
@@ -474,9 +514,12 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 // **********STATUS EDIT************
 
+              
+
+
                 if ((status == 1 || status == 2)) {
                     $("#statusModal").modal('show');
-                    $("[name='StatusEdit']").click(function() {
+                    $(document).on('click',"[name='StatusEdit']",function() {
                         let id = [];
                         id = $('#userId').val();
 

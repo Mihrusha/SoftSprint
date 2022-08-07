@@ -11,7 +11,7 @@
                 <form>
                     <div class="form-group">
                         <label for="first-name" class="col-form-label">First Name:</label>
-                        <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
+                        <input type="hidden" name="userId" id="userId" class="form-control" value="" data-set="" maxlength="50">
                         <input type="text" name="name" id="name" class="form-control" value="" maxlength="50" required pattern="[a-zA-Z'-'\s]*" title="Only A-z">
                     </div>
                     <div class="form-group">
@@ -149,6 +149,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" name="oneDel" id="oneDel" value=''>
                 <p>Do you want delete person?</p>
             </div>
             <div class="modal-footer">

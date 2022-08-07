@@ -35,22 +35,26 @@ class Controller
                 $role = $_POST['role'];
                 $status = $_POST['status'];
                 if($name == ''){
-                    echo json_encode(array('status' => false, 'error' => array("code" => 1, "massage" => 'Must write a name')));
-                   
+                    echo json_encode(array('status' => false, 'error' => array("code" => '1', "massage" => 'Must write a name')));
+                 die;  
                 }
-                else if($surname == ''){
+                if($surname == ''){
                     echo json_encode(array('status' => false, 'error' => array("code" => 2, "massage" => 'Must write a surname')));
-                  
+                  die;
                 }
-               else  if( $role == 'no'){
+                 if( $role == 'no'){
                     echo json_encode(array('status' => false, 'error' => array("code" => 3, "massage" => 'Must choose a role')));
-                  
+                  die;
+                }
+                  if( $user->UserCheck($name,$surname) >0){
+                    echo json_encode(array('status' => false, 'error' => array("code" => 4, "massage" => 'User already exist')));
+                  die;
                 }
                 else
                    $user->Insert($name, $surname, $status, $role);
             echo json_encode(array('status' => true, 'error' => null, 'user' => array("name" => $name, "surname" => $surname, 'role'=>$role, 'status'=>$status)));
         
-          
+          die;
         }
     }
 
@@ -68,6 +72,22 @@ class Controller
             $role = $_POST['role'];
             $status = $_POST['status'];
             $id = $_POST['id'];
+            
+            
+            if($name == ''){
+                echo json_encode(array('status' => false, 'error' => array("code" => '1', "massage" => 'Must write a name')));
+             die;  
+            }
+            else if($surname == ''){
+                echo json_encode(array('status' => false, 'error' => array("code" => 2, "massage" => 'Must write a surname')));
+              die;
+            }
+           else  if( $role == 'no'){
+                echo json_encode(array('status' => false, 'error' => array("code" => 3, "massage" => 'Must choose a role')));
+              die;
+            }
+            
+            else
             $user->Edit($name, $surname, $role, $id, $status);
             echo json_encode(array('status' => true, 'error' => null, 'user' => array("id" => $id, "name" => $name, "surname" => $surname, 'role' => $role, 'status' => $status)));
             
