@@ -34,6 +34,8 @@ class Controller
              $surname = $_POST['surname'];
                 $role = $_POST['role'];
                 $status = $_POST['status'];
+
+               
                 if($name == ''){
                     echo json_encode(array('status' => false, 'error' => array("code" => '1', "massage" => 'Must write a name')));
                  die;  
@@ -51,8 +53,9 @@ class Controller
                   die;
                 }
                 else
-                   $user->Insert($name, $surname, $status, $role);
-            echo json_encode(array('status' => true, 'error' => null, 'user' => array("name" => $name, "surname" => $surname, 'role'=>$role, 'status'=>$status)));
+                $new_id= $user->Insert($name, $surname, $status, $role);
+                //    $new_id = $user->IdReturn($surname);
+            echo json_encode(array('status' => true, 'error' => null, 'user' => array("id"=>$new_id,"name" => $name, "surname" => $surname, 'role'=>$role, 'status'=>$status)));
         
           die;
         }
@@ -135,6 +138,18 @@ class Controller
             $id = $_POST['mass_id'];
         
             $user->Delete($id);
+        }
+    }
+
+    public function oneDelete()
+    {
+
+        $user = new User;
+        if (isset($_POST['deleteId'])) {
+
+            $id = $_POST['deleteId'];
+        
+            $user->OneDelete($id);
         }
     }
 

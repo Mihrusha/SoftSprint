@@ -22,7 +22,7 @@ if(isset($_POST['edit_status'])){
 }
 
 if(isset($_POST['delete'])){
-    $result= $controller->Delete();
+    $result= $controller->OneDelete();
     return $result;
 }
 

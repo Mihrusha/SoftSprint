@@ -28,7 +28,33 @@ class User extends Model
        
     }
 
-    
+    public  function IdReturn($name,$surname)
+    {
+       
+        $db = new Database;
+        
+        $sql = "SELECT id FROM users WHERE users.name = $name AND users.surname = $surname";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $data = $stmt->fetchAll();
+        } else {
+            $data = 0;
+        }
+        return $data;
+       
+    }
+
+    public  function OneDelete($method)
+    {
+       
+        $checkbox = $method;
+        
+        $sql = "DELETE FROM users WHERE  id =$checkbox  ";
+        $db = Database::Instanse();
+        $db->execute($sql);
+       
+    }
 
     public  function EditStatus($id, $status)
     {
@@ -79,6 +105,9 @@ class User extends Model
         $sql = "INSERT INTO users (name,surname,status,role) VALUES ($name,$surname,$status,$role)";
 
         $db->execute($sql);
+
+        $data = $this->IdReturn($name,$surname);
+        return $data;
     }
 
    
