@@ -31,4 +31,9 @@ if(isset($_POST['mass_delete'])){
     return $result;
 }
 
+if(isset($_POST['need_id'])){
+    $result= $controller->idReturn();
+    return $result;
+}
+
 ?>

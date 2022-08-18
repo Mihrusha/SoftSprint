@@ -70,7 +70,7 @@
                     </div>
                 </form>
                 <div class='modal-footer'>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary"data-bs-toggle="" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" name="StatusEdit" value="StatusEdit" id="StatusEdit">Action</button>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 
             </div>
             <div class='modal-footer'>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
                 <p>You must choose checkbox</p>
             </div>
             <div class='modal-footer'>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
 
