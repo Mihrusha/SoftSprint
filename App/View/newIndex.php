@@ -73,8 +73,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                 </thead>
                                                 <tbody>
                                                     <?php foreach ($data as $row) { ?>
-                                                        <tr id='<?php echo $row['id']; ?>' class='tab_tr'>
-                                                            <td class="text-center align-middle" data-id='<?php echo $row['id']; ?>'><?php echo $row['id']; ?>
+                                                        <tr id='<?php echo $row['id']; ?>'>
+                                                            <td class="text-center align-middle" data-id='<?php echo $row['id']; ?>'>
                                                                 <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
                                                                     <input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
                                                                 </div>
@@ -157,7 +157,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
             $("[name='update']").click(function(e) {
-                debugger;
+              
                 e.preventDefault();
 
                 var id = $(this).attr('data-id');
@@ -165,11 +165,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
               
 
                 $("#msg").empty();
-                // if (id == 0) {
-                //     $("#CheckboxCheck").modal('show');
-                // } else
+               
                 var currentRow = $(this).closest("tr")
+                var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
+                if(closeCheckbox.prop('checked')==false){
+                   $('#CheckboxCheck').modal('show');
+                }
 
+                else
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
                 
@@ -326,8 +329,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     if (id == 0 || undefined) {
                         id = $(this).attr('data-id');
                     }
+
+                   
                   
-                    currentRow = $(this).closest("tr")
+                    currentRow = $(this).closest("tr");
+                    closDel = $(this).closest('.delete-id')
+
+                   
+
                     var t_id = $('#' + id);
                     url = 'insert.php';
                     new_url = 'App/View/Connector.php';
@@ -359,9 +368,9 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 $("#msg").html("Please choose role");
 
                             } else
-                                debugger;
+                            
                             arr = JSON.parse(data);
-                            $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
+                            $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "edited");
                             new_id = arr['user']['id'];
                             last_id = new_id;
                             var name = arr['user']['name'];
@@ -396,7 +405,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                                 var currentRow = $(this).closest("tr")
                                 var s_id = last_id;
-                                console.log(s_id);
+                               
                                 var surname = currentRow.find("td:eq(1)").text();
                                 let surArr = surname.split(" ");
                                 var role = $("input#userRole").val();
@@ -426,10 +435,16 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
             $(document).on('click', ".btn-warning", function(event) {
-                debugger;
+               
                 event.preventDefault()
                 // jQuery(this).parent().parent().parent().remove();
                 // return false;
+
+                var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
+                if(closeCheckbox.prop('checked')==false){
+                   $('#CheckboxCheck').modal('show');
+                }
+                 else
 
                 var id = [];
                 $(".delete-id:checked").each(function() {
@@ -478,7 +493,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     modalConfirm(function(confirm) {
                         if (confirm) {
                             id = parseInt(id);
-                            console.log(id);
+                           
                             $.ajax({
                                 type: 'post',
                                 url: Pass,
@@ -546,9 +561,6 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 var currentRow = $(this).closest("tr")
 
 
-                console.log($('#userRole').val());
-
-
                 $('#msg2').html('');
 
                 if (id == 0) {
@@ -610,12 +622,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         var id = [];
                         var name = [];
                         id = $('#userId').val();
-                        name = $('#userName').val();
-                        surname = $('#userSurname').val();
-                        role = $('#userRole').val()
-                        console.log(name);
-
-
+                        
 
                         if (id == 0 || id == undefined) {
                             id = new_id[0][0];
@@ -632,9 +639,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 edit_status: 'edit',
                                 status: status,
                                 id: id,
-                                name: name,
-                                surname: surname,
-                                role: role
+                                
 
                             },
                             success: function(data) {
@@ -643,9 +648,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                
 
                                 var some_status = arr['user']['status'];
-                                var some_name = arr['user']['name'];
-                                var some_surname = arr['user']['surname'];
-                                var some_role = arr['user']['role'];
+                               
                                 var str = null;
                                 if (some_status == 1) {
                                     str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
@@ -654,21 +657,6 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 }
 
                                 const Content = '<td class="text-center align-middle">' + str + '</td>'
-
-                                
-                                const rowContent =
-                                    '<tr id="' + id + '">' +
-                                    '<td class="text-center align-middle" data-id="' + id + '"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">' +
-                                    '     <input type="checkbox" name="check" id="check" class="delete-id" value=" ' + id + '">' +
-                                    '</div></td>' +
-                                    '<td class="text-center align-middle">' + some_name + ' ' + some_surname + '</td>' +
-                                    '<td class="text-center align-middle">' + str + '</td>' +
-                                    '<td class="text-center align-middle ">' + some_role + '</td>' +
-                                    '<td class="text-center align-middle"><div class="btn-group align-top">' +
-                                    '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + id + '">Edit</button>' +
-                                    '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + id + '"><i class="fa fa-trash fa-lg "></i></button>' +
-                                    '</div></td>' +
-                                    '</tr>';
 
                                
                                 $(table).each(function(key, value) {
@@ -679,9 +667,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                     table = [];
                                 })
 
-
-
-                               
+                                                              
                             }
                         })
 

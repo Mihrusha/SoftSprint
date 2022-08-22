@@ -106,13 +106,13 @@ class Controller
 
       $status = $_POST['status'];
       $id = $_POST['id'];
-      $name = $_POST['name'];
-      $surname =$_POST['surname'];
-      $role=$_POST['role'];
+      // $name = $_POST['name'];
+      // $surname =$_POST['surname'];
+      // $role=$_POST['role'];
 
       $user->EditStatus($id, $status);
 
-      echo json_encode(array('status' => true, 'error' => null, 'user' => array('id'=>$id,'name'=>$name, 'surname'=>$surname, 'role'=>$role,"status" => $status)));
+      echo json_encode(array('status' => true, 'error' => null, 'user' => array('id'=>$id,"status" => $status)));
       die;
     }
   }
