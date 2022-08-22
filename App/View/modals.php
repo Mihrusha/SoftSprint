@@ -64,6 +64,9 @@
                 <form action="javascript:void(0)" method="post" id="statusForm">
                     <div class="form-group">
                         <input type="hidden" name="userId" id="userId" class="form-control" value="" maxlength="50">
+                        <input type="hidden" name="userName" id="userName" class="form-control" value="" maxlength="50">
+                        <input type="hidden" name="userSurname" id="userSurname" class="form-control" value="" maxlength="50">
+                        <input type="hidden" name="userRole" id="userRole" class="form-control" value="" maxlength="50">
                     </div>
                     <div class="form-group ">
                         <input type="hidden" name="Editstatus" id="Editstatus" class="form-control" value="" maxlength="30">

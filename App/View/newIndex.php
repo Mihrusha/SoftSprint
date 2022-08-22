@@ -73,7 +73,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                 </thead>
                                                 <tbody>
                                                     <?php foreach ($data as $row) { ?>
-                                                        <tr id='<?php echo $row['id']; ?>'>
+                                                        <tr id='<?php echo $row['id']; ?>' class='tab_tr'>
                                                             <td class="text-center align-middle" data-id='<?php echo $row['id']; ?>'><?php echo $row['id']; ?>
                                                                 <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
                                                                     <input type="checkbox" name="check" id="check" class="delete-id" value="<?= $row['id']; ?>">
@@ -141,12 +141,9 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <script>
         $(document).ready(function() {
 
-            // $("#someTable td").on("click", function() {
-            //     var dataId = $(this).attr("data-id");
-            //     alert("The data-id of clicked item is: " + dataId);
-            // });
+
             var new_id = 0;
-                var last_id=0;
+            var last_id = 0;
             $("[name='insert']").click(function(e) {
                 e.preventDefault();
                 $('#save').attr('name', 'submit');
@@ -165,13 +162,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 var id = $(this).attr('data-id');
 
-                /*
-                var id = []; 
-                $(".delete-id:checked").each(function() {
-                    id.push($(this).val());
-                    element = this;
-                });
-                */
+              
 
                 $("#msg").empty();
                 // if (id == 0) {
@@ -181,7 +172,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
-                //var role = $("input#userRole").val();
+                
                 var role = $(this).parent().parent().parent().children().filter('[data-target="role"]').text();
                 $('#userId').val(id);
                 $("#name").val(surArr[0]);
@@ -201,13 +192,13 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             });
             // ******************INSERT********************
             $(document).on('click', '#save', function(event) {
-debugger;
+
                 if ($('#save').attr('name') == 'submit') {
                     var name = $("#name").val();
                     var surname = $("#surname").val();
                     var role = $("#role").val();
                     let status;
-                    //var status = $("#status").val();
+                 
                     if (jQuery('input[name=status]').is(':checked')) {
                         status = 1;
                     } else status = 2;
@@ -216,7 +207,7 @@ debugger;
                     var lastRow = $('#someTable tr').eq(len - 1);
 
                     var last_id = lastRow.attr("id")
-                    // console.log(last_id);
+                 
 
                     new_id = last_id
 
@@ -256,13 +247,13 @@ debugger;
                             } else
 
 
-                             arr = JSON.parse(data);
+                                arr = JSON.parse(data);
                             if (arr['user'] == undefined) {
                                 return;
                             }
                             $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
                             new_id = arr['user']['id'];
-                           
+
                             var name = (arr['user']['name']).toString();
                             var surname = arr['user']['surname'].toString();
                             var role = arr['user']['role'].toString();
@@ -283,7 +274,7 @@ debugger;
                                 '<td class="text-center align-middle">' + str + '</td>' +
                                 '<td class="text-center align-middle">' + role + '</td>' +
                                 '<td class="text-center align-middle"><div class="btn-group align-top">' +
-                                '<button type="button" class="btn btn-sm btn-success edit" data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
+                                '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
                                 '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
                                 '</div></td>' +
                                 '</tr>';
@@ -300,9 +291,7 @@ debugger;
                                 $("#name").val(surArr[0]);
                                 $("#surname").val(surArr[1]);
                                 $('#userId').val(id);
-                                // $('#' + id).children('td[data-target=first_name]').text(name + " " + surname);
-                                // $('#' + id).children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
-                                // $('#' + id).children('td[data-target=role]').text(role);
+                             
                                 $('#save').attr('name', 'save');
                                 $("#AddModal").modal('show');
 
@@ -328,7 +317,7 @@ debugger;
                     var surname = $("#surname").val();
                     var role = $("#role").val();
                     let status;
-                    //var status = $("#status").val();
+                   
                     if (jQuery('input[name=status]').is(':checked')) {
                         status = 1;
                     } else status = 2;
@@ -337,7 +326,7 @@ debugger;
                     if (id == 0 || undefined) {
                         id = $(this).attr('data-id');
                     }
-                    // console.log(last_id);
+                  
                     currentRow = $(this).closest("tr")
                     var t_id = $('#' + id);
                     url = 'insert.php';
@@ -370,8 +359,8 @@ debugger;
                                 $("#msg").html("Please choose role");
 
                             } else
-                            debugger;
-                                arr = JSON.parse(data);
+                                debugger;
+                            arr = JSON.parse(data);
                             $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
                             new_id = arr['user']['id'];
                             last_id = new_id;
@@ -394,39 +383,33 @@ debugger;
                                 '<td class="text-center align-middle">' + str + '</td>' +
                                 '<td class="text-center align-middle">' + role + '</td>' +
                                 '<td class="text-center align-middle"><div class="btn-group align-top">' +
-                                '<button type="button" class="btn btn-sm btn-success edit" data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
+                                '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
                                 '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
                                 '</div></td>' +
                                 '</tr>';
 
-                                // $('#' + last_id).children('td[data-target=first_name]').text(name + " " + surname);
-                                // $('#' + last_id).children('td[data-target=status]').replaceWith('<td class="text-center align-middle">' + str + '</td>');
-                                // $('#' + last_id).children('td[data-target=role]').text(role);
 
-                                // $('#name').val(name);
-                                // $('surname').val(surname);
+                            $('#' + id).replaceWith(rowContent);
 
-                                $('#' + id).replaceWith(rowContent);
-                               
-                            // var change = $(rowContent).on('click', '#edit', function() {
+                            var change = $(rowContent).on('click', '#edit', function() {
 
 
-                            //     var currentRow = $(this).closest("tr")
-                            //     var s_id = last_id;
-                            //     console.log(s_id);
-                            //     var surname = currentRow.find("td:eq(1)").text();
-                            //     let surArr = surname.split(" ");
-                            //     var role = $("input#userRole").val();
-                            //     $('#userId').val(s_id);
-                            //     $("#name").val(surArr[0]);
-                            //     $("#surname").val(surArr[1]);
-                             
-                            //     $('#save').attr('name', 'save');
-                            //     $("#AddModal").modal('show');
+                                var currentRow = $(this).closest("tr")
+                                var s_id = last_id;
+                                console.log(s_id);
+                                var surname = currentRow.find("td:eq(1)").text();
+                                let surArr = surname.split(" ");
+                                var role = $("input#userRole").val();
+                                $('#userId').val(s_id);
+                                $("#name").val(surArr[0]);
+                                $("#surname").val(surArr[1]);
 
-                            // })
-                        
-                            // $('#' + last_id).replaceWith(change);
+                                $('#save').attr('name', 'save');
+                                $("#AddModal").modal('show');
+
+                            })
+
+                            $('#' + last_id).replaceWith(change);
 
                         }
 
@@ -444,7 +427,7 @@ debugger;
 
             $(document).on('click', ".btn-warning", function(event) {
                 debugger;
-                                event.preventDefault()
+                event.preventDefault()
                 // jQuery(this).parent().parent().parent().remove();
                 // return false;
 
@@ -454,7 +437,7 @@ debugger;
                     element = this;
                 });
                 currentRow = $(this).closest("tr")
-               
+
 
                 $('body').on('click', '.checkbox', function(e) {
 
@@ -463,7 +446,7 @@ debugger;
                     }
                 })
 
-               
+
 
                 if (id == 0 || undefined) {
                     id = $(this).attr('data-id');
@@ -514,7 +497,7 @@ debugger;
 
                     });
 
-                    
+
                 }
 
             })
@@ -529,32 +512,43 @@ debugger;
             });
 
 
-           
-
             // *******************************
             $("[name='OK']").click(function(e) {
                 e.preventDefault();
 
 
                 var table = []
-                
+
                 var id = [];
 
-                // $(".delete-id:checked").each(function() {
 
-                //     id.push($(this).val());
-                //     table.push($(this).closest('tr'));
-                //     element = this;
-                // });
+                var name = [];
+
                 $(".delete-id:checked").each(function() {
                     row = $(this).closest('tr');
+
+
                     table.push(row);
                     id.push($(row).attr('id'));
                     element = this;
+                    var surname = row.find("td:eq(1)").text();
+                    let surArr = surname.split(" ");
+                    //var role = $("input#userRole").val();
+                    var role = row.find("td:eq(3)").text();
+                    name.push(surArr[0]);
 
+                    $("#userName").val(name);
+                    $("#userSurname").val(surArr[1]);
+
+                    $('#userRole').val(role);
                 })
 
-             
+                var currentRow = $(this).closest("tr")
+
+
+                console.log($('#userRole').val());
+
+
                 $('#msg2').html('');
 
                 if (id == 0) {
@@ -562,12 +556,12 @@ debugger;
                     return false;
                 }
 
-              
+
                 $('#userId').val(id);
                 $('#deleteId').val(id);
                 $("#Editstatus").val(status);
 
-                
+
                 if ((status < 1 || status == null || status == undefined)) {
                     $("#SelectCheck").modal('show');
 
@@ -603,7 +597,7 @@ debugger;
                                 $('#msg2').html('Not send');
                             }
                         })
-                        
+
                     })
                 }
 
@@ -614,35 +608,44 @@ debugger;
                     $("#statusModal").modal('show');
                     $(document).on('click', "#StatusEdit", function() {
                         var id = [];
+                        var name = [];
                         id = $('#userId').val();
-                        var currentRow = $(this).closest("tr")
-                        var s_id = currentRow.find("td:eq(0)").text();
+                        name = $('#userName').val();
+                        surname = $('#userSurname').val();
+                        role = $('#userRole').val()
+                        console.log(name);
+
+
+
                         if (id == 0 || id == undefined) {
-                            id = s_id;
+                            id = new_id[0][0];
                         }
                         let status = $("#Editstatus").val();
                         let Pass = 'App/View/Connector.php'
 
-                        // t_id = $('#' + id);
-                        console.log(status);
-                        console.log(id);
-                        // console.log(s_id);
-                                              
+
+                       
                         $.ajax({
                             url: Pass,
                             type: 'post',
                             data: {
                                 edit_status: 'edit',
                                 status: status,
-                                id: id
+                                id: id,
+                                name: name,
+                                surname: surname,
+                                role: role
+
                             },
                             success: function(data) {
 
                                 arr = JSON.parse(data);
-                                // t_id = $(id).closest('td');
-                                // console.log(t_id);
+                               
 
                                 var some_status = arr['user']['status'];
+                                var some_name = arr['user']['name'];
+                                var some_surname = arr['user']['surname'];
+                                var some_role = arr['user']['role'];
                                 var str = null;
                                 if (some_status == 1) {
                                     str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:green">'
@@ -650,26 +653,40 @@ debugger;
                                     str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
                                 }
 
-                                var rowContent = '<td class="text-center align-middle">' + str + '</td>'
+                                const Content = '<td class="text-center align-middle">' + str + '</td>'
 
-                                var change = $(rowContent).on('click', '#StatusEdit', function() {
+                                
+                                const rowContent =
+                                    '<tr id="' + id + '">' +
+                                    '<td class="text-center align-middle" data-id="' + id + '"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">' +
+                                    '     <input type="checkbox" name="check" id="check" class="delete-id" value=" ' + id + '">' +
+                                    '</div></td>' +
+                                    '<td class="text-center align-middle">' + some_name + ' ' + some_surname + '</td>' +
+                                    '<td class="text-center align-middle">' + str + '</td>' +
+                                    '<td class="text-center align-middle ">' + some_role + '</td>' +
+                                    '<td class="text-center align-middle"><div class="btn-group align-top">' +
+                                    '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + id + '">Edit</button>' +
+                                    '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + id + '"><i class="fa fa-trash fa-lg "></i></button>' +
+                                    '</div></td>' +
+                                    '</tr>';
 
-                                var rowContent = '<td class="text-center align-middle">' + str + '</td>'
-
-                                })
-
-
+                               
                                 $(table).each(function(key, value) {
 
-                                    value.children('td[data-target=status]').replaceWith(rowContent);
-                                })
-                                // $(t_id).children('td[data-target=status]').replaceWith(rowContent);
-                                
-                            }
 
+                                    value.find("td:eq(2)").replaceWith(Content);
+                                    id = [];
+                                    table = [];
+                                })
+
+
+
+                               
+                            }
                         })
 
                     })
+
                 }
 
 

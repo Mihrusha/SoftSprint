@@ -16,13 +16,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="App\View\styles.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/6d3c048c3c.js"></script>
+    <link rel="stylesheet" href="App\View\styles.css">
     <title>Document</title>
 </head>
 
@@ -89,7 +90,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                             <td class="text-center align-middle" data-target="role"><?= $row['role'] ?></td>
                                                             <td class="text-center align-middle">
                                                                 <div class="btn-group align-top">
-                                                                    <div></div><button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="" data-role='update' id='edit' name='update' data-id="<?= $row['id']; ?>">Edit</button>
+                                                                    <div></div><button type="button" class="btn btn-sm btn-success" data-bs-toggle="" data-bs-target="" data-role='update' id='edit' name='update' data-id="<?= $row['id']; ?>">Edit</button>
                                                                     <!-- <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button> -->
                                                                     <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
 
@@ -145,7 +146,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             //     alert("The data-id of clicked item is: " + dataId);
             // });
             var new_id = 0;
-
+                var last_id=0;
             $("[name='insert']").click(function(e) {
                 e.preventDefault();
                 $('#save').attr('name', 'submit');
@@ -154,17 +155,23 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 $("#name").val('');
                 $("#surname").val('');
                 $("#AddModal").modal('show');
+
             })
 
 
             $("[name='update']").click(function(e) {
+                debugger;
                 e.preventDefault();
-                var id = [];
+
+                var id = $(this).attr('data-id');
+
+                /*
+                var id = []; 
                 $(".delete-id:checked").each(function() {
                     id.push($(this).val());
                     element = this;
                 });
-
+                */
 
                 $("#msg").empty();
                 // if (id == 0) {
@@ -174,11 +181,13 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
-                var role = $("input#userRole").val();
+                //var role = $("input#userRole").val();
+                var role = $(this).parent().parent().parent().children().filter('[data-target="role"]').text();
                 $('#userId').val(id);
                 $("#name").val(surArr[0]);
                 $("#surname").val(surArr[1]);
                 $('#save').attr('name', 'save');
+                $('#role').val(role);
                 $("#AddModal").modal('show');
 
             })
@@ -192,7 +201,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             });
             // ******************INSERT********************
             $(document).on('click', '#save', function(event) {
-
+debugger;
                 if ($('#save').attr('name') == 'submit') {
                     var name = $("#name").val();
                     var surname = $("#surname").val();
@@ -246,15 +255,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                             } else
 
-                              
 
-                            arr = JSON.parse(data);
-                            if (arr['user']==undefined)  {
+                             arr = JSON.parse(data);
+                            if (arr['user'] == undefined) {
                                 return;
                             }
                             $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
                             new_id = arr['user']['id'];
-
+                           
                             var name = (arr['user']['name']).toString();
                             var surname = arr['user']['surname'].toString();
                             var role = arr['user']['role'].toString();
@@ -265,41 +273,42 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             } else if (status == 2) {
                                 str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
                             }
-                            
-                            const rowContent = 
-                 '<tr id="' + new_id[0]["id"] + '">'
-                +'<td class="text-center align-middle" data-id="' + new_id[0]["id"] + '"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">'
-                +'     <input type="checkbox" name="check" id="check" class="delete-id" value="">'
-                +'</div></td>'
-                +'<td class="text-center align-middle">'+ name + ' ' + surname +'</td>'
-                +'<td class="text-center align-middle">'+str+'</td>'
-                +'<td class="text-center align-middle">'+role+'</td>'
-                +'<td class="text-center align-middle"><div class="btn-group align-top">'
-                    +'<button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="'+new_id[0]["id"]+'">Edit</button>'
-                    +'<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="'+new_id[0]["id"]+'"><i class="fa fa-trash fa-lg "></i></button>'
-                    +'</div></td>'
-                    +'</tr>';
-                    
-                    var change = $(rowContent).on('click', '#edit', function() {
+
+                            const rowContent =
+                                '<tr id="' + new_id[0]["id"] + '">' +
+                                '<td class="text-center align-middle" data-id="' + new_id[0]["id"] + '"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">' +
+                                '     <input type="checkbox" name="check" id="check" class="delete-id" value=" ' + new_id[0]["id"] + '">' +
+                                '</div></td>' +
+                                '<td class="text-center align-middle">' + name + ' ' + surname + '</td>' +
+                                '<td class="text-center align-middle">' + str + '</td>' +
+                                '<td class="text-center align-middle">' + role + '</td>' +
+                                '<td class="text-center align-middle"><div class="btn-group align-top">' +
+                                '<button type="button" class="btn btn-sm btn-success edit" data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
+                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
+                                '</div></td>' +
+                                '</tr>';
+
+                            var change = $(rowContent).on('click', '#edit', function() {
 
 
                                 var currentRow = $(this).closest("tr")
-
+                                var id = $(this).attr('data-id');
                                 var surname = currentRow.find("td:eq(1)").text();
                                 let surArr = surname.split(" ");
                                 var role = $("input#userRole").val();
                                 $('#userId').val(new_id[0]['id']);
                                 $("#name").val(surArr[0]);
                                 $("#surname").val(surArr[1]);
-                                $('#' + id).children('td[data-target=first_name]').text(name + " " + surname);
-                                $('#' + id).children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
-                                $('#' + id).children('td[data-target=role]').text(role);
+                                $('#userId').val(id);
+                                // $('#' + id).children('td[data-target=first_name]').text(name + " " + surname);
+                                // $('#' + id).children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
+                                // $('#' + id).children('td[data-target=role]').text(role);
                                 $('#save').attr('name', 'save');
                                 $("#AddModal").modal('show');
-                                
+
                             })
                             $("#someTable tbody").append(change);
-                          
+
                         }
 
                     })
@@ -313,7 +322,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 // *************EDIT***************
                 else if ($('#save').attr('name') == 'save') {
-                    
+
                     var id = $('#userId').val();
                     var name = $("#name").val();
                     var surname = $("#surname").val();
@@ -361,11 +370,11 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 $("#msg").html("Please choose role");
 
                             } else
-
+                            debugger;
                                 arr = JSON.parse(data);
                             $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
                             new_id = arr['user']['id'];
-
+                            last_id = new_id;
                             var name = arr['user']['name'];
                             var surname = arr['user']['surname'];
                             var role = arr['user']['role'];
@@ -376,11 +385,49 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             } else if (status == 2) {
                                 str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
                             }
+                            const rowContent =
+                                '<tr id="' + id + '">' +
+                                '<td class="text-center align-middle" data-id="' + id + '"><div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">' +
+                                '     <input type="checkbox" name="check" id="check" class="delete-id" value=" ' + id + '">' +
+                                '</div></td>' +
+                                '<td class="text-center align-middle">' + name + ' ' + surname + '</td>' +
+                                '<td class="text-center align-middle">' + str + '</td>' +
+                                '<td class="text-center align-middle">' + role + '</td>' +
+                                '<td class="text-center align-middle"><div class="btn-group align-top">' +
+                                '<button type="button" class="btn btn-sm btn-success edit" data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
+                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
+                                '</div></td>' +
+                                '</tr>';
 
-                            $('#' + id).children('td[data-target=first_name]').text(name + " " + surname);
-                            $('#' + id).children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
-                            $('#' + id).children('td[data-target=role]').text(role);
-                            
+                                // $('#' + last_id).children('td[data-target=first_name]').text(name + " " + surname);
+                                // $('#' + last_id).children('td[data-target=status]').replaceWith('<td class="text-center align-middle">' + str + '</td>');
+                                // $('#' + last_id).children('td[data-target=role]').text(role);
+
+                                // $('#name').val(name);
+                                // $('surname').val(surname);
+
+                                $('#' + id).replaceWith(rowContent);
+                               
+                            // var change = $(rowContent).on('click', '#edit', function() {
+
+
+                            //     var currentRow = $(this).closest("tr")
+                            //     var s_id = last_id;
+                            //     console.log(s_id);
+                            //     var surname = currentRow.find("td:eq(1)").text();
+                            //     let surArr = surname.split(" ");
+                            //     var role = $("input#userRole").val();
+                            //     $('#userId').val(s_id);
+                            //     $("#name").val(surArr[0]);
+                            //     $("#surname").val(surArr[1]);
+                             
+                            //     $('#save').attr('name', 'save');
+                            //     $("#AddModal").modal('show');
+
+                            // })
+                        
+                            // $('#' + last_id).replaceWith(change);
+
                         }
 
                     })
@@ -390,15 +437,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 }
 
-
-
             })
 
             // *****************DELETE*********************
 
 
             $(document).on('click', ".btn-warning", function(event) {
-                event.preventDefault()
+                debugger;
+                                event.preventDefault()
                 // jQuery(this).parent().parent().parent().remove();
                 // return false;
 
@@ -408,10 +454,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     element = this;
                 });
                 currentRow = $(this).closest("tr")
-                // len = $('#someTable tr').length;
-                // lastRow = $('#someTable tr').eq(len - 1);
-                // last_id = $(lastRow).attr("id")
-                //     ++last_id;
+               
 
                 $('body').on('click', '.checkbox', function(e) {
 
@@ -420,12 +463,11 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     }
                 })
 
-                // if ((id == 0)) {
-                //     $("#DeleteMod").modal('show');
-                //     return false;
-                // }
+               
 
-                id = $(this).attr('data-id');
+                if (id == 0 || undefined) {
+                    id = $(this).attr('data-id');
+                }
 
                 $('#oneDel').val(id);
                 if (id > 0) {
@@ -440,6 +482,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         $("#modal-btn-yes").on("click", function() {
                             callback(true);
                             $("#mi-modal").modal('hide');
+                            $("#Delete_Mod").modal('hide')
                         });
 
                         $("#modal-btn-no").on("click", function() {
@@ -471,16 +514,14 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                     });
 
-                    // jQuery(this).parent().parent().parent().remove()
-                    //                 return false
+                    
                 }
-
 
             })
 
             //*****************/ EDIT STATUS****************
 
-           
+
 
             var status = [];
             $("[name='choose']").click(function() {
@@ -488,7 +529,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             });
 
 
-
+           
 
             // *******************************
             $("[name='OK']").click(function(e) {
@@ -496,19 +537,24 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
                 var table = []
+                
                 var id = [];
 
+                // $(".delete-id:checked").each(function() {
+
+                //     id.push($(this).val());
+                //     table.push($(this).closest('tr'));
+                //     element = this;
+                // });
                 $(".delete-id:checked").each(function() {
-
-                    id.push($(this).val());
-                    table.push($(this).closest('tr'));
+                    row = $(this).closest('tr');
+                    table.push(row);
+                    id.push($(row).attr('id'));
                     element = this;
-                });
 
-                alert(id);
+                })
 
-
-
+             
                 $('#msg2').html('');
 
                 if (id == 0) {
@@ -516,15 +562,12 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     return false;
                 }
 
-                // if(status==undefined){
-                //     status=0;
-                // }
-
-
+              
                 $('#userId').val(id);
                 $('#deleteId').val(id);
                 $("#Editstatus").val(status);
 
+                
                 if ((status < 1 || status == null || status == undefined)) {
                     $("#SelectCheck").modal('show');
 
@@ -560,6 +603,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 $('#msg2').html('Not send');
                             }
                         })
+                        
                     })
                 }
 
@@ -568,18 +612,22 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                 if ((status == 1 || status == 2)) {
                     $("#statusModal").modal('show');
-                    $(document).on('click', "[name='StatusEdit']", function() {
-                        let id = [];
+                    $(document).on('click', "#StatusEdit", function() {
+                        var id = [];
                         id = $('#userId').val();
-
-                        var status = $("#Editstatus").val();
-                        let Pass = 'App/View/Connector.php'
-                        t_id = $('#' + id);
-
-                        if (status == 0 || status == undefined) {
-                            $('#msg2').html("status' => false, 'error' => array('code' => '8', 'message' => 'please choose status'")
+                        var currentRow = $(this).closest("tr")
+                        var s_id = currentRow.find("td:eq(0)").text();
+                        if (id == 0 || id == undefined) {
+                            id = s_id;
                         }
+                        let status = $("#Editstatus").val();
+                        let Pass = 'App/View/Connector.php'
 
+                        // t_id = $('#' + id);
+                        console.log(status);
+                        console.log(id);
+                        // console.log(s_id);
+                                              
                         $.ajax({
                             url: Pass,
                             type: 'post',
@@ -589,12 +637,10 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 id: id
                             },
                             success: function(data) {
-                                console.log(id);
-                                arr = JSON.parse(data);
-                                t_id = $('#' + id);
-                                var t_name = $('#' + id).children('td[data-target=first_name]').text();
 
-                                var t_role = $('#' + id).children('td[data-target=role]').text();
+                                arr = JSON.parse(data);
+                                // t_id = $(id).closest('td');
+                                // console.log(t_id);
 
                                 var some_status = arr['user']['status'];
                                 var str = null;
@@ -604,15 +650,21 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                     str = '<i class="fa-solid fa fa-circle  fa-2x " style="color:grey">'
                                 }
 
-                                var rowContent = `<td class="text-center align-middle">${str}</td>`
+                                var rowContent = '<td class="text-center align-middle">' + str + '</td>'
+
+                                var change = $(rowContent).on('click', '#StatusEdit', function() {
+
+                                var rowContent = '<td class="text-center align-middle">' + str + '</td>'
+
+                                })
 
 
                                 $(table).each(function(key, value) {
 
-                                    value.children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
+                                    value.children('td[data-target=status]').replaceWith(rowContent);
                                 })
-                                // $('#' + id).children('td[data-target=status]').replaceWith(`<td class="text-center align-middle">${str}</td>`);
-
+                                // $(t_id).children('td[data-target=status]').replaceWith(rowContent);
+                                
                             }
 
                         })
