@@ -457,11 +457,11 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
 
-                if (id == undefined||id == 0) {
+                if (id == undefined || id == 0) {
                     id = $(this).attr('data-id');
                 }
 
-                
+
 
 
                 // if (id > 0) {
@@ -697,7 +697,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
             // });
 
             $(document).on('change', '.delete-id', function() {
-   
+
                 if ($('.delete-id:checked').length == $('.delete-id').length) {
                     $('#main_checkbox').prop('checked', true);
                 } else {
@@ -712,3 +712,5 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
 
 </body>
+
+</html>
