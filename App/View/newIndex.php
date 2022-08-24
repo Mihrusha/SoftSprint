@@ -92,7 +92,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                                 <div class="btn-group align-top">
                                                                     <div></div><button type="button" class="btn btn-sm btn-success" data-bs-toggle="" data-bs-target="" data-role='update' id='edit' name='update' data-id="<?= $row['id']; ?>">Edit</button>
                                                                     <!-- <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button> -->
-                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" data-delete="<?= $row['id']; ?>" value="delete" ><i class="fa fa-trash fa-lg "></i></button>
+                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" data-delete="<?= $row['id']; ?>" value="delete"><i class="fa fa-trash fa-lg "></i></button>
 
                                                                 </div>
                                                             </td>
@@ -171,7 +171,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 // if (closeCheckbox.prop('checked') == false) {
                 //     $('#CheckboxCheck').modal('show');
                 // } else
-                    var currentRow = $(this).closest("tr")
+                var currentRow = $(this).closest("tr")
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
 
@@ -277,7 +277,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 '<td class="text-center align-middle">' + role + '</td>' +
                                 '<td class="text-center align-middle"><div class="btn-group align-top">' +
                                 '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
-                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
+                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-delete="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
                                 '</div></td>' +
                                 '</tr>';
 
@@ -329,12 +329,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                         id = $(this).attr('data-id');
                     }
 
-
-
                     currentRow = $(this).closest("tr");
                     closDel = $(this).closest('.delete-id')
-
-
 
                     var t_id = $('#' + id);
                     url = 'insert.php';
@@ -392,7 +388,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                 '<td class="text-center align-middle">' + role + '</td>' +
                                 '<td class="text-center align-middle"><div class="btn-group align-top">' +
                                 '<button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#AddModal" data-role="update" id="edit" name="update" data-id="' + new_id[0]["id"] + '">Edit</button>' +
-                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-id="' + new_id[0]["id"] + '"><i class="fa fa-trash fa-lg "></i></button>' +
+                                '<button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete" data-delete="' + id + '"><i class="fa fa-trash fa-lg "></i></button>' +
                                 '</div></td>' +
                                 '</tr>';
 
@@ -443,8 +439,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 // if (closeCheckbox.prop('checked') == false) {
                 //     $('#CheckboxCheck').modal('show');
                 // } else
-$('#oneDel').val(id);
-                    var id ;
+                $('#oneDel').val(id);
+                var id;
                 // $(".delete-id:checked").each(function() {
                 //     id.push($(this).val());
                 //     element = this;
@@ -461,56 +457,56 @@ $('#oneDel').val(id);
 
 
 
-                if(id==undefined){
+                if (id == undefined||id == 0) {
                     id = $(this).attr('data-id');
                 }
-                   
-                    console.log(id);
 
                 
+
+
                 // if (id > 0) {
-                    $("#Delete_Mod").modal('show');
+                $("#Delete_Mod").modal('show');
 
-                    var modalConfirm = function(callback) {
+                var modalConfirm = function(callback) {
 
-                        $("#btn-confirm").on("click", function() {
-                            $("#mi-modal").modal('show');
-                        });
-
-                        $("#modal-btn-yes").on("click", function() {
-                            callback(true);
-                            $("#mi-modal").modal('hide');
-                            $("#Delete_Mod").modal('hide')
-                        });
-
-                        $("#modal-btn-no").on("click", function() {
-                            callback(false);
-                            $("#mi-modal").modal('hide');
-                        });
-                    };
-
-                    let Pass = 'App/View/Connector.php'
-                    modalConfirm(function(confirm) {
-                        if (confirm) {
-                            // id = parseInt(id);
-
-                            $.ajax({
-                                type: 'post',
-                                url: Pass,
-                                data: {
-                                    delete: 'delete',
-                                    deleteId: id
-                                },
-                                success: function(result) {
-                                    currentRow.remove();
-
-                                }
-                            })
-
-
-                        }
-
+                    $("#btn-confirm").on("click", function() {
+                        $("#mi-modal").modal('show');
                     });
+
+                    $("#modal-btn-yes").on("click", function() {
+                        callback(true);
+                        $("#mi-modal").modal('hide');
+                        $("#Delete_Mod").modal('hide')
+                    });
+
+                    $("#modal-btn-no").on("click", function() {
+                        callback(false);
+                        $("#mi-modal").modal('hide');
+                    });
+                };
+
+                let Pass = 'App/View/Connector.php'
+                modalConfirm(function(confirm) {
+                    if (confirm) {
+                        // id = parseInt(id);
+
+                        $.ajax({
+                            type: 'post',
+                            url: Pass,
+                            data: {
+                                delete: 'delete',
+                                deleteId: id
+                            },
+                            success: function(result) {
+                                currentRow.remove();
+
+                            }
+                        })
+
+
+                    }
+
+                });
 
 
                 // }
@@ -689,15 +685,24 @@ $('#oneDel').val(id);
             });
 
 
-            $("[name='check']").on('change', function() {
-                var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
+            // $("[name='check']").on('change', function() {
+            //     var lenghtOfUnchecked = $("[name='check']:not(:checked)").length;
 
 
-                if (lenghtOfUnchecked == 0) {
-                    $('#main_checkbox').not(this).prop('checked', true)
+            //     if (lenghtOfUnchecked == 0 ) {
+            //         $('#main_checkbox').not(this).prop('checked', true)
+            //     }
+
+            //     console.log(lenghtOfUnchecked);
+            // });
+
+            $(document).on('change', '.delete-id', function() {
+   
+                if ($('.delete-id:checked').length == $('.delete-id').length) {
+                    $('#main_checkbox').prop('checked', true);
+                } else {
+                    $('#main_checkbox').prop('checked', false);
                 }
-
-                console.log(lenghtOfUnchecked);
             });
 
 
