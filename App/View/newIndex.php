@@ -92,7 +92,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                                                                 <div class="btn-group align-top">
                                                                     <div></div><button type="button" class="btn btn-sm btn-success" data-bs-toggle="" data-bs-target="" data-role='update' id='edit' name='update' data-id="<?= $row['id']; ?>">Edit</button>
                                                                     <!-- <button type="submit" class="btn btn-sm btn-secondary badge" type="button" name="delete" id="delete"><i class="fa fa-trash fa-lg "></i></button> -->
-                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" value="delete"><i class="fa fa-trash fa-lg "></i></button>
+                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="" data-bs-target="" name="delete" id="delete" data-delete="<?= $row['id']; ?>" value="delete" ><i class="fa fa-trash fa-lg "></i></button>
 
                                                                 </div>
                                                             </td>
@@ -167,10 +167,10 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 $("#msg").empty();
 
 
-                var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
-                if (closeCheckbox.prop('checked') == false) {
-                    $('#CheckboxCheck').modal('show');
-                } else
+                // var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
+                // if (closeCheckbox.prop('checked') == false) {
+                //     $('#CheckboxCheck').modal('show');
+                // } else
                     var currentRow = $(this).closest("tr")
                 var surname = currentRow.find("td:eq(1)").text();
                 let surArr = surname.split(" ");
@@ -253,7 +253,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             if (arr['user'] == undefined) {
                                 return;
                             }
-                            $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
+                            // $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "added");
                             new_id = arr['user']['id'];
 
                             var name = (arr['user']['name']).toString();
@@ -299,7 +299,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                             })
                             $("#someTable tbody").append(change);
-
+                            $("#AddModal").modal('hide');
                         }
 
                     })
@@ -369,7 +369,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             } else
 
                                 arr = JSON.parse(data);
-                            $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "edited");
+                            // $("#msg").html("User" + " " + arr['user']['name'] + " " + arr['user']['surname'] + " " + "edited");
                             new_id = arr['user']['id'];
                             last_id = new_id;
                             var name = arr['user']['name'];
@@ -418,7 +418,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                             })
 
                             $('#' + last_id).replaceWith(change);
-
+                            $("#AddModal").modal('hide');
                         }
 
                     })
@@ -439,34 +439,36 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 // jQuery(this).parent().parent().parent().remove();
                 // return false;
 
-                var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
-                if (closeCheckbox.prop('checked') == false) {
-                    $('#CheckboxCheck').modal('show');
-                } else
-
-                    var id = [];
-                $(".delete-id:checked").each(function() {
-                    id.push($(this).val());
-                    element = this;
-                });
+                // var closeCheckbox = $(this).closest('tr').find('input[type=checkbox]');
+                // if (closeCheckbox.prop('checked') == false) {
+                //     $('#CheckboxCheck').modal('show');
+                // } else
+$('#oneDel').val(id);
+                    var id ;
+                // $(".delete-id:checked").each(function() {
+                //     id.push($(this).val());
+                //     element = this;
+                // });
                 currentRow = $(this).closest("tr")
+                id = $(this).attr('data-delete')
+
+                // $('body').on('click', '.checkbox', function(e) {
+
+                //     if (!$(this).is(':checked')) {
+                //         $("#DeleteMod").modal('show');
+                //     }
+                // })
 
 
-                $('body').on('click', '.checkbox', function(e) {
 
-                    if (!$(this).is(':checked')) {
-                        $("#DeleteMod").modal('show');
-                    }
-                })
-
-
-
-                if (id == 0 || undefined) {
+                if(id==undefined){
                     id = $(this).attr('data-id');
                 }
+                   
+                    console.log(id);
 
-                $('#oneDel').val(id);
-                if (id > 0) {
+                
+                // if (id > 0) {
                     $("#Delete_Mod").modal('show');
 
                     var modalConfirm = function(callback) {
@@ -490,7 +492,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     let Pass = 'App/View/Connector.php'
                     modalConfirm(function(confirm) {
                         if (confirm) {
-                            id = parseInt(id);
+                            // id = parseInt(id);
 
                             $.ajax({
                                 type: 'post',
@@ -511,7 +513,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                     });
 
 
-                }
+                // }
 
             })
 
@@ -694,6 +696,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 if (lenghtOfUnchecked == 0) {
                     $('#main_checkbox').not(this).prop('checked', true)
                 }
+
+                console.log(lenghtOfUnchecked);
             });
 
 
