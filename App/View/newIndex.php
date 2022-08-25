@@ -153,6 +153,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 $("#surname").val('');
                 $("#AddModal").modal('show');
                 $('#role').val('no');
+                $('#msg').html('');
+
             })
 
 
@@ -182,6 +184,7 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
                 $('#save').attr('name', 'save');
                 $('#role').val(role);
                 $("#AddModal").modal('show');
+                $('#msg').html('');
 
             })
 
@@ -419,8 +422,8 @@ include_once 'C:\xampp\htdocs\Soft\exercise\App\vendor\autoload.php';
 
                     })
 
-                    $("input#name").val('');
-                    $("input#surname").val('');
+                    // $("input#name").val('');
+                    // $("input#surname").val('');
 
                 }
 
